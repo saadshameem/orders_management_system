@@ -5,28 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Orders</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous">
     
-    <!-- <link href="output.css" rel="stylesheet"> -->
+    <link href="output3.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .table-container {
+    max-height: 600px; /* Set a maximum height for the container */
+    overflow-y: auto; /* Enable vertical scrollbar when content exceeds container height */
+}
+
+.table {
+    width: 100%; /* Make the table fill the entire width of its container */
+    table-layout: fixed; /* Ensure that the table has a fixed layout */
+}
+
+    </style>
+   
     
 </head>
 
 
 <body class="flex min-h-screen  overflow-y-auto bg-gray-100">
 
-    <!-- <div class="dashboard"> -->
-    <div class="bg-gray-800 text-white w-96 p-8">
+    
+
+    <aside  class="fixed  z-40 w-96 h-screen pt-10 bg-gray-800 text-white  p-8 z-20 overflow-auto">
+        
         <div class="text-2xl font-semibold mb-12">Dashboard</div>
         
 
-        <!-- <div class=" top-4 right-4 bg-white rounded-lg p-2 flex mb-12">
-            <input type="text" placeholder="Search..." class="w-40 p-2 focus:outline-none border-none">
-            <button class="bg-blue-500 text-white px-4 rounded">Search</button>
-        </div> -->
-        <!-- <div class="flex flex-col space-y-4"> -->
+       
+        
         <ul>
             <li class="mb-6">
 
@@ -55,13 +68,13 @@
 
 
         </ul>
-      
-    </div>
+    
+    </aside>
 
 
 
 
-    <div class="flex flex-col mb-2 p-8  ">
+    <div class="flex flex-col mb-2 p-8 ml-96   ">
         
         
         <ul class=" hidden text-md font-bold text-center text-gray-900 rounded-lg  sm:flex dark:divide-gray-700 dark:text-gray-400 space-x-1">
@@ -91,7 +104,7 @@
         
         
 
-        <div class=" md:w-1/3 px-0 py-2 mt-8 ">
+        <div class=" md:w-1/3 px-0 py-3 mt-8 ">
             <form class="flex items-center">
               <label for="simple-search" class="sr-only">Search</label>
               <div class="relative w-full">
@@ -110,20 +123,26 @@
         <div class="content">
             <!-- Your Orders Table Goes Here -->
 
-            <table id="employeeTable">
-                <!-- Table headers will be dynamically added by JavaScript -->
-            </table>
+            <div class="table-container">
+                <table id="employeeTable" class="table">
+                    <!-- Table headers will be dynamically added by JavaScript -->
+                </table>
+            </div>
             <script src="main.js"></script>
             <script>
                 // Fetch and display orders when the page loads
                 window.onload = function () {
                     getAllOrders();
                 };
+
+
+                
+                
             </script>
         </div>
     </div>
     </div>
-    <!-- </div> -->
+    
 
     
 </body>

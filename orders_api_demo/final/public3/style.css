@@ -44,7 +44,7 @@ body {
 }
 
 h1, h2 {
-    color: #333;
+    color: #000000;
 }
 
 /* Homepage specific styles */
@@ -80,7 +80,7 @@ label {
     margin-bottom: 5px;
 }
 
-/* input, select, button {
+input, select, button {
     width: 100%;
     padding: 8px;
     margin-bottom: 2px;
@@ -99,7 +99,7 @@ label {
 
 button:hover {
     background-color: #555;
-} */
+}
 
 /* #edit {
     background-color: #285ee9;
@@ -156,7 +156,7 @@ button:hover {
     border:1px solid #373737;
     padding: 8px;
     color: #000;
-    font:bolder;
+    
   }
 
    tr:nth-child(even){

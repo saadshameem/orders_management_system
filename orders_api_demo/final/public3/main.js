@@ -5,6 +5,52 @@
 // const timeDifference = currentDate.getTime() - orderDate.getTime();
 // const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
 
+// function getAllOrders() {
+//     fetch('/api/v1/orders')
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log('Received all orders:', data);
+
+//             if (!data || !data.orders) {
+//                 console.error('Invalid data received for all orders.');
+//                 return;
+//             }
+
+//             const orders = data.orders;
+
+//             // Create a table to display orders
+//             const table = document.createElement('table');
+//             table.innerHTML = `
+//                 <tr>
+//                     <th>Serial Number</th>
+//                     <th>Product Name</th>
+//                     <th>Quantity</th>
+//                     <th>Days Elapsed</th>
+//                     <th>Firm Name</th>
+//                     <th>Customer Name</th>
+//                     <th>Order Status</th>
+//                     <th>Priority</th>
+//                     <th>Payment Status</th>
+//                     <th>Actions</th>
+//                 </tr>
+//             `;
+
+//             // Add rows to the table
+//             orders.forEach((order, index) => {
+//                 addTableRow(table, order, index + 1);
+//             });
+
+//             // Update content area with the table
+//             const content = document.querySelector('.content');
+//             content.innerHTML = '';
+//             content.appendChild(table);
+//         })
+//         .catch(error => {
+//             console.error('Error fetching all orders:', error);
+//             // You can display an error message to the user or handle the error as needed
+//         });
+// }
+
 function getAllOrders() {
     fetch('/api/v1/orders')
         .then(response => response.json())
@@ -18,8 +64,13 @@ function getAllOrders() {
 
             const orders = data.orders;
 
+            // Create a table container
+            const tableContainer = document.createElement('div');
+            tableContainer.classList.add('table-container');
+
             // Create a table to display orders
             const table = document.createElement('table');
+            table.classList.add('table');
             table.innerHTML = `
                 <tr>
                     <th>Serial Number</th>
@@ -40,18 +91,19 @@ function getAllOrders() {
                 addTableRow(table, order, index + 1);
             });
 
-            // Update content area with the table
+            // Append table to the table container
+            tableContainer.appendChild(table);
+
+            // Update content area with the table container
             const content = document.querySelector('.content');
             content.innerHTML = '';
-            content.appendChild(table);
+            content.appendChild(tableContainer);
         })
         .catch(error => {
             console.error('Error fetching all orders:', error);
             // You can display an error message to the user or handle the error as needed
         });
 }
-
-
 
 document.addEventListener('DOMContentLoaded', function () {
     const tabLinks = document.querySelectorAll('.tab-link');
@@ -66,8 +118,51 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
+// function fetchOrdersByStatus(status) {
+//     fetch(`/api/v1/orders?status=${status}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log(`Received ${status} orders:`, data);
 
+//             if (!data || !data.orders) {
+//                 console.error(`Invalid data received for ${status} orders.`);
+//                 return;
+//             }
 
+//             const orders = data.orders;
+
+//             // Create a table to display orders
+//             const table = document.createElement('table');
+//             table.innerHTML = `
+//                 <tr>
+//                     <th>Serial Number</th>
+//                     <th>Product Name</th>
+//                     <th>Quantity</th>
+//                     <th>Days Elapsed</th>
+//                     <th>Firm Name</th>
+//                     <th>Customer Name</th>
+//                     <th>Order Status</th>
+//                     <th>Priority</th>
+//                     <th>Payment Status</th>
+//                     <th>Actions</th>
+//                 </tr>
+//             `;
+
+//             // Add rows to the table
+//             orders.forEach((order, index) => {
+//                 addTableRow(table, order, index + 1);
+//             });
+
+//             // Update content area with the table
+//             const content = document.querySelector('.content');
+//             content.innerHTML = '';
+//             content.appendChild(table);
+//         })
+//         .catch(error => {
+//             console.error(`Error fetching ${status} orders:`, error);
+//             // You can display an error message to the user or handle the error as needed
+//         });
+// }
 
 function fetchOrdersByStatus(status) {
     fetch(`/api/v1/orders?status=${status}`)
@@ -82,8 +177,13 @@ function fetchOrdersByStatus(status) {
 
             const orders = data.orders;
 
+            // Create a table container
+            const tableContainer = document.createElement('div');
+            tableContainer.classList.add('table-container');
+
             // Create a table to display orders
             const table = document.createElement('table');
+            table.classList.add('table');
             table.innerHTML = `
                 <tr>
                     <th>Serial Number</th>
@@ -104,10 +204,13 @@ function fetchOrdersByStatus(status) {
                 addTableRow(table, order, index + 1);
             });
 
-            // Update content area with the table
+            // Append table to the table container
+            tableContainer.appendChild(table);
+
+            // Update content area with the table container
             const content = document.querySelector('.content');
             content.innerHTML = '';
-            content.appendChild(table);
+            content.appendChild(tableContainer);
         })
         .catch(error => {
             console.error(`Error fetching ${status} orders:`, error);
@@ -217,7 +320,7 @@ function submitNewOrder() {
         .then(response => response.json())
         .then(data => {
             console.log('New order created:', data.order);
-            goToAllOrders(); // Refresh the orders table after creating a new order
+            goToAllOrders() // Refresh the orders table after creating a new order
             // Optionally, you can display a success message or redirect to the orders page
         })
         .catch(error => console.error('Error creating new order:', error));
