@@ -385,16 +385,16 @@ function addTableRow(table, order, serialNumber) {
 
     const row = table.insertRow();
     row.innerHTML = `
-        <td class="font-semibold text-md" >${serialNumber}</td>
-        <td class="font-semibold text-md" >${order.product_name}</td>
-        <td class="font-semibold text-md" >${order.quantity}</td>
-        <td class="font-semibold text-md" >${daysDifference}</td>
-        <td class="font-semibold text-md" >${order.firm_name}</td>
-        <td class="font-semibold text-md" >${order.customer_name}</td>
-        <td class="font-semibold text-md" >${order.order_status}</td>
-        <td class="font-semibold text-md" >${order.priority}</td>
-        <td class="font-semibold text-md" >${order.payment_status}</td>
-        <td class="">
+        <td>${serialNumber}</td>
+        <td>${order.product_name}</td>
+        <td>${order.quantity}</td>
+        <td>${daysDifference}</td>
+        <td>${order.firm_name}</td>
+        <td>${order.customer_name}</td>
+        <td>${order.order_status}</td>
+        <td>${order.priority}</td>
+        <td>${order.payment_status}</td>
+        <td>
             <button class="btn btn-outline btn-info" onclick="editOrder('${order._id}')">Edit</button>
             <button class="btn btn-error btn-outline" onclick="deleteOrder('${order._id}')">Delete</button>
         </td>
@@ -555,7 +555,7 @@ function editOrder(orderId) {
                 <label for="paymentStatus">Payment Status:</label>
                 <input type="text" id="paymentStatus" name="paymentStatus" value="${order.payment_status}" required>
 
-                <button class="btn btn-outline btn-success mt-5" onclick="submitUpdatedOrder('${orderId}')">Update</button>
+                <button class="btn btn-outline btn-success" onclick="submitUpdatedOrder('${orderId}')">Update</button>
             `;
 
             // Update content area with the form

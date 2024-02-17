@@ -8,15 +8,40 @@ const { createCustomError } = require('../errors/custom-error')
 //   res.status(200).json({ orders })
 // })
 
+// const getAllOrders = asyncWrapper(async (req, res) => {
+//   let query = {};
+//   if (req.query.status) {
+//     query.order_status = req.query.status;
+//   }
+  
+//   const orders = await Order.find(query).sort({ priority: 'asc' });
+//   res.status(200).json({ orders });
+// });
+
 const getAllOrders = asyncWrapper(async (req, res) => {
-  let query = {};
+  
+  try {
+    let query = {};
+
+  // Check if status or firm_name query parameters are provided
   if (req.query.status) {
-    query.order_status = req.query.status;
+      query.order_status = req.query.status;
+  }
+  if (req.query.firm_name) {
+      query.firm_name = req.query.firm_name;
   }
   
   const orders = await Order.find(query).sort({ priority: 'asc' });
   res.status(200).json({ orders });
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+
+  
 });
+
+
 
 // const updatePriority = asyncWrapper(async (req, res) => {
 //   const {id: orderId } = req.params;
