@@ -73,7 +73,7 @@ function getAllOrders() {
             table.classList.add('table');
             table.innerHTML = `
                 <tr>
-                    <th>Serial Number</th>
+                    <th>Sr. No</th>
                     <th>Product Name</th>
                     <th>Quantity</th>
                     <th>Days Elapsed</th>
@@ -228,7 +228,7 @@ function filterProductsByFirm() {
                 table.classList.add('table');
                 table.innerHTML = `
                     <tr>
-                        <th>Serial Number</th>
+                        <th>Sr. No</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
                         <th>Days Elapsed</th>
