@@ -40,6 +40,11 @@ const JobSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Please provide priority'],
     },
+    createdBy:{
+        type:mongoose.Types.ObjectId,
+        ref:'User',
+        required:[true, 'Please provide user']
+    },
     creation_date:{
         type: Date, 
         default: Date.now 
@@ -48,3 +53,4 @@ const JobSchema = new mongoose.Schema({
 }, {timestamps:true})
 
 module.exports = mongoose.model('Order', JobSchema)
+

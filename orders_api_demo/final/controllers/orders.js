@@ -4,7 +4,7 @@ const asyncWrapper = require('../middleware/async')
 const { createCustomError } = require('../errors/custom-error')
 
 // const getAllOrders = asyncWrapper(async (req, res) => {
-//   const orders = await Order.find({}).sort({priority: 'asc'})
+//   const orders = await Order.find({createdBy: req.user.userId}).sort({priority: 'asc'})
 //   res.status(200).json({ orders })
 // })
 
@@ -13,9 +13,8 @@ const { createCustomError } = require('../errors/custom-error')
 //   if (req.query.status) {
 //     query.order_status = req.query.status;
 //   }
-  
-//   const orders = await Order.find(query).sort({ priority: 'asc' });
-//   res.status(200).json({ orders });
+//   const orders = await Order.find({createdBy: req.user.userId}).sort({ priority: 'asc' });
+//   res.status(200).json({ orders, count: orders.length });
 // });
 
 const getAllOrders = asyncWrapper(async (req, res) => {
@@ -24,15 +23,15 @@ const getAllOrders = asyncWrapper(async (req, res) => {
     let query = {};
 
   // Check if status or firm_name query parameters are provided
-  if (req.query.status) {
-      query.order_status = req.query.status;
-  }
+  // if (req.query.status) {
+  //     query.order_status = req.query.status;
+  // }
   if (req.query.firm_name) {
       query.firm_name = req.query.firm_name;
   }
   
-  const orders = await Order.find(query).sort({ priority: 'asc' });
-  res.status(200).json({ orders });
+  const orders = await Order.find({createdBy: req.user.userId}).sort({ priority: 'asc' });
+  res.status(200).json({ orders, count: orders.length });
   } catch (error) {
     console.error('Error fetching orders:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -42,39 +41,31 @@ const getAllOrders = asyncWrapper(async (req, res) => {
 });
 
 
+// New controller function to fetch orders by status
+const fetchOrdersByStatus = asyncWrapper(async (req, res, next) => {
+  const { params: { status }, user: { userId } } = req;
+  const orders = await Order.find({ order_status: status, createdBy: userId }).sort({ priority: 'asc' });
 
-// const updatePriority = asyncWrapper(async (req, res) => {
-//   const {id: orderId } = req.params;
-//   const {newPriority}  = req.body;
+  if (!orders) {
+    return next(createCustomError(`No orders found with status: ${status}`, 404));
+  }
 
-//   try {
-//     // Update the priority of the specified order
-//     await Order.findByIdAndUpdate(orderId, { priority: newPriority });
+  res.status(200).json({ orders, count: orders.length });
+});
 
-//     // Retrieve all orders and update their priorities based on serial numbers
-//     const orders = await Order.find().sort({ serialNumber: 1 });
-//     let priority = 1;
-//     for (const order of orders) {
-//         await Order.findByIdAndUpdate(order._id, { priority });
-//         priority++;
-//     }
 
-//     res.status(200).json({ success: true });
-// } catch (error) {
-//     console.error('Error updating priority:', error);
-//     res.status(500).json({ success: false, error: 'Internal Server Error' });
-// }
-// })
 
 
 const createOrder = asyncWrapper(async (req, res) => {
+  req.body.createdBy = req.user.userId
   const order = await Order.create(req.body)
   res.status(201).json({ order })
 })
 
 const getOrder = asyncWrapper(async (req, res, next) => {
-  const { id: orderID } = req.params
-  const order = await Order.findOne({ _id: orderID })
+  const {user:{userId}, params:{id:orderID}} = req
+
+  const order = await Order.findOne({ _id: orderID, createdBy:userId  })
   if (!order) {
     return next(createCustomError(`No order with id : ${orderID}`, 404))
   }
@@ -83,8 +74,15 @@ const getOrder = asyncWrapper(async (req, res, next) => {
 })
 
 const deleteOrder = asyncWrapper(async (req, res, next) => {
-  const { id: orderID} = req.params
-  const order = await Order.findOneAndDelete({ _id: orderID })
+  const {
+    user:{userId}, 
+    params:{id:orderID}
+} = req
+
+  const order = await Order.findByIdAndRemove({
+    _id:orderID,
+    createdBy:userId
+})
   if (!order) {
     return next(createCustomError(`No order with id : ${orderID}`, 404))
   }
@@ -92,12 +90,17 @@ const deleteOrder = asyncWrapper(async (req, res, next) => {
 })
 
 const updateOrder = asyncWrapper(async (req, res, next) => {
-  const { id: orderID } = req.params
+  const {
+    
+    user:{userId}, 
+    params:{id:orderID}
+} = req
 
-  const order = await Order.findOneAndUpdate({ _id: orderID }, req.body, {
-    new: true,
-    runValidators: true,
-  })
+  const order = await Order.findByIdAndUpdate(
+    {_id:orderID, createdBy:userId }, 
+    req.body, 
+    {new:true, runValidators:true}
+)
 
   if (!order) {
     return next(createCustomError(`No order with id : ${orderID}`, 404))
@@ -112,5 +115,6 @@ module.exports = {
   getOrder,
   updateOrder,
   deleteOrder,
-  // updatePriority
+  fetchOrdersByStatus
+
 }

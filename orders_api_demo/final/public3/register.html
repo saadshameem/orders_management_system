@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <title>Register</title>
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: "Raleway", sans-serif
+        }
+
+    
+    </style>
+</head>
+
+<body>
+
+    <form id="registerForm" class="signup-form">
+        <div class="form-header">
+            <h1 style="font-weight: bolder  ;">Register</h1>
+        </div>
+        <div class="form-body">
+            
+            <div class="form-group">
+                <label for="name" class="label-title">Name:</label><br>
+                <input type="text" id="name" name="name" class="form-input" placeholder="Enter your name"
+                required="required"><br>
+            </div>
+            <div class="form-group">
+                <label for="email" class="label-title">Email:</label><br>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email"
+                required="required"><br>
+            </div>
+            <div class="form-group">
+                <label for="password" class="label-title">Password:</label><br>
+                <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password"
+                required="required"><br><br>
+            </div>
+            
+        </div>
+        <div class="form-footer">
+            <span style="margin-left: 15px;">* required</span>
+            <button type="submit">Sign Up</button>
+        </div>
+
+        <div class="signedup">
+            <span style="margin-left: 40px;">Already signed up? <a style="color: blue;"
+                    href="login.html">Login</a></span>
+
+        </div>
+    </form>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const formDataJSON = Object.fromEntries(formData.entries());
+
+            // Send registration data to backend
+            fetch("/api/v1/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formDataJSON)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle response from backend
+                    console.log(data);
+                    // Redirect user or show message based on response
+                    if (data.success) {
+                        window.location.href = "login.html"; // Change to the login page URL
+                    } else {
+                        // Handle registration failure (e.g., display error message)
+                        console.error(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    // Handle error (e.g., display error message)
+                });
+        });
+    </script>
+</body>
+
+</html>

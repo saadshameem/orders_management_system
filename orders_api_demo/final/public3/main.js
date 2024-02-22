@@ -1,58 +1,20 @@
 
 
-// const orderDate = new Date(order.creation_date);
-// const currentDate = new Date();
-// const timeDifference = currentDate.getTime() - orderDate.getTime();
-// const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
 
-// function getAllOrders() {
-//     fetch('/api/v1/orders')
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log('Received all orders:', data);
-
-//             if (!data || !data.orders) {
-//                 console.error('Invalid data received for all orders.');
-//                 return;
-//             }
-
-//             const orders = data.orders;
-
-//             // Create a table to display orders
-//             const table = document.createElement('table');
-//             table.innerHTML = `
-//                 <tr>
-//                     <th>Serial Number</th>
-//                     <th>Product Name</th>
-//                     <th>Quantity</th>
-//                     <th>Days Elapsed</th>
-//                     <th>Firm Name</th>
-//                     <th>Customer Name</th>
-//                     <th>Order Status</th>
-//                     <th>Priority</th>
-//                     <th>Payment Status</th>
-//                     <th>Actions</th>
-//                 </tr>
-//             `;
-
-//             // Add rows to the table
-//             orders.forEach((order, index) => {
-//                 addTableRow(table, order, index + 1);
-//             });
-
-//             // Update content area with the table
-//             const content = document.querySelector('.content');
-//             content.innerHTML = '';
-//             content.appendChild(table);
-//         })
-//         .catch(error => {
-//             console.error('Error fetching all orders:', error);
-//             // You can display an error message to the user or handle the error as needed
-//         });
-// }
 
 function getAllOrders() {
-    fetch('/api/v1/orders')
+    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+
+    if (!token) {
+        console.error('JWT token not found.');
+        // Handle the case where the token is not found (e.g., redirect to login page)
+        return;
+    }
+    fetch('/api/v1/orders', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
         .then(response => response.json())
         .then(data => {
             console.log('Received all orders:', data);
@@ -105,79 +67,6 @@ function getAllOrders() {
         });
 }
 
-// async function filterProductsByFirm() {
-//     const firmSearchInput = document.getElementById('titleSearch');
-//     const firmName = firmSearchInput.value.trim();
-
-//     if (firmName.length === 0) {
-//         alert('Please enter a firm name for the search.');
-//         return;
-//     }
-
-//     try {
-//         const response = await fetch(`/api/v1/orders/?firm_name=${firmName}`);
-//         const orders = await response.json();
-
-//         if (orders.length > 0) {
-//             // Clear existing content
-//             const content = document.querySelector('.content');
-//             content.innerHTML = '';
-
-//             // Create a table container
-//             const tableContainer = document.createElement('div');
-//             tableContainer.classList.add('table-container');
-
-//             // Create a table to display filtered orders
-//             const table = document.createElement('table');
-//             table.classList.add('table');
-//             table.innerHTML = `
-//                 <tr>
-//                     <th>Serial Number</th>
-//                     <th>Product Name</th>
-//                     <th>Quantity</th>
-//                     <th>Days Elapsed</th>
-//                     <th>Firm Name</th>
-//                     <th>Customer Name</th>
-//                     <th>Order Status</th>
-//                     <th>Priority</th>
-//                     <th>Payment Status</th>
-//                     <th>Actions</th>
-//                 </tr>
-//             `;
-
-//             // Add rows to the table
-//             orders.forEach((order, index) => {
-//                 addTableRow(table, order, index + 1);
-//             });
-
-//             // Append table to the table container
-//             tableContainer.appendChild(table);
-
-//             // Append table container to the content area
-//             content.appendChild(tableContainer);
-//         } else {
-//             // Display message if no orders found
-//             const content = document.querySelector('.content');
-//             content.innerHTML = `<p class="text-gray-600">No orders found for "${firmName}".</p>`;
-//         }
-//     } catch (error) {
-//         console.error('Error filtering products by firm:', error);
-//     }
-// }
-
-
-
-
-
-
-// const searchInput = document.getElementById('searchInput');
-// const searchButton = document.getElementById('searchButton');
-
-// Add event listener for button click
-// searchButton.addEventListener('click', () => {
-// Get the firm name from the search input field
-// const firmName = searchInput.value.trim();
-
 
 function filterProductsByFirm() {
 
@@ -185,8 +74,21 @@ function filterProductsByFirm() {
     // const searchButton = document.getElementById('searchButton');
     const firmName = searchInput.value.trim();
 
+
+    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+
+    if (!token) {
+        console.error('JWT token not found.');
+        // Handle the case where the token is not found (e.g., redirect to login page)
+        return;
+    }
+
     // Make the API request with the firm name parameter
-    fetch(`/api/v1/orders/?firm_name=${firmName}`)
+    fetch(`/api/v1/orders/?firm_name=${firmName}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -276,60 +178,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-// function fetchOrdersByStatus(status) {
-//     fetch(`/api/v1/orders?status=${status}`)
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log(`Received ${status} orders:`, data);
-
-//             if (!data || !data.orders) {
-//                 console.error(`Invalid data received for ${status} orders.`);
-//                 return;
-//             }
-
-//             const orders = data.orders;
-
-//             // Create a table to display orders
-//             const table = document.createElement('table');
-//             table.innerHTML = `
-//                 <tr>
-//                     <th>Serial Number</th>
-//                     <th>Product Name</th>
-//                     <th>Quantity</th>
-//                     <th>Days Elapsed</th>
-//                     <th>Firm Name</th>
-//                     <th>Customer Name</th>
-//                     <th>Order Status</th>
-//                     <th>Priority</th>
-//                     <th>Payment Status</th>
-//                     <th>Actions</th>
-//                 </tr>
-//             `;
-
-//             // Add rows to the table
-//             orders.forEach((order, index) => {
-//                 addTableRow(table, order, index + 1);
-//             });
-
-//             // Update content area with the table
-//             const content = document.querySelector('.content');
-//             content.innerHTML = '';
-//             content.appendChild(table);
-//         })
-//         .catch(error => {
-//             console.error(`Error fetching ${status} orders:`, error);
-//             // You can display an error message to the user or handle the error as needed
-//         });
-// }
 
 function fetchOrdersByStatus(status) {
-    fetch(`/api/v1/orders?status=${status}`)
+    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+
+    if (!token) {
+        console.error('JWT token not found.');
+        // Handle the case where the token is not found (e.g., redirect to login page)
+        return;
+    }
+
+    fetch(`/api/v1/orders/status/${status}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
         .then(response => response.json())
         .then(data => {
             console.log(`Received ${status} orders:`, data);
 
             if (!data || !data.orders) {
-                console.error(`Invalid data received for ${status} orders.`);
+                console.error(`No orders found with status: ${status}`);
                 return;
             }
 
@@ -376,7 +245,75 @@ function fetchOrdersByStatus(status) {
         });
 }
 
-// Function to add a row to the table
+
+// function fetchOrdersByStatus(status) {
+//     const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+
+//     if (!token) {
+//         console.error('JWT token not found.');
+//         // Handle the case where the token is not found (e.g., redirect to login page)
+//         return;
+//     }
+
+//     fetch(`/api/v1/orders?status=${status}`, {
+//         headers: {
+//             'Authorization': `Bearer ${token}`
+//         }
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log(`Received ${status} orders:`, data);
+
+//             if (!data || !data.orders) {
+//                 console.error(`Invalid data received for ${status} orders.`);
+//                 return;
+//             }
+
+//             const orders = data.orders;
+
+//             // Create a table container
+//             const tableContainer = document.createElement('div');
+//             tableContainer.classList.add('table-container');
+
+//             // Create a table to display orders
+//             const table = document.createElement('table');
+//             table.classList.add('table');
+//             table.innerHTML = `
+//                 <tr>
+//                     <th>Serial Number</th>
+//                     <th>Product Name</th>
+//                     <th>Quantity</th>
+//                     <th>Days Elapsed</th>
+//                     <th>Firm Name</th>
+//                     <th>Customer Name</th>
+//                     <th>Order Status</th>
+//                     <th>Priority</th>
+//                     <th>Payment Status</th>
+//                     <th>Actions</th>
+//                 </tr>
+//             `;
+
+//             // Add rows to the table
+//             orders.forEach((order, index) => {
+//                 addTableRow(table, order, index + 1);
+//             });
+
+//             // Append table to the table container
+//             tableContainer.appendChild(table);
+
+//             // Update content area with the table container
+//             const content = document.querySelector('.content');
+//             content.innerHTML = '';
+//             content.appendChild(tableContainer);
+//         })
+//         .catch(error => {
+//             console.error(`Error fetching ${status} orders:`, error);
+//             // You can display an error message to the user or handle the error as needed
+//         });
+// }
+
+
+
 function addTableRow(table, order, serialNumber) {
     const orderDate = new Date(order.createdAt);
     const currentDate = new Date();
@@ -452,7 +389,19 @@ function submitNewOrder() {
     const paymentStatus = document.getElementById('paymentStatus').value;
 
     // Fetch the current orders to determine the new priority
-    fetch('/api/v1/orders')
+
+    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+
+    if (!token) {
+        console.error('JWT token not found.');
+        // Handle the case where the token is not found (e.g., redirect to login page)
+        return;
+    }
+    fetch('/api/v1/orders', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
         .then(response => response.json())
         .then(data => {
             const priority = data.orders.length + 1; // Set priority to the length of orders array + 1
@@ -470,6 +419,7 @@ function submitNewOrder() {
             return fetch('/api/v1/orders', {
                 method: 'POST',
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(newOrder)
@@ -484,11 +434,18 @@ function submitNewOrder() {
         .catch(error => console.error('Error creating new order:', error));
 }
 
-
 // Function to edit an existing order (if needed)
 function editOrder(orderId) {
+    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+
+    if (!token) {
+        console.error('JWT token not found.');
+        // Handle the case where the token is not found (e.g., redirect to login page)
+        return;
+    }
     fetch(`/api/v1/orders/${orderId}`, {
         headers: {
+            'Authorization': `Bearer ${token}`,
             'Cache-Control': 'no-cache',
             'Pragma': 'no-cache'
         }
@@ -586,9 +543,18 @@ function submitUpdatedOrder(orderId) {
         payment_status: paymentStatus
     };
 
+    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+
+    if (!token) {
+        console.error('JWT token not found.');
+        // Handle the case where the token is not found (e.g., redirect to login page)
+        return;
+    }
+
     fetch(`/api/v1/orders/${orderId}`, {
         method: 'PATCH',
         headers: {
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(updatedOrder)
@@ -605,8 +571,20 @@ function submitUpdatedOrder(orderId) {
 
 // Function to delete an existing order
 function deleteOrder(orderId) {
+
+    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+
+    if (!token) {
+        console.error('JWT token not found.');
+        // Handle the case where the token is not found (e.g., redirect to login page)
+        return;
+    }
     fetch(`/api/v1/orders/${orderId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
     })
         .then(response => response.json())
         .then(data => {
@@ -617,59 +595,6 @@ function deleteOrder(orderId) {
         })
         .catch(error => console.error('Error deleting order:', error));
 }
-
-
-
-// Function to handle priority change event
-// function changePriority(orderId, newPriority) {
-//     fetch(`/api/v1/orders/${orderId}/priority`, {
-//         method: 'PATCH',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({ priority: newPriority })
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         console.log('Priority updated successfully:', data);
-//         // Rearrange rows in the table based on new priorities
-//         rearrangeTableRows();
-//     })
-//     .catch(error => console.error('Error updating priority:', error));
-// }
-
-// // Function to rearrange table rows based on priority
-// function rearrangeTableRows() {
-//     const table = document.getElementById('ordersTable');
-//     const rows = Array.from(table.querySelectorAll('tr'));
-//     rows.shift(); // Remove table header row
-//     rows.sort((a, b) => {
-//         const priorityA = parseInt(a.cells[7].innerText); // Assuming priority is displayed in the first cell
-//         const priorityB = parseInt(b.cells[7].innerText);
-//         return priorityA - priorityB;
-//     });
-//     // Update Serial Numbers accordingly
-//     rows.forEach((row, index) => {
-//         row.cells[0].innerText = index + 1; // Update Serial Number
-//     });
-//     // Re-append rearranged rows to the table
-//     rows.forEach(row => table.appendChild(row));
-// }
-
-// // Example event listener for priority change input field
-// document.addEventListener('change', function(event) {
-//     if (event.target.classList.contains('priority-input')) {
-//         const orderId = event.target.dataset.orderId;
-//         const newPriority = parseInt(event.target.value);
-//         changePriority(orderId, newPriority);
-//     }
-// });
-
-
-
-
-
-
 // JavaScript for handling navigation
 
 function goToHomepage() {
