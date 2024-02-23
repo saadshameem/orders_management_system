@@ -1,14 +1,35 @@
 
 
 
+const { required } = require('joi')
 const mongoose = require('mongoose')
 
 const JobSchema = new mongoose.Schema({
+
+    case_no:{
+        type:String,
+        required: [true, 'Please provide case no.']
+    },
+    
+    po_no:{
+        type: String,
+        required: [true, 'Plase provide PO No.']
+    },
+
+   
+
+    
     product_name: {
         type: String,
         required: [true, 'Pleasae provide product name'],
         maxLength: 50
     },
+
+    price:{
+        type: String,
+        required: [true, 'Please provide price']
+    },
+
     quantity: {
         type: String,
         required: [true, 'Pleasae provide quantity of the product'],
@@ -25,6 +46,10 @@ const JobSchema = new mongoose.Schema({
         maxlength: 50
     },
     
+    sales_person: {
+        type: String,
+        required: [true, 'Please provide sales persons name']
+    },
 
     order_status: {
         type: String,
@@ -40,11 +65,11 @@ const JobSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Please provide priority'],
     },
-    createdBy:{
-        type:mongoose.Types.ObjectId,
-        ref:'User',
-        required:[true, 'Please provide user']
-    },
+    // createdBy:{
+    //     type:mongoose.Types.ObjectId,
+    //     ref:'User',
+    //     required:[true, 'Please provide user']
+    // },
     creation_date:{
         type: Date, 
         default: Date.now 

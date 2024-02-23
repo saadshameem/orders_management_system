@@ -31,17 +31,17 @@
         <div class="form-body">
             
             <div class="form-group">
-                <label for="name" class="label-title">Name:</label><br>
+                <label for="name" class="label-title">Name*</label><br>
                 <input type="text" id="name" name="name" class="form-input" placeholder="Enter your name"
                 required="required"><br>
             </div>
             <div class="form-group">
-                <label for="email" class="label-title">Email:</label><br>
+                <label for="email" class="label-title">Email*</label><br>
                 <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email"
                 required="required"><br>
             </div>
             <div class="form-group">
-                <label for="password" class="label-title">Password:</label><br>
+                <label for="password" class="label-title">Password*</label><br>
                 <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password"
                 required="required"><br><br>
             </div>
@@ -80,6 +80,7 @@
                     console.log(data);
                     // Redirect user or show message based on response
                     if (data.success) {
+                        alert('Registration Successfull.');
                         window.location.href = "login.html"; // Change to the login page URL
                     } else {
                         // Handle registration failure (e.g., display error message)
@@ -89,6 +90,7 @@
                 .catch(error => {
                     console.error("Error:", error);
                     // Handle error (e.g., display error message)
+                    alert('Failed to register. Please try again.');
                 });
         });
     </script>

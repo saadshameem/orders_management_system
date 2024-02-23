@@ -87,7 +87,7 @@ input, select, button {
    
 } 
 
-/* button {
+button {
     background-color: #333;
     color: #fff;
     border: none;
@@ -101,7 +101,7 @@ button:hover {
     background-color: #555;
 }
 
-/* #edit {
+ #edit {
     background-color: #285ee9;
     border-radius: 10px;
     width: 70px;
@@ -120,7 +120,7 @@ button:hover {
 
 #delete:hover {
     background-color: #d17070;
-} */
+} 
 
 
 

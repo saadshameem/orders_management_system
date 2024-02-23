@@ -36,11 +36,15 @@ function getAllOrders() {
             table.innerHTML = `
                 <tr>
                     <th>Sr. No</th>
+                    <th>Case. No</th>
+                    <th>PO. No</th>
                     <th>Product Name</th>
+                    <th>Price</th>
                     <th>Quantity</th>
                     <th>Days Elapsed</th>
                     <th>Firm Name</th>
                     <th>Customer Name</th>
+                    <th>Sales Person</th>
                     <th>Order Status</th>
                     <th>Priority</th>
                     <th>Payment Status</th>
@@ -50,7 +54,8 @@ function getAllOrders() {
 
             // Add rows to the table
             orders.forEach((order, index) => {
-                addTableRow(table, order, index + 1);
+                // const caseNumber = generateCaseNumber(index + 1);
+                addTableRow(table, order, index + 1, ); //caseNumber
             });
 
             // Append table to the table container
@@ -97,26 +102,26 @@ function filterProductsByFirm() {
         })
         .then(data => {
             console.log(`Received ${firmName} orders:`, data);
-        
+
             if (!data || !data.orders) {
                 console.error(`Invalid data received for ${firmName} orders.`);
                 return;
             }
-        
+
             const orders = data.orders;
-        
+
             // Check if orders array is empty
             if (orders.length === 0) {
                 // Display message if no orders found
                 const container = document.createElement('div');
                 container.classList.add('container');
-        
+
                 const msg = document.createElement('div'); // Corrected
                 msg.classList.add('msg');
                 msg.innerHTML = `<p class="text-gray-600">No orders found for "${firmName}".</p>`;
-        
+
                 container.appendChild(msg);
-        
+
                 const content = document.querySelector('.content');
                 content.innerHTML = '';
                 content.appendChild(container);
@@ -124,40 +129,44 @@ function filterProductsByFirm() {
                 // Create a table container
                 const tableContainer = document.createElement('div');
                 tableContainer.classList.add('table-container');
-        
+
                 // Create a table to display orders
                 const table = document.createElement('table');
                 table.classList.add('table');
                 table.innerHTML = `
                     <tr>
                         <th>Sr. No</th>
+                        <th>Case. No</th>
+                        <th>PO. No</th>
                         <th>Product Name</th>
+                        <th>Price</th>
                         <th>Quantity</th>
                         <th>Days Elapsed</th>
                         <th>Firm Name</th>
                         <th>Customer Name</th>
+                        <th>Sales Person</th>
                         <th>Order Status</th>
                         <th>Priority</th>
                         <th>Payment Status</th>
                         <th>Actions</th>
                     </tr>
                 `;
-        
+
                 // Add rows to the table
                 orders.forEach((order, index) => {
                     addTableRow(table, order, index + 1);
                 });
-        
+
                 // Append table to the table container
                 tableContainer.appendChild(table);
-        
+
                 // Update content area with the table container
                 const content = document.querySelector('.content');
                 content.innerHTML = '';
                 content.appendChild(tableContainer);
             }
         })
-        
+
         .catch(error => {
             console.error(`Error fetching ${firmName} orders:`, error);
             // You can display an error message to the user or handle the error as needed
@@ -214,11 +223,15 @@ function fetchOrdersByStatus(status) {
             table.innerHTML = `
                 <tr>
                     <th>Serial Number</th>
+                    <th>Case. No</th>
+                    <th>PO. No</th>
                     <th>Product Name</th>
+                    <th>Price</th>
                     <th>Quantity</th>
                     <th>Days Elapsed</th>
                     <th>Firm Name</th>
                     <th>Customer Name</th>
+                    <th>Sales Person</th>
                     <th>Order Status</th>
                     <th>Priority</th>
                     <th>Payment Status</th>
@@ -320,20 +333,26 @@ function addTableRow(table, order, serialNumber) {
     const timeDifference = currentDate.getTime() - orderDate.getTime();
     const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
 
+    // Create table row with case number
+
     const row = table.insertRow();
     row.innerHTML = `
         <td class="font-semibold text-md" >${serialNumber}</td>
+        <td class="font-semibold text-md" >${order.case_no}</td>
+        <td class="font-semibold text-md" >${order.po_no}</td>
         <td class="font-semibold text-md" >${order.product_name}</td>
+        <td class="font-semibold text-md" >${order.price}</td>
         <td class="font-semibold text-md" >${order.quantity}</td>
         <td class="font-semibold text-md" >${daysDifference}</td>
         <td class="font-semibold text-md" >${order.firm_name}</td>
         <td class="font-semibold text-md" >${order.customer_name}</td>
+        <td class="font-semibold text-md" >${order.sales_person}</td>
         <td class="font-semibold text-md" >${order.order_status}</td>
         <td class="font-semibold text-md" >${order.priority}</td>
         <td class="font-semibold text-md" >${order.payment_status}</td>
         <td class="">
-            <button class="btn btn-outline btn-info" onclick="editOrder('${order._id}')">Edit</button>
-            <button class="btn btn-error btn-outline" onclick="deleteOrder('${order._id}')">Delete</button>
+            <button id="edit" onclick="editOrder('${order._id}')">Edit</button>
+            <button id="delete" onclick="deleteOrder('${order._id}')">Delete</button>
         </td>
     `;
 }
@@ -342,8 +361,18 @@ function addTableRow(table, order, serialNumber) {
 function openNewOrderForm() {
     const form = document.createElement('form');
     form.innerHTML = `
+
+        <label for="caseNo">Case No.:</label>
+        <input type="text" id="caseNo" name="caseNo" required>
+
+        <label for="poNo">PO No.:</label>
+        <input type="text" id="poNo" name="poNo" required>
+
         <label for="productName">Product Name:</label>
         <input type="text" id="productName" name="productName" required>
+
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" required>
 
         <label for="quantity">Quantity:</label>
         <input type="text" id="quantity" name="quantity" required>
@@ -353,6 +382,9 @@ function openNewOrderForm() {
 
         <label for="customerName">Customer Name:</label>
         <input type="text" id="customerName" name="customerName" required>
+
+        <label for="salesPerson">Sales Person:</label>
+        <input type="text" id="salesPerson" name="salesPerson" required>
 
         <label for="orderStatus">Order Status:</label>
         <select id="orderStatus" name="orderStatus">
@@ -379,12 +411,27 @@ function openNewOrderForm() {
     content.appendChild(form);
 }
 
+
+function generateCaseNumber(orderCount) {
+    const paddingLength = 5; // Length of padding for case number
+    const casePrefix = 'CASE'; // Prefix for the case number
+
+    // Generate padding based on order count
+    const padding = '0'.repeat(paddingLength - String(orderCount).length);
+
+    // Concatenate prefix and padding with order count
+    return `${casePrefix}${padding}${orderCount}`;
+}
+
 // Function to submit a new order
 function submitNewOrder() {
+    const poNo = document.getElementById('poNo').value;
     const productName = document.getElementById('productName').value;
+    const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
     const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
+    const salesPerson = document.getElementById('salesPerson').value;
     const orderStatus = document.getElementById('orderStatus').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
 
@@ -404,13 +451,19 @@ function submitNewOrder() {
     })
         .then(response => response.json())
         .then(data => {
-            const priority = data.orders.length + 1; // Set priority to the length of orders array + 1
+            const priority = data.orders.length + 1;
+            // const caseNo = data.orders.length + 1; // Set priority to the length of orders array + 1
+            const caseNo = generateCaseNumber(data.orders.length + 1);
 
             const newOrder = {
+                po_no: poNo,
+                case_no: caseNo,
                 product_name: productName,
+                price: price,
                 quantity: quantity,
                 firm_name: firmName,
                 customer_name: customerName,
+                sales_person: salesPerson,
                 order_status: orderStatus,
                 payment_status: paymentStatus,
                 priority: priority // Set priority
@@ -467,10 +520,14 @@ function editOrder(orderId) {
                 console.error('Invalid data received for editing order. Expected structure:', {
                     orders: {
                         _id: '',
+                        po_no: '',
+                        case_no: '',
                         product_name: '',
+                        price: '',
                         quantity: '',
                         firm_name: '',
                         customer_name: '',
+                        sales_person: '',
                         order_status: '',
                         priority: '',
                         payment_status: ''
@@ -484,8 +541,19 @@ function editOrder(orderId) {
             // Create a form pre-filled with existing order details
             const form = document.createElement('form');
             form.innerHTML = `
+
+
+                <label for="caseNo">Case No:</label>
+                <input type="text" id="caseNo" name="caseNo" value="${order.case_no}" required>
+
+                <label for="poNo">PO No:</label>
+                <input type="text" id="poNo" name="poNo" value="${order.po_no}" required>
+
                 <label for="productName">Product Name:</label>
                 <input type="text" id="productName" name="productName" value="${order.product_name}" required>
+
+                <label for="price">Price:</label>
+                <input type="text" id="price" name="price" value="${order.price}" required>
 
                 <label for="quantity">Quantity:</label>
                 <input type="text" id="quantity" name="quantity" value="${order.quantity}" required>
@@ -495,6 +563,9 @@ function editOrder(orderId) {
 
                 <label for="customerName">Customer Name:</label>
                 <input type="text" id="customerName" name="customerName" value="${order.customer_name}" required>
+
+                <label for="salesPerson">Sales Person:</label>
+                <input type="text" id="salesPerson" name="salesPerson" value="${order.sales_person}" required>
 
                 <label for="orderStatus">Order Status:</label>
                 <select id="orderStatus" name="orderStatus">
@@ -525,19 +596,27 @@ function editOrder(orderId) {
 
 // Function to submit updated order details
 function submitUpdatedOrder(orderId) {
+    const caseNo = document.getElementById('caseNo').value;
+    const poNo = document.getElementById('poNo').value;
     const productName = document.getElementById('productName').value;
+    const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
     const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
+    const salesPerson = document.getElementById('salesPerson').value;
     const orderStatus = document.getElementById('orderStatus').value;
     const priority = document.getElementById('priority').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
 
     const updatedOrder = {
+        case_no: caseNo,
+        po_no: poNo,
         product_name: productName,
+        price: price,
         quantity: quantity,
         firm_name: firmName,
         customer_name: customerName,
+        sales_person: salesPerson,
         order_status: orderStatus,
         priority: priority,
         payment_status: paymentStatus

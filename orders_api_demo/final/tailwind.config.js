@@ -2,6 +2,7 @@
 module.exports = {
   content: [
             "./public3/index.html",
+            "./public3/home.html",
             "./public3/allOrders.html",
             "./public3/newOrderForm.html",
             "./public3/example.html", 

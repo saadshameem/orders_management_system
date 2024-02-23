@@ -37,7 +37,7 @@ app.use(express.static('./public3'));
 // routes
 
 app.use('/api/v1/orders',authenticateUser, orders);
-app.use('/api/v1/auth', auth);
+app.use('/api/v1/auth', orders);
 
 app.use(notFound);
 app.use(errorHandlerMiddleware);
@@ -47,7 +47,7 @@ const port = process.env.PORT || 5000;
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
-    app.listen(port, () =>
+    app.listen(port, '0.0.0.0' , () =>
       console.log(`Server is listening on port ${port}...`)
     );
   } catch (error) {

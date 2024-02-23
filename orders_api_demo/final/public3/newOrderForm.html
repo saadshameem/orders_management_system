@@ -6,17 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Order</title>
     <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        crossorigin="anonymous">
 
     <link rel="stylesheet" href="output3.css">
     <link rel="stylesheet" href="style.css">
-    
+
 
 
 </head>
+
 <body class="flex min-h-screen bg-gray-100 overflow-y-auto">
     <!-- <div class="dashboard"> -->
-        
+
     <!-- <div class="bg-gray-800 text-white w-96 p-8">
         <div class="text-2xl font-semibold mb-12">Dashboard</div>
         <div class="flex flex-col space-y-4">
@@ -89,17 +91,26 @@
 
     </aside>
 
-        <div class="flex flex-col mb-2 p-8 ml-96   ">
-            <h1 class="ml-96 text-3xl">   Create New Order</h1>
-        
+    <div class="flex flex-col mb-2 p-8 ml-96   ">
+        <h1 class="ml-96 text-3xl"> Create New Order</h1>
+
         <div class="content flex-grow flex items-center ml-96 ">
-            
-            
-            
+
+
+
 
             <form id="newOrderForm">
+
+                
+
+                <label for="poNo">PO No.:</label>
+                <input type="text" id="poNo" name="poNo" required>
+
                 <label for="productName">Product Name:</label>
                 <input type="text" id="productName" name="productName" required>
+
+                <label for="price">Price:</label>
+                <input type="text" id="price" name="price" required>
 
                 <label for="quantity">Quantity:</label>
                 <input type="text" id="quantity" name="quantity" required>
@@ -110,7 +121,10 @@
                 <label for="customerName">Customer Name:</label>
                 <input type="text" id="customerName" name="customerName" required>
 
-                
+                <label for="salesPerson">Sales Person:</label>
+                <input type="text" id="salesPerson" name="salesPerson" required>
+
+
 
                 <label for="orderStatus">Order Status:</label>
                 <select id="orderStatus" name="orderStatus">
@@ -122,19 +136,21 @@
                     <option value="Shipped">Shipped</option>
                 </select>
 
-                
+
 
                 <label for="paymentStatus">Payment Status:</label>
                 <input type="text" id="paymentStatus" name="paymentStatus" required>
 
-                
 
-                <button type="button" class="btn btn-outline btn-success mt-5" onclick="submitNewOrder()">Submit</button>
+
+                <button type="button" class="btn btn-outline btn-success mt-5"
+                    onclick="submitNewOrder()">Submit</button>
             </form>
             <script src="main.js"></script>
         </div>
 
     </div>
-   
+
 </body>
+
 </html>

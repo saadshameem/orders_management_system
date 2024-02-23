@@ -30,7 +30,7 @@ const getAllOrders = asyncWrapper(async (req, res) => {
       query.firm_name = req.query.firm_name;
   }
   
-  const orders = await Order.find({createdBy: req.user.userId}).sort({ priority: 'asc' });
+  const orders = await Order.find({}).sort({ priority: 'asc' });
   res.status(200).json({ orders, count: orders.length });
   } catch (error) {
     console.error('Error fetching orders:', error);
@@ -44,7 +44,7 @@ const getAllOrders = asyncWrapper(async (req, res) => {
 // New controller function to fetch orders by status
 const fetchOrdersByStatus = asyncWrapper(async (req, res, next) => {
   const { params: { status }, user: { userId } } = req;
-  const orders = await Order.find({ order_status: status, createdBy: userId }).sort({ priority: 'asc' });
+  const orders = await Order.find({ order_status: status}).sort({ priority: 'asc' });
 
   if (!orders) {
     return next(createCustomError(`No orders found with status: ${status}`, 404));
@@ -57,7 +57,7 @@ const fetchOrdersByStatus = asyncWrapper(async (req, res, next) => {
 
 
 const createOrder = asyncWrapper(async (req, res) => {
-  req.body.createdBy = req.user.userId
+  // req.body.createdBy = req.user.userId
   const order = await Order.create(req.body)
   res.status(201).json({ order })
 })
@@ -65,7 +65,7 @@ const createOrder = asyncWrapper(async (req, res) => {
 const getOrder = asyncWrapper(async (req, res, next) => {
   const {user:{userId}, params:{id:orderID}} = req
 
-  const order = await Order.findOne({ _id: orderID, createdBy:userId  })
+  const order = await Order.findOne({ _id: orderID  })
   if (!order) {
     return next(createCustomError(`No order with id : ${orderID}`, 404))
   }
@@ -80,8 +80,7 @@ const deleteOrder = asyncWrapper(async (req, res, next) => {
 } = req
 
   const order = await Order.findByIdAndRemove({
-    _id:orderID,
-    createdBy:userId
+    _id:orderID
 })
   if (!order) {
     return next(createCustomError(`No order with id : ${orderID}`, 404))
@@ -97,7 +96,7 @@ const updateOrder = asyncWrapper(async (req, res, next) => {
 } = req
 
   const order = await Order.findByIdAndUpdate(
-    {_id:orderID, createdBy:userId }, 
+    {_id:orderID }, 
     req.body, 
     {new:true, runValidators:true}
 )
