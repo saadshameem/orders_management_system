@@ -81,16 +81,17 @@ label {
 }
 
 input, select, button {
-    width: 100%;
+    /* width: 100%; */
     padding: 8px;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
+    border-radius: 10px;
    
 } 
 
 button {
     background-color: #333;
     color: #fff;
-    border: none;
+    /* border: none; */
     cursor:pointer;
     border-radius: 10px;
     
@@ -106,6 +107,7 @@ button:hover {
     border-radius: 10px;
     width: 70px;
     margin-left: 2px;
+    
 }
 
 #edit:hover {
@@ -189,38 +191,15 @@ button:hover {
   .table-container td {
     background-color: #ffffff;
     color: rgb(0, 0, 0);
+    text-align: center;
     
     
   }
 
-  /* input[type="file"] {
-    outline: none;
-    cursor:pointer;
-    font-size: 17px;
-  }
-  
-  #range-label {
-    width:15%;
-    padding:5px;
-    background-color: #1BBA93;
-    color:white;
-    border-radius: 5px;
-    font-size: 17px;
-    position: relative;
-    top:-8px;
-  } */
+
 
   p {
     color: #000;
   }
 
-  /* a {
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor:pointer;
-    border-radius: 8px;
-    margin-left: 8px;
-
-  } */
+ 

@@ -37,7 +37,7 @@ app.use(express.static('./public3'));
 // routes
 
 app.use('/api/v1/orders',authenticateUser, orders);
-app.use('/api/v1/auth', orders);
+app.use('/api/v1/auth', auth);
 
 app.use(notFound);
 app.use(errorHandlerMiddleware);

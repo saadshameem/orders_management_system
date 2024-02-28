@@ -1156,6 +1156,12 @@ html {
     --tw-bg-opacity: 1;
     background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
   }
+
+  .table-zebra tr.hover:hover,
+  .table-zebra tr.hover:nth-child(even):hover {
+    --tw-bg-opacity: 1;
+    background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
+  }
 }
 
 .btn {
@@ -1490,16 +1496,8 @@ html {
     border-color: var(--btn-color, var(--fallback-b2));
   }
 
-  .btn-info {
-    --btn-color: var(--fallback-in);
-  }
-
   .btn-success {
     --btn-color: var(--fallback-su);
-  }
-
-  .btn-error {
-    --btn-color: var(--fallback-er);
   }
 }
 
@@ -1547,35 +1545,15 @@ html {
 }
 
 @supports (color: oklch(0 0 0)) {
-  .btn-info {
-    --btn-color: var(--in);
-  }
-
   .btn-success {
     --btn-color: var(--su);
   }
-
-  .btn-error {
-    --btn-color: var(--er);
-  }
-}
-
-.btn-info {
-  --tw-text-opacity: 1;
-  color: var(--fallback-inc,oklch(var(--inc)/var(--tw-text-opacity)));
-  outline-color: var(--fallback-in,oklch(var(--in)/1));
 }
 
 .btn-success {
   --tw-text-opacity: 1;
   color: var(--fallback-suc,oklch(var(--suc)/var(--tw-text-opacity)));
   outline-color: var(--fallback-su,oklch(var(--su)/1));
-}
-
-.btn-error {
-  --tw-text-opacity: 1;
-  color: var(--fallback-erc,oklch(var(--erc)/var(--tw-text-opacity)));
-  outline-color: var(--fallback-er,oklch(var(--er)/1));
 }
 
 .btn.glass {
@@ -2083,6 +2061,10 @@ html {
   margin-right: 0.5rem;
 }
 
+.mr-20 {
+  margin-right: 5rem;
+}
+
 .ms-2 {
   margin-inline-start: 0.5rem;
 }
@@ -2093,6 +2075,10 @@ html {
 
 .mt-5 {
   margin-top: 1.25rem;
+}
+
+.mt-60 {
+  margin-top: 15rem;
 }
 
 .mt-7 {
@@ -2125,6 +2111,10 @@ html {
 
 .hidden {
   display: none;
+}
+
+.h-1\/4 {
+  height: 25%;
 }
 
 .h-6 {
@@ -2177,6 +2167,10 @@ html {
 
 .w-96 {
   width: 24rem;
+}
+
+.w-auto {
+  width: auto;
 }
 
 .w-full {
@@ -2323,11 +2317,6 @@ html {
 .bg-gray-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity));
-}
-
-.bg-gray-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
 }
 
 .bg-gray-50 {

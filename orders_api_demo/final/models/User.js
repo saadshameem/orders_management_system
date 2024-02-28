@@ -1,7 +1,8 @@
-// models/user.js
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { required } = require('joi');
 
 const UserSchema = new mongoose.Schema({
     name:{
@@ -21,8 +22,14 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Please proviede a password'],
         // minlength: 5,
         // maxlength: 12,
-    }
-    // Add any other fields you need for your user model
+    },
+    role: {
+        type: String,
+        // enum: ['admin', 'user'],
+        // default: 'user',
+        required: [true, 'Please provide user role'],
+    },
+    
 });
 
 UserSchema.pre('save', async function(){
@@ -33,7 +40,7 @@ UserSchema.pre('save', async function(){
     
     UserSchema.methods.createJWT = function(){
         return jwt.sign(
-            {userId:this._id, name:this.name}, 
+            {userId:this._id, name:this.name, role:this.role}, 
             process.env.JWT_SECRET, 
             {
             expiresIn:process.env.JWT_LIFETIME,

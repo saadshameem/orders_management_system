@@ -8,7 +8,7 @@ const JobSchema = new mongoose.Schema({
 
     case_no:{
         type:String,
-        required: [true, 'Please provide case no.']
+        // required: [true, 'Please provide case no.']
     },
     
     po_no:{
@@ -37,7 +37,7 @@ const JobSchema = new mongoose.Schema({
     },
     firm_name: {
         type: String,
-        required: [true, 'Pleasae provide company name'],
+        required: [true, 'Please provide company name'],
         maxlength: 200
     },
     customer_name: {
@@ -63,7 +63,7 @@ const JobSchema = new mongoose.Schema({
     },
     priority:{
         type: Number,
-        required: [true, 'Please provide priority'],
+        // required: [true, 'Please provide priority'],
     },
     // createdBy:{
     //     type:mongoose.Types.ObjectId,

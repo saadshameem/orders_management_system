@@ -55,7 +55,7 @@ function getAllOrders() {
             // Add rows to the table
             orders.forEach((order, index) => {
                 // const caseNumber = generateCaseNumber(index + 1);
-                addTableRow(table, order, index + 1, ); //caseNumber
+                addTableRow(table, order, index + 1,); //caseNumber
             });
 
             // Append table to the table container
@@ -79,6 +79,8 @@ function filterProductsByFirm() {
     // const searchButton = document.getElementById('searchButton');
     const firmName = searchInput.value.trim();
 
+    console.log('Firm Name:', firmName); // Log the firmName variable
+
 
     const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
 
@@ -89,7 +91,7 @@ function filterProductsByFirm() {
     }
 
     // Make the API request with the firm name parameter
-    fetch(`/api/v1/orders/?firm_name=${firmName}`, {
+    fetch(`/api/v1/orders/filter-by-firm/${firmName}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -259,72 +261,194 @@ function fetchOrdersByStatus(status) {
 }
 
 
-// function fetchOrdersByStatus(status) {
-//     const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+// document.addEventListener('DOMContentLoaded', function () {
 
+//     const token = localStorage.getItem('token');
 //     if (!token) {
 //         console.error('JWT token not found.');
-//         // Handle the case where the token is not found (e.g., redirect to login page)
 //         return;
 //     }
-
-//     fetch(`/api/v1/orders?status=${status}`, {
+//     // Fetch data from backend API
+//     fetch('/api/v1/orders/piechart/status-summary', {
 //         headers: {
 //             'Authorization': `Bearer ${token}`
 //         }
 //     })
 //         .then(response => response.json())
 //         .then(data => {
-//             console.log(`Received ${status} orders:`, data);
+//             // Extract data for the pie chart
+//             const orderStatusData = {
+//                 labels: Object.keys(data), // Order status labels
+//                 datasets: [{
+//                     data: Object.values(data), // Order count for each status
+//                     backgroundColor: ['#ff6384', '#36a2eb', '#ffce56'], // Color for each segment
+//                 }]
+//             };
 
-//             if (!data || !data.orders) {
-//                 console.error(`Invalid data received for ${status} orders.`);
-//                 return;
-//             }
+//             // Get canvas element
+//             const ctx = document.getElementById('orderStatusChart').getContext('2d');
 
-//             const orders = data.orders;
-
-//             // Create a table container
-//             const tableContainer = document.createElement('div');
-//             tableContainer.classList.add('table-container');
-
-//             // Create a table to display orders
-//             const table = document.createElement('table');
-//             table.classList.add('table');
-//             table.innerHTML = `
-//                 <tr>
-//                     <th>Serial Number</th>
-//                     <th>Product Name</th>
-//                     <th>Quantity</th>
-//                     <th>Days Elapsed</th>
-//                     <th>Firm Name</th>
-//                     <th>Customer Name</th>
-//                     <th>Order Status</th>
-//                     <th>Priority</th>
-//                     <th>Payment Status</th>
-//                     <th>Actions</th>
-//                 </tr>
-//             `;
-
-//             // Add rows to the table
-//             orders.forEach((order, index) => {
-//                 addTableRow(table, order, index + 1);
+//             // Create pie chart
+//             new Chart(ctx, {
+//                 type: 'pie',
+//                 data: orderStatusData,
 //             });
-
-//             // Append table to the table container
-//             tableContainer.appendChild(table);
-
-//             // Update content area with the table container
-//             const content = document.querySelector('.content');
-//             content.innerHTML = '';
-//             content.appendChild(tableContainer);
 //         })
 //         .catch(error => {
-//             console.error(`Error fetching ${status} orders:`, error);
-//             // You can display an error message to the user or handle the error as needed
+//             console.error('Error fetching order status data:', error);
 //         });
-// }
+// });
 
+
+
+function fetchOrderStatusSummary() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('JWT token not found.');
+        return;
+    }
+
+    fetch('/api/v1/orders/piechart/status-summary', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Received order status summary data:', data);
+
+
+            renderOrderStatusPieChart(data);
+
+
+        })
+        .catch(error => {
+            console.error('Error fetching order status summary data:', error);
+        });
+}
+
+function renderOrderStatusPieChart(data) {
+    // Check if data is empty or not an object
+    if (!data || typeof data !== 'object') {
+        console.error('Invalid data received for order status summary.');
+        return;
+    }
+
+    // Extract status labels and counts from the received data object
+    const labels = Object.keys(data);
+    const counts = Object.values(data);
+
+    // Render pie chart using Chart.js
+    // var ctx = document.getElementById('orderStatusChart').getContext('2d');
+    // var myChart = new Chart(ctx, {
+    //     type: 'pie',
+    //     data: {
+    //         labels: labels,
+    //         datasets: [{
+    //             data: counts,
+    //             backgroundColor: [
+    //                 'rgba(255, 99, 132, 0.5)',
+    //                 'rgba(54, 162, 235, 0.5)',
+    //                 'rgba(255, 206, 86, 0.5)',
+    //                 'rgba(75, 192, 192, 0.5)', // Add more colors if needed
+    //             ],
+    //             borderColor: [
+    //                 'rgba(255, 99, 132, 1)',
+    //                 'rgba(54, 162, 235, 1)',
+    //                 'rgba(255, 206, 86, 1)',
+    //                 'rgba(75, 192, 192, 1)', // Add more colors if needed
+    //             ],
+    //             borderWidth: 2
+    //         }]
+    //     },
+    //     options: {
+    //         responsive: true,
+    //         maintainAspectRatio: false,
+    //         animation: {
+    //             duration: 2000, // Animation duration in milliseconds
+    //             easing: 'easeInOutQuart' // Easing function for the animation
+    //         },
+    //         hover: {
+    //             mode: 'nearest', // Interaction mode on hover
+    //             intersect: true // Allow interaction with overlapping elements
+    //         },
+    //         tooltips: {
+    //             enabled: true, // Enable tooltips
+    //             mode: 'nearest', // Display mode of the tooltips
+    //             intersect: false, // Allow tooltips to intersect with other elements
+    //             position: 'nearest', // Position of the tooltips
+    //             backgroundColor: 'rgba(0, 0, 0, 0.8)', // Background color of the tooltips
+    //             titleFontColor: '#fff', // Font color of the tooltips title
+    //             bodyFontColor: '#fff' // Font color of the tooltips body
+    //         }
+    //     }
+    // });
+
+
+    const chart = echarts.init(document.getElementById('orderStatusChart'));
+    const options = {
+        title: {
+            text: 'Distribution of Orders ',
+            subtext: 'Order Status',
+            left: 'center',
+            // top: '0%'
+        },
+
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+            orient: 'vertical',
+    left: 'left'
+
+        },
+        series: [
+            {
+                name: 'Order Status',
+                type: 'pie',
+                radius: ['2%', '50%'],
+                center: ['50%', '50%'],
+                data: labels.map((label, index) => ({
+                    value: counts[index],
+                    name: label
+                })),
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                // label: {
+                //     show: false,
+                //     position: 'right'
+                // },
+                emphasis: {
+                    // label: {
+                    //     show: true,
+                    //     fontSize: 20,
+                    //     fontWeight: 'bold'
+                    // },
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                },
+                // labelLine: {
+                //     show: false
+                // },
+            }
+        ]
+    };
+
+    // Set the chart options and render the chart
+    chart.setOption(options);
+}
 
 
 function addTableRow(table, order, serialNumber) {
