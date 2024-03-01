@@ -1,81 +1,71 @@
+const { DataTypes } = require('sequelize');
+const sequelize = require('../db/connect'); // Import Sequelize instance
+const { date } = require('joi');
 
-
-
-const { required } = require('joi')
-const mongoose = require('mongoose')
-
-const JobSchema = new mongoose.Schema({
-
-    case_no:{
-        type:String,
-        // required: [true, 'Please provide case no.']
+const Order = sequelize.define('Order', {
+    case_no: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
-    
-    po_no:{
-        type: String,
-        required: [true, 'Plase provide PO No.']
+    po_no: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
-
-   
-
-    
     product_name: {
-        type: String,
-        required: [true, 'Pleasae provide product name'],
-        maxLength: 50
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [1, 50], // Max length validation
+        },
     },
-
-    price:{
-        type: String,
-        required: [true, 'Please provide price']
+    price: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
-
     quantity: {
-        type: String,
-        required: [true, 'Pleasae provide quantity of the product'],
-        maxLength: 50
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [1, 50], // Max length validation
+        },
     },
     firm_name: {
-        type: String,
-        required: [true, 'Please provide company name'],
-        maxlength: 200
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [1, 200], // Max length validation
+        },
     },
     customer_name: {
-        type: String,
-        required: [true, 'Pleasae provide customer name'],
-        maxlength: 50
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [1, 50], // Max length validation
+        },
     },
-    
     sales_person: {
-        type: String,
-        required: [true, 'Please provide sales persons name']
+        type: DataTypes.STRING,
+        allowNull: false,
     },
-
     order_status: {
-        type: String,
-        enum: ['Trading','Pending', 'In Production', 'Testing', 'Packed', 'Shipped'],
-        default: 'Pending'
+        type: DataTypes.ENUM('Trading', 'Pending', 'In Production', 'Testing', 'Packed', 'Shipped'),
+        defaultValue: 'Pending',
     },
     payment_status: {
-        type: String,
-        required: [true, 'Please provide payment status'],
-        maxlength: 50
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [1, 50], // Max length validation
+        },
     },
-    priority:{
-        type: Number,
-        // required: [true, 'Please provide priority'],
+    priority: {
+        type: DataTypes.INTEGER,
     },
-    // createdBy:{
-    //     type:mongoose.Types.ObjectId,
-    //     ref:'User',
-    //     required:[true, 'Please provide user']
-    // },
-    creation_date:{
-        type: Date, 
-        default: Date.now 
-    }
+    
+}, 
+{
+    timestamps: true, // Automatically add createdAt and updatedAt fields
+}
+);
 
-}, {timestamps:true})
-
-module.exports = mongoose.model('Order', JobSchema)
-
+module.exports = Order;

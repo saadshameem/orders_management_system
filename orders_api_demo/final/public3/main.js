@@ -23,6 +23,7 @@ function getAllOrders() {
                 console.error('Invalid data received for all orders.');
                 return;
             }
+            console.log('Here is the data:', data);
 
             const orders = data.orders;
 
@@ -208,57 +209,60 @@ function fetchOrdersByStatus(status) {
         .then(data => {
             console.log(`Received ${status} orders:`, data);
 
-            if (!data || !data.orders) {
-                console.error(`No orders found with status: ${status}`);
-                return;
-            }
-
-            const orders = data.orders;
-
-            // Create a table container
-            const tableContainer = document.createElement('div');
-            tableContainer.classList.add('table-container');
-
-            // Create a table to display orders
-            const table = document.createElement('table');
-            table.classList.add('table');
-            table.innerHTML = `
-                <tr>
-                    <th>Serial Number</th>
-                    <th>Case. No</th>
-                    <th>PO. No</th>
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Days Elapsed</th>
-                    <th>Firm Name</th>
-                    <th>Customer Name</th>
-                    <th>Sales Person</th>
-                    <th>Order Status</th>
-                    <th>Priority</th>
-                    <th>Payment Status</th>
-                    <th>Actions</th>
-                </tr>
-            `;
-
-            // Add rows to the table
-            orders.forEach((order, index) => {
-                addTableRow(table, order, index + 1);
-            });
-
-            // Append table to the table container
-            tableContainer.appendChild(table);
-
-            // Update content area with the table container
+            // Clear previous content
             const content = document.querySelector('.content');
             content.innerHTML = '';
-            content.appendChild(tableContainer);
+
+            if (!data || !data.orders || data.orders.length === 0) {
+                // If no orders found, display a message or hide the table
+                const message = document.createElement('p');
+                message.textContent = `No orders found with status: ${status}`;
+                content.appendChild(message);
+            } else {
+                // Create a table container
+                const tableContainer = document.createElement('div');
+                tableContainer.classList.add('table-container');
+
+                // Create a table to display orders
+                const table = document.createElement('table');
+                table.classList.add('table');
+                table.innerHTML = `
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Case. No</th>
+                        <th>PO. No</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Days Elapsed</th>
+                        <th>Firm Name</th>
+                        <th>Customer Name</th>
+                        <th>Sales Person</th>
+                        <th>Order Status</th>
+                        <th>Priority</th>
+                        <th>Payment Status</th>
+                        <th>Actions</th>
+                    </tr>
+                `;
+
+                // Add rows to the table
+                data.orders.forEach((order, index) => {
+                    addTableRow(table, order, index + 1);
+                });
+
+                // Append table to the table container
+                tableContainer.appendChild(table);
+
+                // Update content area with the table container
+                content.appendChild(tableContainer);
+            }
         })
         .catch(error => {
             console.error(`Error fetching ${status} orders:`, error);
             // You can display an error message to the user or handle the error as needed
         });
 }
+
 
 
 // document.addEventListener('DOMContentLoaded', function () {
@@ -343,51 +347,7 @@ function renderOrderStatusPieChart(data) {
     const labels = Object.keys(data);
     const counts = Object.values(data);
 
-    // Render pie chart using Chart.js
-    // var ctx = document.getElementById('orderStatusChart').getContext('2d');
-    // var myChart = new Chart(ctx, {
-    //     type: 'pie',
-    //     data: {
-    //         labels: labels,
-    //         datasets: [{
-    //             data: counts,
-    //             backgroundColor: [
-    //                 'rgba(255, 99, 132, 0.5)',
-    //                 'rgba(54, 162, 235, 0.5)',
-    //                 'rgba(255, 206, 86, 0.5)',
-    //                 'rgba(75, 192, 192, 0.5)', // Add more colors if needed
-    //             ],
-    //             borderColor: [
-    //                 'rgba(255, 99, 132, 1)',
-    //                 'rgba(54, 162, 235, 1)',
-    //                 'rgba(255, 206, 86, 1)',
-    //                 'rgba(75, 192, 192, 1)', // Add more colors if needed
-    //             ],
-    //             borderWidth: 2
-    //         }]
-    //     },
-    //     options: {
-    //         responsive: true,
-    //         maintainAspectRatio: false,
-    //         animation: {
-    //             duration: 2000, // Animation duration in milliseconds
-    //             easing: 'easeInOutQuart' // Easing function for the animation
-    //         },
-    //         hover: {
-    //             mode: 'nearest', // Interaction mode on hover
-    //             intersect: true // Allow interaction with overlapping elements
-    //         },
-    //         tooltips: {
-    //             enabled: true, // Enable tooltips
-    //             mode: 'nearest', // Display mode of the tooltips
-    //             intersect: false, // Allow tooltips to intersect with other elements
-    //             position: 'nearest', // Position of the tooltips
-    //             backgroundColor: 'rgba(0, 0, 0, 0.8)', // Background color of the tooltips
-    //             titleFontColor: '#fff', // Font color of the tooltips title
-    //             bodyFontColor: '#fff' // Font color of the tooltips body
-    //         }
-    //     }
-    // });
+    
 
 
     const chart = echarts.init(document.getElementById('orderStatusChart'));
@@ -475,8 +435,8 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.priority}</td>
         <td class="font-semibold text-md" >${order.payment_status}</td>
         <td class="">
-            <button id="edit" onclick="editOrder('${order._id}')">Edit</button>
-            <button id="delete" onclick="deleteOrder('${order._id}')">Delete</button>
+            <button id="edit" onclick="editOrder('${order.id}')">Edit</button>
+            <button id="delete" onclick="deleteOrder('${order.id}')">Delete</button>
         </td>
     `;
 }
@@ -640,10 +600,10 @@ function editOrder(orderId) {
         .then(data => {
             console.log('Received data for editing order:', data);
 
-            if (!data || !data.orders) {
+            if (!data || !data.order) {
                 console.error('Invalid data received for editing order. Expected structure:', {
                     orders: {
-                        _id: '',
+                        id: '',
                         po_no: '',
                         case_no: '',
                         product_name: '',
@@ -660,7 +620,7 @@ function editOrder(orderId) {
                 throw new Error('Invalid data received for editing order.');
             }
 
-            const order = data.orders;
+            const order = data.order;
 
             // Create a form pre-filled with existing order details
             const form = document.createElement('form');

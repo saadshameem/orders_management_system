@@ -28,6 +28,8 @@
     "mongoose": "^5.11.10",
     "mysql2": "^3.9.2",
     "rate-limiter": "^0.2.0",
+    "sequelize": "^6.37.1",
+    "sequelize-cli": "^6.6.2",
     "swagger-ui-express": "^4.1.6",
     "xss-clean": "^0.1.1"
   },

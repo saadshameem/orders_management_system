@@ -1,62 +1,76 @@
-
 const User = require('../models/User');
-const asyncWrapper = require('../middleware/async')
-const { createCustomError } = require('../errors/custom-error')
-const { StatusCodes } = require('http-status-codes')
-const { BadRequestError, UnauthenticatedError } = require('../errors')
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
-const register = asyncWrapper(async (req, res, next) => {
-  try {
-    // console.log("body:",req.body)
-    // let role = 'user'; // Default role
-    // Check if the email domain belongs to admins
-    // if (req.body.email.endsWith('@admin.com')) {
-    //   role = 'admin';
-    // }
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Only admins can register new users' });
-  }
-    const user = await User.create({ ...req.body });
-    const token = user.createJWT()
-    res.status(StatusCodes.CREATED).json({ success: true, user: { name: user.name, role: user.role }, msg: 'User created successfully', token });
-  } catch (error) {
-    // Ensure you are sending the error message in the response
-    res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
-  }
-})
+// Controller for user registration
+exports.register = async (req, res) => {
+    try {
+        // Extract user details from request body
+        const { name, email, password, role } = req.body;
 
-const login = asyncWrapper(async (req, res) => {
-  const { email, password } = req.body
+        // Check if the user already exists
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
 
-  if (!email || !password) {
-    throw new BadRequestError('Please provide email and password')
-  }
-  const user = await User.findOne({ email })
-  if (!user) {
-    throw new UnauthenticatedError('Invalid credentials')
-  }
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-  const isPasswordCorrect = await user.comparePassword(password)
-  if (!isPasswordCorrect) {
-    throw new UnauthenticatedError('Invalid credentials')
-  }
+        // Create the user
+        const user = await User.create({ ...req.body });
 
-  const token = user.createJWT()
-  res.status(200).json({ success: true, user: { name: user.name, role: user.role }, token })
-})
+        // Generate JWT token
+        const token = user.createJWT();
 
-const logout = async (req, res) => {
-  try {
-
-    res.status(200).json({ message: 'Logout successful' });
-  } catch (error) {
-    console.error('Error during logout:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+        // Send response with token
+        res.status(201).json({ success: true, user: { name: user.name, role: user.role }, msg: 'User created successfully', token  });
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
-module.exports = {
-  register,
-  login,
-  logout,
-}
+// Controller for user login
+exports.login = async (req, res) => {
+    try {
+        // Extract email and password from request body
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+          throw new BadRequestError('Please provide email and password')
+        }
+
+        // Find the user by email
+        const user = await User.findOne({ where: { email } });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Compare passwords
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Generate JWT token
+        const token = user.createJWT();
+
+        // Send response with token
+        res.status(200).json({  success: true, user: { name: user.name, role: user.role }, token });
+    } catch (error) {
+        console.error('Error logging in user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// Controller for user logout (dummy implementation, as JWT tokens are stateless)
+exports.logout = async (req, res) => {
+    try {
+        // Dummy logout implementation (JWT tokens are stateless)
+        res.status(200).json({ message: 'User logged out successfully' });
+    } catch (error) {
+        console.error('Error logging out user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

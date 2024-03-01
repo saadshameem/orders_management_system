@@ -1,175 +1,129 @@
-
-const Order = require('../models/Order')
-const asyncWrapper = require('../middleware/async')
-const { createCustomError } = require('../errors/custom-error')
-
-// const getAllOrders = asyncWrapper(async (req, res) => {
-//   const orders = await Order.find({createdBy: req.user.userId}).sort({priority: 'asc'})
-//   res.status(200).json({ orders })
-// })
+const Order = require('../models/Order'); // Assuming your model file is named 'Order'
+const sequelize = require('../db/connect'); // Import Sequelize instance
 
 
-
-const getAllOrders = asyncWrapper(async (req, res) => {
-  
+exports.getAllOrders = async (req, res) => {
   try {
-    let query = {};
-
-  if (req.query.firm_name) {
-      query.firm_name = req.query.firm_name;
-  }
-  
-  const orders = await Order.find({}).sort({ priority: 'asc' });
-  res.status(200).json({ orders, count: orders.length });
+    const orders = await Order.findAll();
+    res.status(200).json({ orders });
   } catch (error) {
     console.error('Error fetching orders:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-});
+};
+
+exports.createOrder = async (req, res) => {
+
+  try {
+    const order = await Order.create(req.body);
+    res.status(201).json({ order });
+  } catch (error) {
+    console.error('Error creating order:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.getOrder = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const order = await Order.findByPk(id);
+    if (!order) {
+      return res.status(404).json({ error: `Order with id ${id} not found` });
+    }
+    res.status(200).json({ order });
+  } catch (error) {
+    console.error('Error fetching order:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.updateOrder = async (req, res) => {
+  const { id } = req.params;
+  console.log(id)
+  try {
+    const order = await Order.findByPk(id);
+    if (!order) {
+      return res.status(404).json({ error: `Order with id ${id} not found` });
+    }
+    console.log("req.body: ", req.body)
+    await order.update(req.body);
+    res.status(200).json({ order });
+  } catch (error) {
+    console.error('Error updating order:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.deleteOrder = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const order = await Order.findByPk(id);
+    if (!order) {
+      return res.status(404).json({ error: `Order with id ${id} not found` });
+    }
+    await order.destroy();
+    res.status(204).end();
+  } catch (error) {
+    console.error('Error deleting order:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 
-
-
-
-const filterProductsByFirm = asyncWrapper(async (req, res) => {
+exports.filterProductsByFirm = async (req, res) => {
   const { firmName } = req.params;
 
-  // Query the database to find orders with the specified firm name
-  const orders = await Order.find({ firm_name: firmName }).sort({ priority: 'asc' });
+  try {
+    const orders = await Order.findAll({
+      where: { firm_name: firmName },
+      order: [['priority', 'ASC']]
+    });
 
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ error: `No orders found for firm: ${firmName}` });
+    }
+
+    res.status(200).json({ orders, count: orders.length });
+  } catch (error) {
+    console.error('Error fetching orders by firm:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+exports.fetchOrdersByStatus = async (req, res) => {
+  const { params: { status } } = req;
+  
+  // Query the database to find orders with the specified status
+  const orders = await Order.findAll({ where: { order_status: status } });
+  
+  // Check if any orders were found
   if (!orders || orders.length === 0) {
-    return res.status(404).json({ error: `No orders found for firm: ${firmName}` });
+    return res.status(404).json({ error: `No orders found with status: ${status}` });
   }
-
+  
+  // Return the found orders
   res.status(200).json({ orders, count: orders.length });
-});
+};
 
 
 
+exports.piechart = async (req, res) => {
+  try {
+    const statusSummary = await Order.findAll({
+      attributes: ['order_status', [sequelize.fn('COUNT', sequelize.col('*')), 'count']],
+      group: ['order_status']
+    });
 
+    const summaryData = {};
+    statusSummary.forEach(item => {
+      summaryData[item.order_status] = item.get('count');
+    });
 
-
-// New controller function to fetch orders by status
-const fetchOrdersByStatus = asyncWrapper(async (req, res, next) => {
-  const { params: { status }, user: { userId } } = req;
-  const orders = await Order.find({ order_status: status}).sort({ priority: 'asc' });
-
-  if (!orders) {
-    return next(createCustomError(`No orders found with status: ${status}`, 404));
+    res.json(summaryData);
+  } catch (error) {
+    console.error('Error fetching pie chart data:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-
-  res.status(200).json({ orders, count: orders.length });
-});
-
-
-
-
-
-const piechart = asyncWrapper(async (req, res) => {
-  const statusSummary = await Order.aggregate([
-    { $group: { _id: '$order_status', count: { $sum: 1 } } }
-  ]);
-
-  const summaryData = {};
-  statusSummary.forEach(item => {
-    summaryData[item._id] = item.count;
-  });
-
-  res.json(summaryData);
-});
-
-
-
-
-// const filterProductsByFirm = asyncWrapper(async (req, res, next) => {
-//   const { query: { firmName }, user: { userId } } = req;
-//   const orders = await Order.find({ firm_name: firmName}).sort({ priority: 'asc' });
-
-//   if (!orders) {
-//     return next(createCustomError(`No orders found with firm name: ${firmName}`, 404));
-//   }
-
-//   res.status(200).json({ orders, count: orders.length });
-// });
-
-
-
-
-const createOrder = asyncWrapper(async (req, res) => {
-  // req.body.createdBy = req.user.userId
-  const order = await Order.create(req.body)
-  res.status(201).json({ order })
-})
-
-
-
-
-const getOrder = asyncWrapper(async (req, res, next) => {
-  const {user:{userId}, params:{id:orderID}} = req
-
-  const order = await Order.findOne({ _id: orderID  })
-  if (!order) {
-    return next(createCustomError(`No order with id : ${orderID}`, 404))
-  }
-
-  res.status(200).json({ orders:order })
-})
-
-
-
-
-
-const deleteOrder = asyncWrapper(async (req, res, next) => {
-  const {
-    user:{userId}, 
-    params:{id:orderID}
-} = req
-
-  const order = await Order.findByIdAndRemove({
-    _id:orderID
-})
-  if (!order) {
-    return next(createCustomError(`No order with id : ${orderID}`, 404))
-  }
-  res.status(200).json({ order })
-})
-
-
-
-
-
-const updateOrder = asyncWrapper(async (req, res, next) => {
-  const {
-    
-    user:{userId}, 
-    params:{id:orderID}
-} = req
-
-  const order = await Order.findByIdAndUpdate(
-    {_id:orderID }, 
-    req.body, 
-    {new:true, runValidators:true}
-)
-
-  if (!order) {
-    return next(createCustomError(`No order with id : ${orderID}`, 404))
-  }
-
-  res.status(200).json({ order })
-})
-
-
-
-
-
-module.exports = {
-  getAllOrders,
-  createOrder,
-  getOrder,
-  updateOrder,
-  deleteOrder,
-  fetchOrdersByStatus,
-  filterProductsByFirm,
-  piechart
-
-}
+};

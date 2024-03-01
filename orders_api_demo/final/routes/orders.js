@@ -1,37 +1,19 @@
 
-const express = require('express')
-const router = express.Router()
 
-const authorizeUser = require('../middleware/authUser')
-const authorizeAdmin = require('../middleware/authAdmin')
+const express = require('express');
+const router = express.Router();
+const orders = require('../controllers/orders');
+// const authenticateToken = require('../middleware/authentication');
+const authAdmin = require('../middleware/authAdmin')
+const authUser = require('../middleware/authUser')
 
-const {
-  getAllOrders,
-  createOrder,
-  getOrder,
-  updateOrder,
-  deleteOrder,
-  fetchOrdersByStatus,
-  filterProductsByFirm,
-  piechart
-  
-} = require('../controllers/orders')
+router.get('/',  authUser, orders.getAllOrders);
+router.post('/', authAdmin, orders.createOrder);
+router.get('/:id', authUser, orders.getOrder);
+router.patch('/:id', authAdmin, orders.updateOrder);
+router.delete('/:id', authAdmin, orders.deleteOrder);
+router.get('/status/:status', authUser, orders.fetchOrdersByStatus);
+router.get('/filter-by-firm/:firmName', authUser, orders.filterProductsByFirm);
+router.get('/piechart/status-summary', authUser, orders.piechart)
 
-const { register, login, logout } = require('../controllers/auth')
-// const { isAdmin, isUser } = require('../middleware/role'); // Import the middleware
-
-
-router.route('/').get(authorizeUser, getAllOrders).post(authorizeUser,createOrder)
-router.route('/:id').get(authorizeAdmin, getOrder).patch(authorizeAdmin,  updateOrder).delete( authorizeAdmin, deleteOrder)
-router.route('/status/:status').get(authorizeUser, fetchOrdersByStatus)
-router.get('/filter-by-firm/:firmName',authorizeUser,  filterProductsByFirm);
-router.get('/piechart/status-summary',authorizeUser, piechart)
-
-// =============================================xxxxxxx================================
-//  auth .. 
-router.post('/register',authorizeAdmin, register)
-router.post('/login', login)
-router.post('/logout', logout)
-
-
-module.exports = router
+module.exports = router;
