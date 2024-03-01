@@ -15,5 +15,6 @@ router.delete('/:id', authAdmin, orders.deleteOrder);
 router.get('/status/:status', authUser, orders.fetchOrdersByStatus);
 router.get('/filter-by-firm/:firmName', authUser, orders.filterProductsByFirm);
 router.get('/piechart/status-summary', authUser, orders.piechart)
+router.get('/filter/search', authUser, orders.filteredOrders)
 
 module.exports = router;

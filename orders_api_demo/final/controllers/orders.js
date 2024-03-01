@@ -1,5 +1,6 @@
 const Order = require('../models/Order'); // Assuming your model file is named 'Order'
 const sequelize = require('../db/connect'); // Import Sequelize instance
+const {Op}  = require('sequelize')
 
 
 exports.getAllOrders = async (req, res) => {
@@ -125,5 +126,40 @@ exports.piechart = async (req, res) => {
   } catch (error) {
     console.error('Error fetching pie chart data:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+exports.filteredOrders = async (req, res) => {
+  const { attribute, search } = req.query;
+
+  try {
+      let filteredOrders;
+
+      switch (attribute) {
+          case 'case_no':
+          case 'product_name':
+          case 'firm_name':
+          case 'sales_person':
+              filteredOrders = await Order.findAll({
+                  where: {
+                      [attribute]: {
+                          [Op.like]: `%${search}%`
+                      }
+                  }
+              });
+              break;
+          default:
+              return res.status(400).json({ error: 'Invalid filter attribute' });
+      }
+      if (filteredOrders.length === 0) {
+        return res.status(404).json({ message: 'No orders found with this attribute and search term' });
+      }
+
+      res.status(200).json({ orders: filteredOrders });
+  } catch (error) {
+      console.error('Error filtering orders:', error);
+      res.status(500).json({ error: 'Internal server error' });
   }
 };

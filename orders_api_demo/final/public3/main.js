@@ -43,9 +43,10 @@ function getAllOrders() {
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Days Elapsed</th>
+                    
                     <th>Firm Name</th>
-                    <th>Customer Name</th>
-                    <th>Sales Person</th>
+                    <th>Client's Name</th>
+                    <th>Sales Person's Name</th>
                     <th>Order Status</th>
                     <th>Priority</th>
                     <th>Payment Status</th>
@@ -146,8 +147,8 @@ function filterProductsByFirm() {
                         <th>Quantity</th>
                         <th>Days Elapsed</th>
                         <th>Firm Name</th>
-                        <th>Customer Name</th>
-                        <th>Sales Person</th>
+                        <th>Client's Name</th>
+                        <th>Sales Person's Name</th>
                         <th>Order Status</th>
                         <th>Priority</th>
                         <th>Payment Status</th>
@@ -236,8 +237,8 @@ function fetchOrdersByStatus(status) {
                         <th>Quantity</th>
                         <th>Days Elapsed</th>
                         <th>Firm Name</th>
-                        <th>Customer Name</th>
-                        <th>Sales Person</th>
+                        <th>Client's Name</th>
+                        <th>Sales Person's Name</th>
                         <th>Order Status</th>
                         <th>Priority</th>
                         <th>Payment Status</th>
