@@ -170,18 +170,18 @@
             </form> -->
 
             <label for="filterAttribute">Filter By:</label>
-        <select id="filterAttribute">
-            <option value="case_no">Case No</option>
-            <option value="product_name">Product Name</option>
-            <option value="firm_name">Firm Name</option>
-            <option value="sales_person">Sales Person</option>
-        </select>
-        <input type="text" id="searchTerm" placeholder="Enter search term">
-        <button id="applyFilterBtn" type="submit">Apply Filter</button>
+            <select id="filterAttribute">
+                <option value="case_no">Case No</option>
+                <option value="product_name">Product Name</option>
+                <option value="firm_name">Firm Name</option>
+                <option value="sales_person">Sales Person</option>
+            </select>
+            <input type="text" id="searchTerm" placeholder="Enter search term">
+            <button id="applyFilterBtn" type="submit">Apply Filter</button>
         </div>
 
         <!-- HTML for attribute selection and search input -->
-        
+
 
 
 
@@ -226,9 +226,15 @@
                         // Display user's name in userInfo element
                         const userInfoElement = document.getElementById('userInfo');
                         if (name) {
-                            userInfoElement.textContent = `${name}`;
+                            userInfoElement.innerHTML = `
+            <i class="fas fa-user fa-lg mr-2"></i>
+            <span class="text-lg font-semibold">Welcome, ${name}</span>
+        `;
                         } else {
-                            userInfoElement.textContent = "Welcome";
+                            userInfoElement.innerHTML = `
+            <i class="fas fa-user mr-2"></i>
+            <span class="text-lg font-semibold">Welcome</span>
+        `;
                         }
                     }
 
@@ -303,10 +309,13 @@
                         <th>Product Name</th>
                         <th>Price</th>
                         <th>Quantity</th>
-                        <th>Days Elapsed</th>
-                        <th>Firm Name</th>
-                        <th>Customer Name</th>
-                        <th>Sales Person</th>
+                        <th>Order Date</th>
+                    <th>Days to Deadline</th>
+                        <th>Client's Firm Name</th>
+                        <th>Client's Name</th>
+                        <th>Client's Phone No.</th>
+                        <th>Sales Person's Name</th>
+                        <th>Sales Person's Id</th>
                         <th>Order Status</th>
                         <th>Priority</th>
                         <th>Payment Status</th>

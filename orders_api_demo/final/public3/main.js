@@ -23,7 +23,7 @@ function getAllOrders() {
                 console.error('Invalid data received for all orders.');
                 return;
             }
-            console.log('Here is the data:', data);
+            // console.log('Here is the data:', data);
 
             const orders = data.orders;
 
@@ -42,11 +42,13 @@ function getAllOrders() {
                     <th>Product Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
-                    <th>Days Elapsed</th>
-                    
-                    <th>Firm Name</th>
+                    <th>Order Date</th>
+                    <th>Days to Deadline</th>
+                    <th>Client's Firm Name</th>
                     <th>Client's Name</th>
+                    <th>Client's Phone No.</th>
                     <th>Sales Person's Name</th>
+                    <th>Sales Person's Id</th>
                     <th>Order Status</th>
                     <th>Priority</th>
                     <th>Payment Status</th>
@@ -74,108 +76,6 @@ function getAllOrders() {
         });
 }
 
-
-function filterProductsByFirm() {
-
-    const searchInput = document.getElementById('searchInput');
-    // const searchButton = document.getElementById('searchButton');
-    const firmName = searchInput.value.trim();
-
-    console.log('Firm Name:', firmName); // Log the firmName variable
-
-
-    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
-
-    if (!token) {
-        console.error('JWT token not found.');
-        // Handle the case where the token is not found (e.g., redirect to login page)
-        return;
-    }
-
-    // Make the API request with the firm name parameter
-    fetch(`/api/v1/orders/filter-by-firm/${firmName}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(`Received ${firmName} orders:`, data);
-
-            if (!data || !data.orders) {
-                console.error(`Invalid data received for ${firmName} orders.`);
-                return;
-            }
-
-            const orders = data.orders;
-
-            // Check if orders array is empty
-            if (orders.length === 0) {
-                // Display message if no orders found
-                const container = document.createElement('div');
-                container.classList.add('container');
-
-                const msg = document.createElement('div'); // Corrected
-                msg.classList.add('msg');
-                msg.innerHTML = `<p class="text-gray-600">No orders found for "${firmName}".</p>`;
-
-                container.appendChild(msg);
-
-                const content = document.querySelector('.content');
-                content.innerHTML = '';
-                content.appendChild(container);
-            } else {
-                // Create a table container
-                const tableContainer = document.createElement('div');
-                tableContainer.classList.add('table-container');
-
-                // Create a table to display orders
-                const table = document.createElement('table');
-                table.classList.add('table');
-                table.innerHTML = `
-                    <tr>
-                        <th>Sr. No</th>
-                        <th>Case. No</th>
-                        <th>PO. No</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Days Elapsed</th>
-                        <th>Firm Name</th>
-                        <th>Client's Name</th>
-                        <th>Sales Person's Name</th>
-                        <th>Order Status</th>
-                        <th>Priority</th>
-                        <th>Payment Status</th>
-                        <th>Actions</th>
-                    </tr>
-                `;
-
-                // Add rows to the table
-                orders.forEach((order, index) => {
-                    addTableRow(table, order, index + 1);
-                });
-
-                // Append table to the table container
-                tableContainer.appendChild(table);
-
-                // Update content area with the table container
-                const content = document.querySelector('.content');
-                content.innerHTML = '';
-                content.appendChild(tableContainer);
-            }
-        })
-
-        .catch(error => {
-            console.error(`Error fetching ${firmName} orders:`, error);
-            // You can display an error message to the user or handle the error as needed
-        });
-};
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -229,16 +129,19 @@ function fetchOrdersByStatus(status) {
                 table.classList.add('table');
                 table.innerHTML = `
                     <tr>
-                        <th>Serial Number</th>
+                        <th>Sr. No</th>
                         <th>Case. No</th>
                         <th>PO. No</th>
                         <th>Product Name</th>
                         <th>Price</th>
                         <th>Quantity</th>
-                        <th>Days Elapsed</th>
-                        <th>Firm Name</th>
-                        <th>Client's Name</th>
+                        <th>Order Date</th>
+                    <th>Days to Deadline</th>
+                        <th>Client's Firm Name</th>
+                    <th>Client's Name</th>
+                    <th>Client's Phone No.</th>
                         <th>Sales Person's Name</th>
+                        <th>Sales Person Id</th>
                         <th>Order Status</th>
                         <th>Priority</th>
                         <th>Payment Status</th>
@@ -348,7 +251,7 @@ function renderOrderStatusPieChart(data) {
     const labels = Object.keys(data);
     const counts = Object.values(data);
 
-    
+
 
 
     const chart = echarts.init(document.getElementById('orderStatusChart'));
@@ -366,7 +269,7 @@ function renderOrderStatusPieChart(data) {
         },
         legend: {
             orient: 'vertical',
-    left: 'left'
+            left: 'left'
 
         },
         series: [
@@ -414,8 +317,17 @@ function renderOrderStatusPieChart(data) {
 
 function addTableRow(table, order, serialNumber) {
     const orderDate = new Date(order.createdAt);
+    const formattedDate = orderDate.toLocaleDateString('en-US', {
+        
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric'
+    });
+
+    const deadlineDate = new Date(orderDate);
+    deadlineDate.setDate(orderDate.getDate() + 10);
     const currentDate = new Date();
-    const timeDifference = currentDate.getTime() - orderDate.getTime();
+    const timeDifference = deadlineDate.getTime() - orderDate.getTime();
     const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
 
     // Create table row with case number
@@ -428,10 +340,13 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.product_name}</td>
         <td class="font-semibold text-md" >${order.price}</td>
         <td class="font-semibold text-md" >${order.quantity}</td>
+        <td class="font-semibold text-md" >${formattedDate}</td>
         <td class="font-semibold text-md" >${daysDifference}</td>
         <td class="font-semibold text-md" >${order.firm_name}</td>
         <td class="font-semibold text-md" >${order.customer_name}</td>
+        <td class="font-semibold text-md" >${order.customer_phone_no}</td>
         <td class="font-semibold text-md" >${order.sales_person}</td>
+        <td class="font-semibold text-md" >${order.sales_person_id}</td>
         <td class="font-semibold text-md" >${order.order_status}</td>
         <td class="font-semibold text-md" >${order.priority}</td>
         <td class="font-semibold text-md" >${order.payment_status}</td>
@@ -453,8 +368,17 @@ function openNewOrderForm() {
         <label for="poNo">PO No.:</label>
         <input type="text" id="poNo" name="poNo" required>
 
+        
+
         <label for="productName">Product Name:</label>
-        <input type="text" id="productName" name="productName" required>
+        <select id="productName" name="productName">
+        <option value="Piezometer">Piezometer</option>
+        <option value="CEMS">CEMS</option>
+        <option value="AQMS">AQMS</option>
+        <option value="Flow Meter">Flow Meter</option>
+        <option value="Water Analyzer">Water Analyzer</option>
+        <option value="Multi Gas Analyzer">Multi Gas Analyzer</option>
+        </select>
 
         <label for="price">Price:</label>
         <input type="text" id="price" name="price" required>
@@ -468,8 +392,14 @@ function openNewOrderForm() {
         <label for="customerName">Customer Name:</label>
         <input type="text" id="customerName" name="customerName" required>
 
+        <label for="customerPhoneNo">Customer Phone No:</label>
+        <input type="text" id="customerPhoneNo" name="customerPhoneNo" required>
+
         <label for="salesPerson">Sales Person:</label>
         <input type="text" id="salesPerson" name="salesPerson" required>
+        
+        <label for="salesPersonId">Sales Person Id:</label>
+        <input type="text" id="salesPersonId" name="salesPersonId" required>
 
         <label for="orderStatus">Order Status:</label>
         <select id="orderStatus" name="orderStatus">
@@ -516,7 +446,9 @@ function submitNewOrder() {
     const quantity = document.getElementById('quantity').value;
     const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
+    const customerPhoneNo = document.getElementById('customerPhoneNo').value;
     const salesPerson = document.getElementById('salesPerson').value;
+    const salesPersonId = document.getElementById('salesPersonId').value;
     const orderStatus = document.getElementById('orderStatus').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
 
@@ -548,7 +480,9 @@ function submitNewOrder() {
                 quantity: quantity,
                 firm_name: firmName,
                 customer_name: customerName,
+                customer_phone_no: customerPhoneNo,
                 sales_person: salesPerson,
+                sales_person_id: salesPersonId,
                 order_status: orderStatus,
                 payment_status: paymentStatus,
                 priority: priority // Set priority
@@ -612,7 +546,9 @@ function editOrder(orderId) {
                         quantity: '',
                         firm_name: '',
                         customer_name: '',
+                        customer_phone_no: '',
                         sales_person: '',
+                        sales_person_id: '',
                         order_status: '',
                         priority: '',
                         payment_status: ''
@@ -634,8 +570,17 @@ function editOrder(orderId) {
                 <label for="poNo">PO No:</label>
                 <input type="text" id="poNo" name="poNo" value="${order.po_no}" required>
 
+                
+
                 <label for="productName">Product Name:</label>
-                <input type="text" id="productName" name="productName" value="${order.product_name}" required>
+                <select id="productName" name="productName">
+                    <option value="Piezometer" ${order.product_name === 'Piezometer' ? 'selected' : ''}>Piezometer</option>
+                    <option value="CEMS" ${order.product_name === 'CEMS' ? 'selected' : ''}>CEMS</option>
+                    <option value="AQMS" ${order.product_name === 'AQMS' ? 'selected' : ''}>AQMS</option>
+                    <option value="Flow Meter" ${order.product_name === 'Flow Meter' ? 'selected' : ''}>Flow Meter</option>
+                    <option value="Water Analyzer" ${order.product_name === 'Water Analyzer' ? 'selected' : ''}>Water Analyzer</option>
+                    <option value="Multi Gas Analyzer" ${order.product_name === 'Multi Gas Analyzer' ? 'selected' : ''}>Multi Gas Analyzer</option>
+                </select>
 
                 <label for="price">Price:</label>
                 <input type="text" id="price" name="price" value="${order.price}" required>
@@ -649,8 +594,14 @@ function editOrder(orderId) {
                 <label for="customerName">Customer Name:</label>
                 <input type="text" id="customerName" name="customerName" value="${order.customer_name}" required>
 
+                <label for="customerPhoneNo">Customer Phone No.:</label>
+                <input type="text" id="customerPhoneNo" name="customerPhoneNo" value="${order.customer_phone_no}" required>
+
                 <label for="salesPerson">Sales Person:</label>
                 <input type="text" id="salesPerson" name="salesPerson" value="${order.sales_person}" required>
+
+                <label for="salesPersonId">Sales Person Id:</label>
+                <input type="text" id="salesPersonId" name="salesPersonId" value="${order.sales_person_id}" required>
 
                 <label for="orderStatus">Order Status:</label>
                 <select id="orderStatus" name="orderStatus">
@@ -688,7 +639,9 @@ function submitUpdatedOrder(orderId) {
     const quantity = document.getElementById('quantity').value;
     const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
+    const customerPhoneNo = document.getElementById('customerPhoneNo').value;
     const salesPerson = document.getElementById('salesPerson').value;
+    const salesPersonId = document.getElementById('salesPersonId').value;
     const orderStatus = document.getElementById('orderStatus').value;
     const priority = document.getElementById('priority').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
@@ -701,7 +654,9 @@ function submitUpdatedOrder(orderId) {
         quantity: quantity,
         firm_name: firmName,
         customer_name: customerName,
+        customer_phone_no: customerPhoneNo,
         sales_person: salesPerson,
+        sales_person_id: salesPersonId,
         order_status: orderStatus,
         priority: priority,
         payment_status: paymentStatus
@@ -735,14 +690,13 @@ function submitUpdatedOrder(orderId) {
 
 // Function to delete an existing order
 function deleteOrder(orderId) {
-
-    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+    const token = localStorage.getItem('token');
 
     if (!token) {
         console.error('JWT token not found.');
-        // Handle the case where the token is not found (e.g., redirect to login page)
         return;
     }
+
     fetch(`/api/v1/orders/${orderId}`, {
         method: 'DELETE',
         headers: {
@@ -750,15 +704,19 @@ function deleteOrder(orderId) {
             'Content-Type': 'application/json'
         }
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Order deleted:', data.order);
-            // Optionally, you can update the UI to remove the deleted order
-            goToAllOrders(); // Refresh the orders table after deletion
-
-        })
-        .catch(error => console.error('Error deleting order:', error));
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to delete order');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Order deleted:', data.order);
+        goToAllOrders(); // Refresh the orders table after deletion
+    })
+    .catch(error => console.error('Error deleting order:', error));
 }
+
 // JavaScript for handling navigation
 
 function goToHomepage() {
@@ -772,4 +730,187 @@ function goToAllOrders() {
 function goToNewOrderForm() {
     window.location.href = 'newOrderForm.html';
 }
+
+
+  
+
+  
+//Fetch monthly order stats
+// function fetchOrderStatisticsMonthly() {
+//     const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+
+//     if (!token) {
+//         console.error('JWT token not found.');
+//         // Handle the case where the token is not found (e.g., redirect to login page)
+//         return;
+//     }
+
+//     // Construct URL for fetching order statistics
+//     const url = `/api/v1/orders/chart/stats/monthly`;
+
+//     // Send HTTP request to server-side endpoint
+//     fetch(url, {
+//         method: 'GET',
+//         headers: {
+//             'Authorization': `Bearer ${token}`
+//         }
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log('Received order statistics:', data);
+//             // Render chart using received data
+//             renderOrderStatisticsChart(data.monthlyData);
+//         })
+//         .catch(error => {
+//             console.error('Error fetching order statistics:', error);
+//             // You can display an error message to the user or handle the error as needed
+//         });
+// }
+
+
+// function renderOrderStatisticsChart(monthlyData) {
+//     // Initialize ECharts instance
+//     const chart = echarts.init(document.getElementById('orderStatisticsChart'));
+
+//     // Extract month labels and received counts from the received data
+//     const months = monthlyData.map(data => `${data.month}`);
+//     const receivedCounts = monthlyData.map(data => data.receivedCount);
+//     const shippedCounts = monthlyData.map(data => data.shippedCount);
+//     // Define chart options
+//     const options = {
+//         title: {
+//             text: 'Monthly Order Statistics'
+//         },
+//         tooltip: {
+//             trigger: 'axis'
+//         },
+//         legend: {
+//             data: ['Orders Received', 'Orders Shipped'],
+            
+//         },
+//         xAxis: {
+//             type: 'category',
+//             data: months
+//         },
+//         yAxis: {
+//             type: 'value'
+//         },
+//         series: [
+//             {
+//                 name: 'Orders Received',
+//                 type: 'bar',
+//                 data: receivedCounts
+//             },
+//             {
+//                 name: 'Orders Shipped',
+//                 type: 'bar',
+//                 data: shippedCounts
+//             }
+//         ]
+//     };
+
+//     // Set chart options and render the chart
+//     chart.setOption(options);
+// }
+
+// fetchOrderStatisticsMonthly()
+
+
+
+// // Fetch daily order statistics
+function fetchOrderStatistics() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('JWT token not found.');
+        return;
+    }
+
+    // Construct URL for fetching daily order statistics
+    const url = `/api/v1/orders/chart/stats`;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Received order statistics:', data);
+        // Render chart using received data
+        renderOrderStatisticsChart(data.orderStats);
+    })
+    .catch(error => {
+        console.error('Error fetching order statistics:', error);
+    });
+}
+
+// // Adjust chart rendering logic for daily data
+function renderOrderStatisticsChart(orderStats) {
+    // Extract dates and counts from the received data
+    const dates = orderStats.map(data => data.date);
+    const receivedCounts = orderStats.map(data => data.receivedCount);
+    const shippedCounts = orderStats.map(data => data.shippedCount);
+
+    // Initialize ECharts instance
+    const chart = echarts.init(document.getElementById('orderStatisticsChart'));
+
+    // Define chart options
+    const options = {
+        title: {
+            text: 'Daily Order Statistics'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['Orders Received', 'Orders Shipped']
+        },
+        xAxis: {
+            type: 'category',
+            data: dates,
+            axisLabel: {
+                formatter: function (value) {
+                    // Format the date using JavaScript's Date object
+                    const date = new Date(value);
+                    // Return the formatted date (e.g., 'Mar 01')
+                    return `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}`;
+                }
+            }
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name: 'Orders Received',
+                type: 'bar',
+                data: receivedCounts
+            },
+            {
+                name: 'Orders Shipped',
+                type: 'bar',
+                data: shippedCounts
+            }
+        ]
+    };
+
+    // Set chart options and render the chart
+    chart.setOption(options);
+}
+
+// // Fetch daily order statistics when the page loads
+fetchOrderStatistics();
+
+// function switchChart() {
+//     const selectedChart = document.getElementById("chartType").value;
+//     if (selectedChart === "daily") {
+//         fetchOrderStatistics();
+//     } else if (selectedChart === "monthly") {
+//         fetchOrderStatisticsMonthly();
+//     }
+// }
+// fetchOrderStatisticsMonthly();
+
+
 

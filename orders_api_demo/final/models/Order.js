@@ -12,11 +12,8 @@ const Order = sequelize.define('Order', {
         allowNull: false,
     },
     product_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            len: [1, 50], // Max length validation
-        },
+        type: DataTypes.ENUM('Piezometer', 'CEMS', 'AQMS', 'Flow Meter', 'Water Analyzer', 'Multi Gas Analyzer'),
+        defaultValue: 'Piezometer',
     },
     price: {
         type: DataTypes.STRING,
@@ -43,7 +40,15 @@ const Order = sequelize.define('Order', {
             len: [1, 50], // Max length validation
         },
     },
+    customer_phone_no:{
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     sales_person: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    sales_person_id: {
         type: DataTypes.STRING,
         allowNull: false,
     },

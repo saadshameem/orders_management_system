@@ -2,7 +2,10 @@ const express = require('express');
 const app = express();
 const mysql2 = require('mysql2')
 const port = 5000;
+const moment = require('moment-timezone');
 
+// Set the default time zone for your application
+moment.tz.setDefault('Asia/Kolkata');
 
 const cors = require('cors')
 const xss = require('xss-clean')

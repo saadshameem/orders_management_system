@@ -5,7 +5,9 @@ const {Op}  = require('sequelize')
 
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.findAll();
+    const orders = await Order.findAll({
+      order:[['priority', 'ASC']]
+    })
     res.status(200).json({ orders });
   } catch (error) {
     console.error('Error fetching orders:', error);
@@ -63,7 +65,7 @@ exports.deleteOrder = async (req, res) => {
       return res.status(404).json({ error: `Order with id ${id} not found` });
     }
     await order.destroy();
-    res.status(204).end();
+    res.status(200).json({ message: `Order with id ${id} deleted successfully` });
   } catch (error) {
     console.error('Error deleting order:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -161,5 +163,92 @@ exports.filteredOrders = async (req, res) => {
   } catch (error) {
       console.error('Error filtering orders:', error);
       res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+// Controller code to fetch monthly order statistics
+exports.getOrderStatisticsMonthly = async (req, res) => {
+  try {
+    // Get the start and end dates for the current year
+    const startDate = new Date(new Date().getFullYear(), 0, 1); // Start of the current year
+    const endDate = new Date(new Date().getFullYear() + 1, 0, 1); // Start of the next year
+
+    // Aggregate order statistics for each month of the year
+    const orderStats = await Order.findAll({
+      attributes: [
+        [sequelize.literal('MONTH(createdAt)'), 'month'],
+        [sequelize.literal('SUM(CASE WHEN order_status = "shipped" THEN 1 ELSE 0 END)'), 'shippedCount'],
+        [sequelize.literal('COUNT(*)'), 'receivedCount']
+      ],
+      where: {
+        createdAt: {
+          [Op.between]: [startDate, endDate]
+        }
+      },
+      group: sequelize.literal('MONTH(createdAt)'),
+      raw: true
+    });
+
+    // Create an array of objects representing each month with received and shipped counts
+    const monthlyData = [];
+    for (let i = 1; i <= 12; i++) {
+      const monthData = orderStats.find(stat => parseInt(stat.month) === i) || { month: i, receivedCount: 0, shippedCount: 0 };
+      monthlyData.push(monthData);
+    }
+
+    res.status(200).json({ monthlyData });
+  } catch (error) {
+    console.error('Error fetching order statistics:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+// Controller code to fetch daily order statistics
+exports.getOrderStatisticsDaily = async (req, res) => {
+  try {
+    // Calculate start and end dates for the past 7 days
+    const endDate = new Date();
+    const startDate = new Date(endDate);
+    startDate.setDate(startDate.getDate() - 6); // Start date is 7 days ago
+
+    // Create an array of all dates for the past 7 days
+    const dateArray = [];
+    for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+      dateArray.push(new Date(date));
+    }
+
+    // Aggregate order statistics for each day of the past week
+    const orderStats = await Order.findAll({
+      attributes: [
+        [sequelize.literal('DATE(createdAt)'), 'date'],
+        [sequelize.literal('SUM(CASE WHEN order_status = "shipped" THEN 1 ELSE 0 END)'), 'shippedCount'],
+        [sequelize.literal('COUNT(*)'), 'receivedCount']
+      ],
+      where: {
+        createdAt: {
+          [Op.between]: [startDate, endDate]
+        }
+      },
+      group: sequelize.literal('DATE(createdAt)'),
+      raw: true
+    });
+
+    // Ensure that the response contains data for all dates of the past 7 days
+    const formattedData = dateArray.map(date => {
+      const matchingData = orderStats.find(stat => new Date(stat.date).toDateString() === date.toDateString());
+      return {
+        date: date.toDateString(),
+        receivedCount: matchingData ? matchingData.receivedCount : 0,
+        shippedCount: matchingData ? matchingData.shippedCount : 0
+      };
+    });
+
+    res.status(200).json({ orderStats: formattedData });
+  } catch (error) {
+    console.error('Error fetching order statistics:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };

@@ -1,14 +1,14 @@
 const { DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const sequelize = require('../db/connect'); // Import Sequelize instance
+const sequelize = require('../db/connect'); 
 
 const User = sequelize.define('User', {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            len: [3, 50], // Min and max length validation
+            len: [3, 50], 
         },
     },
     email: {
@@ -16,7 +16,7 @@ const User = sequelize.define('User', {
         allowNull: false,
         unique: true,
         validate: {
-            isEmail: true, // Email format validation
+            isEmail: true, 
         },
     },
     password: {

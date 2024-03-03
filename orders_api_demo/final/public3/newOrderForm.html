@@ -68,7 +68,7 @@
 
     <aside class="fixed  z-40 w-96 h-screen pt-10 bg-gray-800 text-white  p-8  overflow-auto">
 
-        <div class="text-2xl font-semibold mb-12">Dashboard</div>
+        <div id="userInfo" class="text-2xl font-semibold mb-12"></div>
 
 
 
@@ -140,10 +140,22 @@
                                 required>
                         </div>
 
-                        <div class="form-group right">
+                        <!-- <div class="form-group right">
                             <label for="productName" class="label-title">Product Name:</label>
                             <input type="text" id="productName" name="productName" class="form-input"
                                 placeholder="Enter product name" required>
+                        </div> -->
+
+                        <div class="form-group right">
+                            <label for="productName" class="label-title">Product Name:</label>
+                            <select id="productName" name="productName" class="form-input">
+                                <option value="Piezometer">Piezometer</option>
+                                <option value="CEMS">CEMS</option>
+                                <option value="AQMS">AQMS</option>
+                                <option value="Flow Meter">Flow Meter</option>
+                                <option value="Water Analyzer">Water Analyzer</option>
+                                <option value="Multi Gas Analyzer">Multi Gas Analyzer</option>
+                            </select>
                         </div>
 
                         <div class="form-group left">
@@ -172,9 +184,21 @@
                         </div>
 
                         <div class="form-group left">
+                            <label for="customerPhoneNo" class="label-title">Customer Phone No.:</label>
+                            <input type="text" id="customerPhoneNo" name="customerPhoneNo" class="form-input"
+                                placeholder="Enter customer's phone no. " required>
+                        </div>
+
+                        <div class="form-group right">
                             <label for="salesPerson" class="label-title">Sales Person:</label>
                             <input type="text" id="salesPerson" name="salesPerson" class="form-input"
-                                placeholder="Enter sales person's " required>
+                                placeholder="Enter sales person's name" required>
+                        </div>
+
+                        <div class="form-group left">
+                            <label for="salesPersonId" class="label-title">Sales Person Id:</label>
+                            <input type="text" id="salesPersonId" name="salesPersonId" class="form-input"
+                                placeholder="Enter sales person's Id " required>
                         </div>
 
 
@@ -225,6 +249,31 @@
                     }
 
                 });
+
+
+                function displayUserInfo() {
+                        // Retrieve user's name from local storage
+                        const name = localStorage.getItem('name');
+
+                        // Display user's name in userInfo element
+                        const userInfoElement = document.getElementById('userInfo');
+                        if (name) {
+                            userInfoElement.innerHTML = `
+            <i class="fas fa-user fa-lg mr-2"></i>
+            <span class="text-lg font-semibold">Welcome, ${name}</span>
+        `;
+                        } else {
+                            userInfoElement.innerHTML = `
+            <i class="fas fa-user mr-2"></i>
+            <span class="text-lg font-semibold">Welcome</span>
+        `;
+                        }
+                    }
+
+                    // Call the displayUserInfo function when the login page loads
+                    displayUserInfo();
+
+
             </script>
         </div>
 
