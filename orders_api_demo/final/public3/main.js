@@ -43,7 +43,7 @@ function getAllOrders() {
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Order Date</th>
-                    <th>Days to Deadline</th>
+                    <th>Deadline Date</th>
                     <th>Client's Firm Name</th>
                     <th>Client's Name</th>
                     <th>Client's Phone No.</th>
@@ -136,7 +136,7 @@ function fetchOrdersByStatus(status) {
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Order Date</th>
-                    <th>Days to Deadline</th>
+                    <th>Deadline Date</th>
                         <th>Client's Firm Name</th>
                     <th>Client's Name</th>
                     <th>Client's Phone No.</th>
@@ -318,21 +318,25 @@ function renderOrderStatusPieChart(data) {
 function addTableRow(table, order, serialNumber) {
     const orderDate = new Date(order.createdAt);
     const formattedDate = orderDate.toLocaleDateString('en-US', {
-        
         month: 'short',
         day: '2-digit',
         year: 'numeric'
     });
 
-    const deadlineDate = new Date(orderDate);
-    deadlineDate.setDate(orderDate.getDate() + 10);
+    const deadlineDate = new Date(order.deadline_date); // Assuming deadline_date is the field containing the deadline date
     const currentDate = new Date();
-    const timeDifference = deadlineDate.getTime() - orderDate.getTime();
+    const timeDifference = deadlineDate.getTime() - currentDate.getTime();
     const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
 
     // Create table row with case number
-
     const row = table.insertRow();
+
+    // Check if the deadline date has passed
+    if (deadlineDate < currentDate) {
+        // Apply red background color to the row
+        row.style.backgroundColor = 'red';
+    }
+
     row.innerHTML = `
         <td class="font-semibold text-md" >${serialNumber}</td>
         <td class="font-semibold text-md" >${order.case_no}</td>
@@ -341,7 +345,7 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.price}</td>
         <td class="font-semibold text-md" >${order.quantity}</td>
         <td class="font-semibold text-md" >${formattedDate}</td>
-        <td class="font-semibold text-md" >${daysDifference}</td>
+        <td class="font-semibold text-md" >${order.deadline_date}</td>
         <td class="font-semibold text-md" >${order.firm_name}</td>
         <td class="font-semibold text-md" >${order.customer_name}</td>
         <td class="font-semibold text-md" >${order.customer_phone_no}</td>
@@ -356,6 +360,7 @@ function addTableRow(table, order, serialNumber) {
         </td>
     `;
 }
+
 
 // Function to open a form for creating a new order
 function openNewOrderForm() {
@@ -385,6 +390,9 @@ function openNewOrderForm() {
 
         <label for="quantity">Quantity:</label>
         <input type="text" id="quantity" name="quantity" required>
+
+        <label for="date">Days to Deadline:</label>
+        <input type="date" id="date" name="date" required>
 
         <label for="firmName">Firm Name:</label>
         <input type="text" id="firmName" name="firmName" required>
@@ -444,6 +452,7 @@ function submitNewOrder() {
     const productName = document.getElementById('productName').value;
     const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
+    const date = document.getElementById('date').value;
     const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
@@ -478,6 +487,7 @@ function submitNewOrder() {
                 product_name: productName,
                 price: price,
                 quantity: quantity,
+                deadline_date: date,
                 firm_name: firmName,
                 customer_name: customerName,
                 customer_phone_no: customerPhoneNo,
@@ -544,6 +554,7 @@ function editOrder(orderId) {
                         product_name: '',
                         price: '',
                         quantity: '',
+                        deadline_date: '',
                         firm_name: '',
                         customer_name: '',
                         customer_phone_no: '',
@@ -587,6 +598,9 @@ function editOrder(orderId) {
 
                 <label for="quantity">Quantity:</label>
                 <input type="text" id="quantity" name="quantity" value="${order.quantity}" required>
+
+                <label for="date">Days to Deadline:</label>
+                <input type="date" id="date" name="date" value="${order.deadline_date}" required>
 
                 <label for="firmName">Firm Name:</label>
                 <input type="text" id="firmName" name="firmName" value="${order.firm_name}" required>
@@ -637,6 +651,7 @@ function submitUpdatedOrder(orderId) {
     const productName = document.getElementById('productName').value;
     const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
+    const date = document.getElementById('date').value;
     const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
@@ -652,6 +667,7 @@ function submitUpdatedOrder(orderId) {
         product_name: productName,
         price: price,
         quantity: quantity,
+        deadline_date: date,
         firm_name: firmName,
         customer_name: customerName,
         customer_phone_no: customerPhoneNo,

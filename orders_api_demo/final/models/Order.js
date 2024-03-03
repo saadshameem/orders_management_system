@@ -63,6 +63,21 @@ const Order = sequelize.define('Order', {
             len: [1, 50], // Max length validation
         },
     },
+    deadline_date: {
+        type: DataTypes.DATEONLY, // Use DATEONLY to store only the date without time
+        allowNull: true, // Adjust as needed based on your requirements
+        get() {
+            const rawValue = this.getDataValue('deadline_date');
+            // Check if the date is not null
+            if (rawValue) {
+                // Format the date to the desired format (e.g., 'Mar 03, 2024')
+                return rawValue.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+            } else {
+                return null;
+            }
+        }
+    },
+
     priority: {
         type: DataTypes.INTEGER,
     },

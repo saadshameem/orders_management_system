@@ -221,6 +221,16 @@
                             <input type="text" id="paymentStatus" name="paymentStatus" class="form-input"
                                 placeholder="Enter payment status " required>
                         </div>
+
+                        <div class="form-group right">
+                            <label for="date" class="label-title">Days to Deadline:</label>
+                            <input type="date" id="date" name="date" class="form-input"
+                                placeholder="Enter payment status " required>
+                        </div>
+
+
+
+                       
                     </div>
                 </div>
 
@@ -252,26 +262,26 @@
 
 
                 function displayUserInfo() {
-                        // Retrieve user's name from local storage
-                        const name = localStorage.getItem('name');
+                    // Retrieve user's name from local storage
+                    const name = localStorage.getItem('name');
 
-                        // Display user's name in userInfo element
-                        const userInfoElement = document.getElementById('userInfo');
-                        if (name) {
-                            userInfoElement.innerHTML = `
+                    // Display user's name in userInfo element
+                    const userInfoElement = document.getElementById('userInfo');
+                    if (name) {
+                        userInfoElement.innerHTML = `
             <i class="fas fa-user fa-lg mr-2"></i>
             <span class="text-lg font-semibold">Welcome, ${name}</span>
         `;
-                        } else {
-                            userInfoElement.innerHTML = `
+                    } else {
+                        userInfoElement.innerHTML = `
             <i class="fas fa-user mr-2"></i>
             <span class="text-lg font-semibold">Welcome</span>
         `;
-                        }
                     }
+                }
 
-                    // Call the displayUserInfo function when the login page loads
-                    displayUserInfo();
+                // Call the displayUserInfo function when the login page loads
+                displayUserInfo();
 
 
             </script>

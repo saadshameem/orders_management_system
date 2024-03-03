@@ -161,7 +161,7 @@ button:hover {
     
   }
 
-   tr:nth-child(even){
+   /* tr:nth-child(even){
     background-color: #f2f2f2;
 
   }
@@ -172,7 +172,7 @@ button:hover {
    tr:hover{
     background-color: #ddd;
 
-  }
+  } */
    th {
     /* margin-top: 5px; */
     padding-top: 15px;
@@ -189,7 +189,7 @@ button:hover {
   }
 
   .table-container td {
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     color: rgb(0, 0, 0);
     text-align: center;
     
