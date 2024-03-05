@@ -1,12 +1,12 @@
 const Order = require('../models/Order'); // Assuming your model file is named 'Order'
 const sequelize = require('../db/connect'); // Import Sequelize instance
-const {Op}  = require('sequelize')
+const { Op } = require('sequelize')
 
 
 exports.getAllOrders = async (req, res) => {
   try {
     const orders = await Order.findAll({
-      order:[['priority', 'ASC']]
+      order: [['priority', 'ASC']]
     })
     res.status(200).json({ orders });
   } catch (error) {
@@ -97,15 +97,15 @@ exports.filterProductsByFirm = async (req, res) => {
 
 exports.fetchOrdersByStatus = async (req, res) => {
   const { params: { status } } = req;
-  
+
   // Query the database to find orders with the specified status
   const orders = await Order.findAll({ where: { order_status: status } });
-  
+
   // Check if any orders were found
   if (!orders || orders.length === 0) {
     return res.status(404).json({ error: `No orders found with status: ${status}` });
   }
-  
+
   // Return the found orders
   res.status(200).json({ orders, count: orders.length });
 };
@@ -156,32 +156,32 @@ exports.filteredOrders = async (req, res) => {
   const { attribute, search } = req.query;
 
   try {
-      let filteredOrders;
+    let filteredOrders;
 
-      switch (attribute) {
-          case 'case_no':
-          case 'product_name':
-          case 'firm_name':
-          case 'sales_person':
-              filteredOrders = await Order.findAll({
-                  where: {
-                      [attribute]: {
-                          [Op.like]: `%${search}%`
-                      }
-                  }
-              });
-              break;
-          default:
-              return res.status(400).json({ error: 'Invalid filter attribute' });
-      }
-      if (filteredOrders.length === 0) {
-        return res.status(404).json({ message: 'No orders found with this attribute and search term' });
-      }
+    switch (attribute) {
+      case 'case_no':
+      case 'product_name':
+      case 'firm_name':
+      case 'sales_person':
+        filteredOrders = await Order.findAll({
+          where: {
+            [attribute]: {
+              [Op.like]: `%${search}%`
+            }
+          }
+        });
+        break;
+      default:
+        return res.status(400).json({ error: 'Invalid filter attribute' });
+    }
+    if (filteredOrders.length === 0) {
+      return res.status(404).json({ message: 'No orders found with this attribute and search term' });
+    }
 
-      res.status(200).json({ orders: filteredOrders });
+    res.status(200).json({ orders: filteredOrders });
   } catch (error) {
-      console.error('Error filtering orders:', error);
-      res.status(500).json({ error: 'Internal server error' });
+    console.error('Error filtering orders:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 

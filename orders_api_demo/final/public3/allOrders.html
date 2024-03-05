@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>All Orders</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous">
 
-    <!-- <link href="css/output3.css" rel="stylesheet"> -->
+    <link href="css/output3.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
     <style>
@@ -21,7 +21,7 @@
         }
 
         .table {
-            width: auto;
+            width: max-content;
             table-layout: fixed;
         }
     </style>
@@ -69,7 +69,7 @@
         </ul>
     </aside>
 
-    <div class="flex flex-col mb-2 p-8 ml-96   ">
+    <div class="flex flex-col mb-2 p-8 ml-96  bg-gray-100 ">
         <ul
             class=" hidden text-md font-bold text-center text-gray-900 rounded-lg  sm:flex dark:divide-gray-700 dark:text-gray-400 space-x-1">
             <li class="flex-grow flex items-center">
@@ -147,7 +147,7 @@
                 <option value="sales_person">Sales Person</option>
             </select>
             <input type="text" id="searchTerm" placeholder="Enter search term">
-            <button id="applyFilterBtn" type="submit">Apply Filter</button>
+            <button id="applyFilterBtn"  type="submit">Apply Filter</button>
         </div>
 
         <div class="left-0">

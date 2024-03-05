@@ -208,8 +208,8 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.priority}</td>
         <td class="font-semibold text-md" >${order.payment_status}</td>
         <td class="">
-            <button id="edit" onclick="editOrder('${order.id}')">Edit</button>
-            <button id="delete" onclick="deleteOrder('${order.id}')">Delete</button>
+            <button class="btn btn-outline btn-info" onclick="editOrder('${order.id}')">Edit</button>
+            <button class="btn btn-outline btn-warning" onclick="deleteOrder('${order.id}')">Delete</button>
         </td>
     `;
 }
