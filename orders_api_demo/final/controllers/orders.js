@@ -131,6 +131,25 @@ exports.piechart = async (req, res) => {
   }
 };
 
+exports.productPiechart = async (req, res) => {
+  try {
+    const productNameStats = await Order.findAll({
+      attributes: ['product_name', [sequelize.fn('COUNT', sequelize.col('*')), 'count']],
+      group: ['product_name']
+    });
+
+    const summaryData = {};
+    productNameStats.forEach(item => {
+      summaryData[item.product_name] = item.get('count');
+    });
+
+    res.json(summaryData);
+  } catch (error) {
+    console.error('Error fetching pie chart data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 
 exports.filteredOrders = async (req, res) => {
@@ -212,7 +231,7 @@ exports.getOrderStatisticsDaily = async (req, res) => {
     // Calculate start and end dates for the past 7 days
     const endDate = new Date();
     const startDate = new Date(endDate);
-    startDate.setDate(startDate.getDate() - 6); // Start date is 7 days ago
+    startDate.setDate(startDate.getDate() - 14); // Start date is 7 days ago
 
     // Create an array of all dates for the past 7 days
     const dateArray = [];

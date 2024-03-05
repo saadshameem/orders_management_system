@@ -1,22 +1,4 @@
-// const express = require('express')
-// const router = express.Router()
-// const pool = require('../db/connect')
 
-
-// const { register, login, logout } = require('../controllers/auth')
-
-// // router.post('/register',authorizeAdmin, register)
-// // router.post('/login', login)
-// // router.post('/logout', logout)
-
-// router.route('/register').post(authenticateUser, authorizeAdmin, register)
-// router.route('/login').post(login)
-// router.route('/logout').post(logout)
-
-
-
-
-// module.exports = router
 
 
 
@@ -32,4 +14,8 @@ router.post('/register',authenticateToken, authAdmin, auth.register);
 router.post('/login', auth.login);
 router.post('/logout', auth.logout);
 
+// router.get('/admin-home', authenticateToken, authAdmin, auth.adminHomePage);
+// router.get('/user-home', authenticateToken, authUser, auth.userHomePage);
+
 module.exports = router;
+

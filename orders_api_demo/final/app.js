@@ -7,8 +7,8 @@ const moment = require('moment-timezone');
 // Set the default time zone for your application
 moment.tz.setDefault('Asia/Kolkata');
 
-const cors = require('cors')
-const xss = require('xss-clean')
+// const cors = require('cors')
+// const xss = require('xss-clean')
 
 const ordersRoute = require('./routes/orders');
 const authRoute = require('./routes/auth');

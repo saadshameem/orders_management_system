@@ -10,3 +10,4 @@ const isUser = (req, res, next) =>{
 };
 
 module.exports = isUser
+
