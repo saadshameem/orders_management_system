@@ -163,7 +163,7 @@ function productNamePiechart() {
             console.log('Received order status summary data:', data);
 
 
-            renderProductNamePieChart(data);
+            renderProductNameBarChart(data);
 
 
         })
@@ -172,7 +172,111 @@ function productNamePiechart() {
         });
 }
 
-function renderProductNamePieChart(data) {
+function renderProductNameBarChart(data) {
+    // Check if data is empty or not an object
+    if (!data || typeof data !== 'object') {
+        console.error('Invalid data received for order status summary.');
+        return;
+    }
+
+    // Extract status labels and counts from the received data object
+    const labels = Object.keys(data);
+    const counts = Object.values(data);
+
+    const chart = echarts.init(document.getElementById('productNameChart'));
+    const options = {
+        title: {
+            text: 'Distribution of Orders by Product Name',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        xAxis: {
+            type: 'category',
+            data: labels,
+            axisLabel: {
+                interval: 0, // Display all labels without skipping
+                rotate: 25
+            }
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: counts,
+            type: 'bar'
+        }]
+    };
+
+    // Set the chart options and render the chart
+    chart.setOption(options);
+}
+
+
+// function salesPiechart() {
+//     const token = localStorage.getItem('token');
+//     if (!token) {
+//         console.error('JWT token not found.');
+//         return;
+//     }
+
+//     fetch('/api/v1/orders/piechart/sales', {
+//         headers: {
+//             'Authorization': `Bearer ${token}`
+//         }
+//     })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             console.log('Received order status summary data:', data);
+
+
+//             renderSalesPieChart(data);
+
+
+//         })
+//         .catch(error => {
+//             console.error('Error fetching order status summary data:', error);
+//         });
+// }
+
+function salesPiechart(year, month) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('JWT token not found.');
+        return;
+    }
+
+    fetch(`/api/v1/orders/piechart/sales?year=${year}&month=${month}`, {  // Pass year and month as query parameters
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Received order status summary data:', data);
+            renderSalesPieChart(data);
+        })
+        .catch(error => {
+            console.error('Error fetching order status summary data:', error);
+        });
+}
+
+
+function renderSalesPieChart(data) {
     // Check if data is empty or not an object
     if (!data || typeof data !== 'object') {
         console.error('Invalid data received for order status summary.');
@@ -186,11 +290,11 @@ function renderProductNamePieChart(data) {
 
 
 
-    const chart = echarts.init(document.getElementById('productNameChart'));
+    const chart = echarts.init(document.getElementById('salesChart'));
     const options = {
         title: {
-            text: 'Distribution of Orders ',
-            subtext: 'Product Name',
+            text: 'Sales Distribution ',
+            subtext: 'Sales Persons Name',
             left: 'center',
             // top: '0%'
         },
@@ -206,7 +310,7 @@ function renderProductNamePieChart(data) {
         },
         series: [
             {
-                name: 'Product Name',
+                name: 'Sales Person Name',
                 type: 'pie',
                 radius: ['2%', '50%'],
                 center: ['50%', '50%'],

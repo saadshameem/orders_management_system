@@ -59,7 +59,9 @@ function renderOrderStatisticsChart(orderStats) {
                     const date = new Date(value);
                     // Return the formatted date (e.g., 'Mar 01')
                     return `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}`;
-                }
+                },
+                interval: 0, // Display all labels without skipping
+                rotate: 60
             }
         },
         yAxis: {

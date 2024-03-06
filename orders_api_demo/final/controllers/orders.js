@@ -150,6 +150,35 @@ exports.productPiechart = async (req, res) => {
   }
 };
 
+exports.salesPiechart = async (req, res) => {
+  try {
+    const { year, month } = req.query;
+    const salesStats = await Order.findAll({
+      attributes: ['sales_person', [sequelize.fn('SUM', sequelize.literal('CAST(SUBSTRING_INDEX(price, ".", -1) AS DECIMAL(10,2)) * quantity')), 'total_amount']],
+      where: {
+        createdAt: {
+            [Op.and]: [
+                sequelize.where(sequelize.fn('YEAR', sequelize.col('createdAt')), year), // Filter by year
+                sequelize.where(sequelize.fn('MONTH', sequelize.col('createdAt')), month) // Filter by month
+            ]
+        }
+    },
+      group: ['sales_person']
+    });
+
+    const summaryData = {};
+    salesStats.forEach(item => {
+      summaryData[item.sales_person] = item.get('total_amount');
+    });
+
+    res.json(summaryData);
+  } catch (error) {
+    console.error('Error fetching pie chart data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 
 
 exports.filteredOrders = async (req, res) => {

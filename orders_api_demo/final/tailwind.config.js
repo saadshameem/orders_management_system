@@ -5,8 +5,11 @@ module.exports = {
             "./public3/home.html",
             "./public3/allOrders.html",
             "./public3/newOrderForm.html",
-            "./public3/example.html", 
-            "./public3/main.js" 
+            "./public3/main.js",
+            "./public3/user-home.html",
+            "./public3/user-allOrders.html",
+            "./public3/displayOrdersUser.js",
+            
 ],
   theme: {
     extend: {},
@@ -38,7 +41,14 @@ module.exports = {
       'burgundyRed': '#7A2048',
       'terracottaRed': '#B85042',
       'lightBeige': '#E7E8D1', 
-      'mutedTeal': '#A7BEAE'
+      'mutedTeal': '#A7BEAE',
+      'seafoamGreen': '#C4DFE6',
+      'lightBlue': '#66A5AD',
+      'deepPeriwinkle': '#735DA5',
+      'softLilac': '#D3C5E5',
+      'forestGreen': '#2C5F2D',
+      'mossGreen': '#97BC62',
+      'pastelOliveGreen': '#A1BE95'
 
       
     },

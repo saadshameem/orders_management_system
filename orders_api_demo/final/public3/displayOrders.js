@@ -185,7 +185,7 @@ function addTableRow(table, order, serialNumber) {
     const row = table.insertRow();
 
     // Check if the deadline date has passed
-    if (deadlineDate < currentDate) {
+    if (deadlineDate < currentDate && order.order_status !== 'Shipped') {
         // Apply red background color to the row
         row.style.backgroundColor = 'red';
     }
