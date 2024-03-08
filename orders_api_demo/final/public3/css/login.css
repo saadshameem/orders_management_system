@@ -4,9 +4,9 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 
-body {
+/* body {
     background-image: url('bg2.jpg');
-} 
+}  */
 
 
 
@@ -182,7 +182,8 @@ body {
     font-family:Arial, Helvetica, sans-serif, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #5676a9;
+    /* background-color: #5676a9; */
+    background: linear-gradient(#efd788, #a7ace6);
     display:grid;
     align-items: center;
     justify-content: center;

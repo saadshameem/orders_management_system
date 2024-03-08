@@ -24,14 +24,7 @@
 </head>
 
 <body>
-    <!-- <h1>Login</h1> -->
-    <!-- <form id="loginForm">
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br><br>
-        <button type="submit">Login</button>
-    </form> -->
+    
 
     <form class="login-form" id="loginForm">
         <div class="form-header">
@@ -47,16 +40,25 @@
                 <label for="password" class="label-title">Password:</label><br>
                 <input type="password" id="password" class="form-input" placeholder="Enter your password" name="password"><br><br>
             </div>
-            
+            <!-- <div class="form-group otp-section" >
+                <label for="otp" class="label-title">OTP:</label><br>
+                <input type="text" id="otp" class="form-input" placeholder="Enter OTP" name="otp"><br><br>
+            </div> -->
         </div>
+
 
         <div class="form-footer">
             <button class="button-login" type="submit" >Login</button>
         </div>
-        <!-- <div class="signedup">
-            <span style="margin-left: 100px;">Don't have an account? <a style="color: blue;"
-                    href="register.html">Sign Up</a></span>
-        </div> -->
+
+        <div class="form-footer">
+            <!-- <button class="button-login" type="submit" onclick="loginWithEmailPassword()">Login with Email/Password</button> -->
+            <!-- <button class="button-login" type="button" onclick="requestOTP()">Request OTP</button> -->
+
+            <!-- <button class="button-login" type="submit" onclick="loginWithOTP()">Login with OTP</button> -->
+        </div>
+
+    
     </form>
 
 
@@ -70,7 +72,7 @@
                 const formData = new FormData(this);
                 const formDataJSON = Object.fromEntries(formData.entries());
 
-                // Send login data to backend
+                
                 fetch("/api/v1/auth/login", {
                     method: "POST",
                     headers: {
@@ -89,36 +91,76 @@
                         const name = data.user.name;
                         const role = data.user.role
 
-                        // Store the token and user's name in localStorage
                         localStorage.setItem('token', token);
                         localStorage.setItem('name', name);
                         localStorage.setItem('role', role);
-                        // Handle response from backend
                         console.log(data);
-                        // Redirect user or show message based on response
                         if (data.success) {
                         if (role === 'admin') {
-                            window.location.href = "home.html"; // Redirect to admin homepage
+                            window.location.href = "home.html"; 
                         } else if (role === 'user') {
-                            window.location.href = "user-home.html"; // Redirect to user homepage
+                            window.location.href = "user-home.html"; 
                         } else {
-                            // Handle invalid role
                             console.error('Invalid role:', role);
                         }
                     } else {
-                        // Handle login failure (e.g., display error message)
                         console.error(data.message);
                     }
                     })
                     .catch(error => {
                         console.error("Error:", error);
-                        // Handle error (e.g., display error message)
                         alert('Failed to login. Please try again.');
                     });
             });
 
 
         });
+
+
+        function loginWithOTP() {
+    const email = document.getElementById('email').value;
+    const otp = document.getElementById('otp').value;
+
+    // Send request to backend for OTP login
+    fetch("/api/v1/auth/login-otp", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, otp })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to login with OTP.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const token = data.token;
+        const name = data.user.name;
+        const role = data.user.role;
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('name', name);
+        localStorage.setItem('role', role);
+
+        if (data.success) {
+            if (role === 'admin') {
+                window.location.href = "home.html"; 
+            } else if (role === 'user') {
+                window.location.href = "user-home.html"; 
+            } else {
+                console.error('Invalid role:', role);
+            }
+        } else {
+            console.error(data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert('Failed to login with OTP. Please try again.');
+    });
+}
     </script>
 </body>
 

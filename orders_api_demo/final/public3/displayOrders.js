@@ -181,11 +181,24 @@ function addTableRow(table, order, serialNumber) {
     const timeDifference = deadlineDate.getTime() - currentDate.getTime();
     const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
 
+    const formattedDeadlineDate = deadlineDate.toLocaleDateString('en-US', {
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric'
+    });
+
+
+
+    // console.log('Order Deadline Date:', deadlineDate);
+    // console.log('Current Date:', currentDate);
+    // console.log('Order Status:', order.order_status);
+
     // Create table row with case number
     const row = table.insertRow();
 
-    // Check if the deadline date has passed
-    if (deadlineDate < currentDate && order.order_status !== 'Shipped') {
+     // Check if the deadline date has passed
+     if (deadlineDate < currentDate && order.order_status !== 'Shipped') {
+        // console.log('Deadline has passed and order is not shipped:', order.case_no);
         // Apply red background color to the row
         row.style.backgroundColor = 'red';
     }
@@ -198,7 +211,7 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.price}</td>
         <td class="font-semibold text-md" >${order.quantity}</td>
         <td class="font-semibold text-md" >${formattedDate}</td>
-        <td class="font-semibold text-md" >${order.deadline_date}</td>
+        <td class="font-semibold text-md" >${formattedDeadlineDate}</td>
         <td class="font-semibold text-md" >${order.firm_name}</td>
         <td class="font-semibold text-md" >${order.customer_name}</td>
         <td class="font-semibold text-md" >${order.customer_phone_no}</td>

@@ -56,6 +56,10 @@ function editOrder(orderId) {
 
             const order = data.order;
 
+             // Format deadline_date
+    const deadlineDate = new Date(order.deadline_date);
+    const formattedDeadlineDate = deadlineDate.toISOString().split('T')[0];
+
             // Create a form pre-filled with existing order details
             const form = document.createElement('form');
             form.innerHTML = `
@@ -86,7 +90,8 @@ function editOrder(orderId) {
                 <input type="text" id="quantity" name="quantity" value="${order.quantity}" required>
 
                 <label for="date">Days to Deadline:</label>
-                <input type="date" id="date" name="date" value="${order.deadline_date}" required>
+        <input type="date" id="date" name="date" value="${formattedDeadlineDate}" required>
+
 
                 <label for="firmName">Firm Name:</label>
                 <input type="text" id="firmName" name="firmName" value="${order.firm_name}" required>

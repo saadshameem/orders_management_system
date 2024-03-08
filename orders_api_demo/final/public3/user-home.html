@@ -123,17 +123,46 @@
         </div>
     </nav>
 
-    <div class="flex-1 px-15  py-20 ml-96 z-10 relative">
+    <div class="flex-1 px-15  py-20 ml-96 z-10 relative bg-gray-100">
         
 
 
         
-        <div class="flex">
+        <div class="flex bg-gray-100">
             <div id="orderStatusChart"
                 style="width: 500px;height:500px; margin-top: 10%; margin-right: 1%; margin-left: 10%;"></div>
 
-                <div id="productNameChart"
-                style="width: 500px;height:500px; margin-top: 10%; margin-right: 1%; margin-left: 10%;"></div>
+            <div id="productNameChart"
+                style="width: 500px;height:400px; margin-top: 10%; margin-right: 1%; margin-left: 10%;"></div>
+        </div>
+
+        <div style="margin-left: 10%;" class="bg-gray-100 flex">
+            <label for="year" style="padding: 8px;">Select Year:</label>
+            <select id="year">
+                <!-- Year options will be generated dynamically -->
+            </select>
+
+            <label for="month" style="padding: 8px;">Select Month:</label>
+            <select id="month">
+                <option value="1">Jan</option>
+                <option value="2">Feb</option>
+                <option value="3">Mar</option>
+                <option value="4">Apr</option>
+                <option value="5">May</option>
+                <option value="6">Jun</option>
+                <option value="7">Jul</option>
+                <option value="8">Aug</option>
+                <option value="9">Sep</option>
+                <option value="10">Oct</option>
+                <option value="11">Nov</option>
+                <option value="12">Dec</option>
+                <!-- Add more months as needed -->
+            </select>
+
+            <button onclick="fetchSalesData()" style="margin-left: 1%;">Show Chart</button>
+        </div>
+
+        <div id="salesChart" style="width: 500px;height:500px; margin-top: 2%; margin-right: 1%; margin-left: 10%;">
         </div>
 
         
@@ -204,12 +233,35 @@
         displayUserInfo();
 
 
+         // Generate year options dynamically
+         const yearSelect = document.getElementById('year');
+        const currentYear = new Date().getFullYear();
+        const startYear = 2015; // Change this to your desired start year
+        const endYear = currentYear; // Change this to your desired end year
+
+        for (let year = endYear; year >= startYear; year--) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearSelect.appendChild(option);
+        }
+
+        function fetchSalesData() {
+            const year = document.getElementById('year').value; // Get selected year from dropdown
+            const month = document.getElementById('month').value; // Get selected month from dropdown
+
+            // Call the salesPiechart function with selected year and month
+            salesPiechart(year, month);
+        }
+
+
         // window.onload = fetchOrderStatusSummary;
 
         fetchOrderStatusSummary();
         
         productNamePiechart();
 
+        salesPiechart();
 
 
 

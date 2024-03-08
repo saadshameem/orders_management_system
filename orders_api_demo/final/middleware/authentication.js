@@ -1,65 +1,58 @@
-// const User = require('../models/User')
-// const jwt = require('jsonwebtoken')
-// const {UnauthenticatedError} = require('../errors')
 
 
-// const auth = (req, res, next)=>{
-//     const authHeader = req.headers.authorization
-//     // console.log(authHeader);
-
-//     if(!authHeader ||!authHeader.startsWith('Bearer ')){
-//         throw new UnauthenticatedError('Authentication Invalid')
-//     }
-//     const token  = authHeader.split(' ')[1]
-//     // console.log(token)
-
-//     try {
-//         const payload = jwt.verify(token, process.env.JWT_SECRET)
-//         //attach the user to job routes
-//         req.user= {userId:payload.userId, name:payload.name, role: payload.role}
-//         // console.log(req.user);
-//         next()
-//     } catch (error) {
-//         throw new UnauthenticatedError('Authentication Invalid')
-//     }
-// }
-
-// module.exports = auth
 
 
+// const User = require('../models/User'); // Assuming your user model file is named 'user.js'
 // const jwt = require('jsonwebtoken');
-// const User = require('../models/user');
+// const { UnauthenticatedError } = require('../errors');
 
-// Middleware function to authenticate JWT token
-// const authenticateToken = async (req, res, next) => {
-//     const authHeader = req.headers['authorization'];
-//     const token = authHeader && authHeader.split(' ')[1];
-//     if (token == null) {
-//         return res.status(401).json({ message: 'Unauthorized' });
+// const auth = async (req, res, next) => {
+//     const authHeader = req.headers.authorization;
+
+//     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+//         throw new UnauthenticatedError('Authentication Invalid');
 //     }
 
+//     const token = authHeader.split(' ')[1];
+
 //     try {
+//         // Verify JWT token
 //         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//         req.user = await User.findByPk(decoded.userId);
+        
+//         // Retrieve user from MySQL based on decoded userId
+//         const user = await User.findByPk(decoded.userId);
+
+//         if (!user) {
+//             throw new UnauthenticatedError('User not found');
+//         }
+
+//         // Attach user information to request object
+//         req.user = {
+//             userId: user.id,
+//             name: user.name,
+//             role: user.role
+//         };
+
 //         next();
 //     } catch (error) {
-//         console.error('Error authenticating token:', error);
-//         return res.status(403).json({ message: 'Forbidden' });
+//         throw new UnauthenticatedError('Authentication Invalid');
 //     }
 // };
 
-// module.exports = authenticateToken;
+// module.exports = auth;
 
 
 
-const User = require('../models/User'); // Assuming your user model file is named 'user.js'
+const mysql2 = require('mysql2/promise');
 const jwt = require('jsonwebtoken');
 const { UnauthenticatedError } = require('../errors');
+const dbConfig = require('../db/connect'); // Import database connection configuration
 
 const auth = async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        console.error('No JWT token found in request headers');
         throw new UnauthenticatedError('Authentication Invalid');
     }
 
@@ -68,13 +61,22 @@ const auth = async (req, res, next) => {
     try {
         // Verify JWT token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        
-        // Retrieve user from MySQL based on decoded userId
-        const user = await User.findByPk(decoded.userId);
+        console.log('Decoded JWT token:', decoded);
 
-        if (!user) {
+        // Create MySQL connection pool using database configuration
+        const pool = mysql2.createPool(dbConfig);
+
+        // Query the database to retrieve user information based on decoded userId
+        const connection = await pool.getConnection();
+        const [rows] = await connection.execute('SELECT id, name, role FROM users WHERE id = ?', [decoded.userId]);
+        connection.release(); // Release connection back to the pool
+
+        if (!rows || rows.length === 0) {
+            console.error('User not found in database');
             throw new UnauthenticatedError('User not found');
         }
+
+        const user = rows[0];
 
         // Attach user information to request object
         req.user = {
@@ -85,6 +87,7 @@ const auth = async (req, res, next) => {
 
         next();
     } catch (error) {
+        console.error('Authentication error:', error);
         throw new UnauthenticatedError('Authentication Invalid');
     }
 };

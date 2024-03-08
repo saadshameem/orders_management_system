@@ -34,11 +34,11 @@
     </style>
 </head>
 
-<body class="flex min-w-screen bg-lightBeige">
+<body class="flex min-w-screen bg-gray-100">
 
 
 
-    <div class="fixed h-full bg-pastelOliveGreen text-white w-96 p-8 z-20 overflow-auto">
+    <div class="fixed h-full bg-gray-800 text-white w-96 p-8 z-20 overflow-auto">
 
 
         <div id="userInfo" class="text-2xl font-semibold mb-12 mt-20"></div>
@@ -54,14 +54,14 @@
             </li>
 
             <li class="mb-6">
-                <a href="allOrders.html" class="bg-pastelOliveGreen text-white rounded-xl px-6 py-2 text-s font-medium 
+                <a href="allOrders.html" class="bg-gray-800 text-white rounded-xl px-6 py-2 text-s font-medium 
                      hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105 
                      text-decoration-none flex items-center ">
                     <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
             </li>
 
             <li class="mb-6">
-                <a href="newOrderForm.html" class="bg-pastelOliveGreen text-white rounded-xl px-6 py-2 text-s font-medium  
+                <a href="newOrderForm.html" class="bg-gray-800 text-white rounded-xl px-6 py-2 text-s font-medium  
                     hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105
                      text-decoration-none flex items-center">
                     <span class="mr-2"><i class="fas fa-plus"></i></span>Create New Order</a>
@@ -70,14 +70,14 @@
             <!-- Added Login and Register buttons -->
 
             <li class="mb-6">
-                <a href="register.html" class="bg-pastelOliveGreen text-white rounded-xl px-6 py-2 text-s font-medium  
+                <a href="register.html" class="bg-gray-800 text-white rounded-xl px-6 py-2 text-s font-medium  
                     hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105
                      text-decoration-none flex items-center">
                     <span class="mr-2"><i class="fas fa-user-plus"></i></span>Register New User</a>
             </li>
 
             <li class="mb-6">
-                <button id="logoutBtn" class="bg-pastelOliveGreen text-white rounded-xl px-6 py-2 text-s font-medium  
+                <button id="logoutBtn" class="bg-gray-800 text-white rounded-xl px-6 py-2 text-s font-medium  
                     hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105
                      text-decoration-none flex items-center">
                     <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
@@ -88,7 +88,7 @@
 
     </div>
 
-    <nav class="fixed top-0 z-30 w-full bg-pastelOliveGreen border-b border-gray-200 dark:bg-pastelOliveGreen dark:border-gray-700">
+    <nav class="fixed top-0 z-30 w-full bg-gray-800 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-6 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-start">
                 <div class="flex items-center justify-start rtl:justify-end">
@@ -123,39 +123,49 @@
         </div>
     </nav>
 
-    <div class="flex-1 px-15  py-20 ml-96 z-10 relative bg-lightBeige">
-        
+    <div class="flex-1 px-15  py-20 ml-96 z-10 relative bg-gray-100">
 
 
-        <div class="flex">
+
+        <div class="flex bg-gray-100">
             <div id="orderStatusChart"
                 style="width: 500px;height:500px; margin-top: 10%; margin-right: 1%; margin-left: 10%;"></div>
 
-                <div id="productNameChart"
-                style="width: 400px;height:400px; margin-top: 10%; margin-right: 1%; margin-left: 10%;"></div>
+            <div id="productNameChart"
+                style="width: 500px;height:400px; margin-top: 10%; margin-right: 1%; margin-left: 10%;"></div>
         </div>
 
-        <label for="year">Select Year:</label>
-    <select id="year">
-        <option value="2023">2023</option>
-        <option value="2024">2024</option>
-        <!-- Add more years as needed -->
-    </select>
 
-    <label for="month">Select Month:</label>
-    <select id="month">
-        <option value="1">January</option>
-        <option value="2">February</option>
-        <option value="3">March</option>
-        <!-- Add more months as needed -->
-    </select>
+        <div style="margin-left: 10%;" class="bg-gray-100 flex">
+            <label for="year" style="padding: 8px;">Select Year:</label>
+            <select id="year">
+                <!-- Year options will be generated dynamically -->
+            </select>
 
-    <button onclick="fetchSalesData()">Show Chart</button>
+            <label for="month" style="padding: 8px;">Select Month:</label>
+            <select id="month">
+                <option value="1">Jan</option>
+                <option value="2">Feb</option>
+                <option value="3">Mar</option>
+                <option value="4">Apr</option>
+                <option value="5">May</option>
+                <option value="6">Jun</option>
+                <option value="7">Jul</option>
+                <option value="8">Aug</option>
+                <option value="9">Sep</option>
+                <option value="10">Oct</option>
+                <option value="11">Nov</option>
+                <option value="12">Dec</option>
+                <!-- Add more months as needed -->
+            </select>
 
-        <div id="salesChart"
-                style="width: 500px;height:500px; margin-top: 10%; margin-right: 1%; margin-left: 10%;"></div>
+            <button onclick="fetchSalesData()" style="margin-left: 1%;">Show Chart</button>
+        </div>
 
-        
+        <div id="salesChart" style="width: 500px;height:500px; margin-top: 2%; margin-right: 1%; margin-left: 10%;">
+        </div>
+
+
         <div style="  margin-left: 10%;">
             <label for="chartType">Select Chart Type:</label>
             <select id="chartType" onchange="switchChart()">
@@ -163,12 +173,12 @@
                 <option value="monthly">Monthly Chart</option>
             </select>
         </div>
-        
+
         <div id="chartContainer">
-            <div id="orderStatisticsChart" style="width: 800px;height:600px; margin-top: 5%;  margin-left: 10%;"></div>
+            <div id="orderStatisticsChart" style="width: 800px;height:600px; margin-top: 2%;  margin-left: 10%;"></div>
         </div>
 
-       
+
 
 
 
@@ -222,18 +232,32 @@
         // Call the displayUserInfo function when the login page loads
         displayUserInfo();
 
+
+        // Generate year options dynamically
+        const yearSelect = document.getElementById('year');
+        const currentYear = new Date().getFullYear();
+        const startYear = 2015; // Change this to your desired start year
+        const endYear = currentYear; // Change this to your desired end year
+
+        for (let year = endYear; year >= startYear; year--) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearSelect.appendChild(option);
+        }
+
         function fetchSalesData() {
-    const year = document.getElementById('year').value; // Get selected year from dropdown
-    const month = document.getElementById('month').value; // Get selected month from dropdown
+            const year = document.getElementById('year').value; // Get selected year from dropdown
+            const month = document.getElementById('month').value; // Get selected month from dropdown
 
-    // Call the salesPiechart function with selected year and month
-    salesPiechart(year, month);
-}
+            // Call the salesPiechart function with selected year and month
+            salesPiechart(year, month);
+        }
 
-        
+
         // window.onload = fetchOrderStatusSummary;
         fetchOrderStatusSummary();
-        
+
         productNamePiechart();
 
         salesPiechart();

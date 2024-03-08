@@ -87,19 +87,28 @@
                     .then(data => {
                         const token = data.token;
                         const name = data.user.name;
+                        const role = data.user.role
 
-                        // Store the token and user's name in localStorage
-                        localStorage.setItem('token', token);
+                         // Store the token and user's name in localStorage
+                         localStorage.setItem('token', token);
                         localStorage.setItem('name', name);
+                        localStorage.setItem('role', role);
                         // Handle response from backend
                         console.log(data);
                         // Redirect user or show message based on response
                         if (data.success) {
-                            window.location.href = "home.html"; // Change to the index page URL
+                        if (role === 'admin') {
+                            window.location.href = "home.html"; // Redirect to admin homepage
+                        } else if (role === 'user') {
+                            window.location.href = "user-home.html"; // Redirect to user homepage
                         } else {
-                            // Handle login failure (e.g., display error message)
-                            console.error(data.message);
+                            // Handle invalid role
+                            console.error('Invalid role:', role);
                         }
+                    } else {
+                        // Handle login failure (e.g., display error message)
+                        console.error(data.message);
+                    }
                     })
                     .catch(error => {
                         console.error("Error:", error);
