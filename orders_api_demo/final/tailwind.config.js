@@ -48,7 +48,8 @@ module.exports = {
       'softLilac': '#D3C5E5',
       'forestGreen': '#2C5F2D',
       'mossGreen': '#97BC62',
-      'pastelOliveGreen': '#A1BE95'
+      'pastelOliveGreen': '#A1BE95',
+      'emerald': '#39b881'
 
       
     },

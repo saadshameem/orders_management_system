@@ -39,7 +39,7 @@
 /* Form Body */
 /*---------------------------------------*/
 .form-body {
-  padding:10px 40px;
+  padding:20px 50px;
   color:#666;
 }
 
@@ -79,7 +79,7 @@
     font-size: 17px;
     box-sizing: border-box;
     width: 100%;
-    height: 34px;
+    height: 45px;
     padding-left: 10px;
     padding-right: 10px;
     color: #333333;
@@ -155,18 +155,20 @@ input[type="file"] {
   font-weight: thin;
 }
 .btn {
-   display:inline-block;
+   /* display:inline-block; */
    padding:10px 20px;
-   background-color: #1BBA93;
+   /* background-color: #00ffc3; */
    font-size:17px;
-   border:none;
-   border-radius:5px;
-   color:#bcf5e7;
+   /* font-size: larger; */
+   /* font-weight: bolder; */
+   /* border-color: #000000; */
+   /* border-radius:5px; */
+   color:#1BBA93;
    cursor:pointer;
 }
 
 .btn:hover {
-  background-color: #169c7b;
+  background-color: #50d199;
   color:white;
 }  
 

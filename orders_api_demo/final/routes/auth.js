@@ -12,10 +12,10 @@ const authUser = require('../middleware/authUser')
 
 router.post('/register',authenticateToken, authAdmin, auth.register);
 router.post('/login', auth.login);
-// router.post('/login-otp', auth.loginOTP); // New route for OTP login
-
 router.post('/logout', auth.logout);
 
+// router.post('/sendOTP', auth.sendOTP);
+// router.post('/verifyOTP', auth.verifyOTP);
 
 module.exports = router;
 

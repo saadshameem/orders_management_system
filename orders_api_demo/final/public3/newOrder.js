@@ -63,6 +63,9 @@ function openNewOrderForm() {
         <label for="paymentStatus">Payment Status:</label>
         <input type="text" id="paymentStatus" name="paymentStatus" required>
 
+        
+   
+
         <button class="btn btn-outline btn-success" onclick="submitNewOrder()">Submit</button>
     `;
 
@@ -153,3 +156,77 @@ function submitNewOrder() {
         })
         .catch(error => console.error('Error creating new order:', error));
 }
+
+// function submitNewOrder() {
+//     // Get other form field values
+//     const poNo = document.getElementById('poNo').value;
+//     const productName = document.getElementById('productName').value;
+//     const price = document.getElementById('price').value;
+//     const quantity = document.getElementById('quantity').value;
+//     const date = document.getElementById('date').value;
+//     const firmName = document.getElementById('firmName').value;
+//     const customerName = document.getElementById('customerName').value;
+//     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
+//     const salesPerson = document.getElementById('salesPerson').value;
+//     const salesPersonId = document.getElementById('salesPersonId').value;
+//     const orderStatus = document.getElementById('orderStatus').value;
+//     const paymentStatus = document.getElementById('paymentStatus').value;
+    
+//     // Get image file
+//     const imageFile = document.getElementById('image').files[0];
+//     const token = localStorage.getItem('token');
+
+//     if (!token) {
+//         console.error('JWT token not found.');
+//         // Handle the case where the token is not found (e.g., redirect to login page)
+//         return;
+//     }
+
+//     // Fetch the current orders to determine the new priority
+//     fetch('/api/v1/orders', {
+//         headers: {
+//             'Authorization': `Bearer ${token}`
+//         }
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         const priority = data.orders.length + 1;
+//         const caseNo = generateCaseNumber(data.orders.length + 1);
+
+//         const newOrder = {
+//             po_no: poNo,
+//             case_no: caseNo,
+//             product_name: productName,
+//             price: price,
+//             quantity: quantity,
+//             deadline_date: date,
+//             firm_name: firmName,
+//             customer_name: customerName,
+//             customer_phone_no: customerPhoneNo,
+//             sales_person: salesPerson,
+//             sales_person_id: salesPersonId,
+//             order_status: orderStatus,
+//             payment_status: paymentStatus,
+//             priority: priority // Set priority
+//         };
+
+//         const formData = new FormData();
+//         formData.append('image', imageFile);
+//         formData.append('orderDetails', JSON.stringify(newOrder));
+
+//         return fetch('/api/v1/orders', {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${token}`,
+//             },
+//             body: formData
+//         });
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         console.log('New order created:', data.order);
+//         // goToAllOrders() // Refresh the orders table after creating a new order
+//         // Optionally, you can display a success message or redirect to the orders page
+//     })
+//     .catch(error => console.error('Error creating new order:', error));
+// }

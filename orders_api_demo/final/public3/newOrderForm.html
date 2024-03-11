@@ -5,23 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Order</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous">
 
     <!-- <link rel="stylesheet" href="css/output3.css"> -->
     <!-- <link rel="stylesheet" href="css/style.css"> -->
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"> -->
     <link rel="stylesheet" href="css/newOrder.css">
+    
     <style>
-        body,
+        /* body,
         h1,
         h2,
         h3,
         h4,
         h5 {
             font-family: "Raleway", sans-serif
+        } */
+        body {
+            background-color: white;
+        }
+        .header {
+            text-align: center;
+            justify-content: center;
+            width: 80%;
+            margin-top: 5px;
+            margin-right: 220px;
+            font-size: small;
         }
     </style>
 
@@ -29,17 +43,17 @@
 
 </head>
 
-<body class="flex min-h-screen bg-gray-100 overflow-y-auto">
+<body class="flex min-h-screen bg-green-100 overflow-y-auto">
     <!-- <div class="dashboard"> -->
 
-    <!-- <div class="bg-gray-800 text-white w-96 p-8">
+    <!-- <div class="bg-emerald-500 text-white w-96 p-8">
         <div class="text-2xl font-semibold mb-12">Dashboard</div>
         <div class="flex flex-col space-y-4">
         <ul>
             <li class="mb-6">
 
                 <a href="index.html"
-                    class="bg-gray-800 text-white rounded-xl px-6 py-2 text-s font-bold
+                    class="bg-emerald-500 text-white rounded-xl px-6 py-2 text-s font-bold
                     focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 
                     hover:bg-gray-500 text-decoration-none flex items-center hover:text-white">
                     <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
@@ -47,7 +61,7 @@
 
             <li class="mb-6">
                 <a href="allOrders.html"
-                    class="bg-gray-800 text-white rounded-xl px-6 py-2 text-s font-bold
+                    class="bg-emerald-500 text-white rounded-xl px-6 py-2 text-s font-bold
                      hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105 
                      text-decoration-none flex items-center ">
                      <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
@@ -66,9 +80,9 @@
         </div>
     </div> -->
 
-    <aside class="fixed  z-40 w-96 h-screen pt-10 bg-gray-800 text-white  p-8  overflow-auto">
+    <aside class="fixed  z-40 w-96 h-screen pt-10 bg-emerald-500 text-white  p-8  overflow-auto">
 
-        <div id="userInfo" class="text-2xl font-semibold mb-12"></div>
+        <div id="userInfo" class="text-2xl font-semibold mb-12 mt-20"></div>
 
 
 
@@ -76,14 +90,14 @@
         <ul>
             <li class="mb-6">
 
-                <a href="home.html" class="bg-gray-800 text-white rounded-xl px-6 py-2 text-s font-bold 
+                <a href="home.html" class="bg-emerald-500 text-white rounded-xl px-6 py-2 text-s font-bold 
                         focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 
                         hover:bg-gray-500 text-decoration-none flex items-center hover:text-white">
                     <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
             </li>
 
             <li class="mb-6">
-                <a href="allOrders.html" class="bg-gray-800 text-white rounded-xl px-6 py-2 text-s font-bold 
+                <a href="allOrders.html" class="bg-emerald-500 text-white rounded-xl px-6 py-2 text-s font-bold 
                          hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105 
                          text-decoration-none flex items-center">
                     <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
@@ -97,14 +111,14 @@
             </li>
 
             <li class="mb-6">
-                <a href="register.html" class="bg-gray-800 text-white rounded-xl px-6 py-2 text-s font-medium  
+                <a href="register.html" class="bg-emerald-500 text-white rounded-xl px-6 py-2 text-s font-medium  
                     hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105
                      text-decoration-none flex items-center">
                     <span class="mr-2"><i class="fas fa-user-plus"></i></span>Register New User</a>
             </li>
 
             <li class="mb-6">
-                <button type="logoutBtn" id="logoutBtn" class="bg-gray-800 text-white rounded-xl px-6 py-2 text-s font-medium  
+                <button type="logoutBtn" id="logoutBtn" class="bg-emerald-500 text-white rounded-xl px-6 py-2 text-s font-medium  
                     hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105
                      text-decoration-none flex items-center">
                     <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
@@ -117,10 +131,45 @@
 
     </aside>
 
+    <nav class="fixed top-0 z-50 w-full bg-emerald-500 border-b border-gray-200 dark:bg-emerald-500 dark:border-gray-200">
+        <div class="px-3 py-6 lg:px-5 lg:pl-3">
+            <div class="flex items-center justify-start">
+                <div class="flex items-center justify-start rtl:justify-end">
+                    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
+                        aria-controls="logo-sidebar" type="button"
+                        class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                        <span class="sr-only">Open sidebar</span>
+                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path clip-rule="evenodd" fill-rule="evenodd"
+                                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+                            </path>
+                        </svg>
+                    </button>
+                    <a href="https://www.enggenv.com" class="flex ms-2 md:me-24">
+                        <img src="https://www.enggenv.com/images/ee-brand.png" class="h-8 me-3" alt="FlowBite Logo" />
+                        <span
+                            class="text-white self-center text-xl font-bold sm:text-2xl whitespace-nowrap dark:text-white">E&E
+                            Solutions</span>
+                    </a>
+                </div>
+
+                <div class="header">
+                    <span
+                        class="text-white self-center text-xl font-bold sm:text-3xl whitespace-nowrap dark:text-white">Order
+                        Flow Pro</span>
+                    <!-- <h1>Engineering And Environmental Solutions</h1> -->
+                </div>
+
+
+            </div>
+        </div>
+    </nav>
+
     <div class="flex flex-col mb-2 p-8 ml-96   ">
         <!-- <h1 class="ml-96 text-3xl"> Create New Order</h1> -->
 
-        <div class="content flex-grow flex items-center mr-20 ">
+        <div class="content flex-grow flex items-center mr-20 mt-20">
 
 
 
@@ -140,11 +189,7 @@
                                 required>
                         </div>
 
-                        <!-- <div class="form-group right">
-                            <label for="productName" class="label-title">Product Name:</label>
-                            <input type="text" id="productName" name="productName" class="form-input"
-                                placeholder="Enter product name" required>
-                        </div> -->
+
 
                         <div class="form-group right">
                             <label for="productName" class="label-title">Product Name:</label>
@@ -228,15 +273,21 @@
                                 placeholder="Enter payment status " required>
                         </div>
 
+                        <!-- Add input field for image upload -->
+                        <!-- <div class="form-group left">
+                            <label for="image" class="label-title">Image:</label>
+                            <input type="file" id="image" name="image" class="form-input" accept="image/*" required>
+                        </div> -->
 
 
-                       
+
+
                     </div>
                 </div>
 
 
                 <div class="form-footer">
-                    <button type="button" class="btn btn-outline btn-success mt-5"
+                    <button type="button" class="btn   mt-5"  
                         onclick="submitNewOrder()">Submit</button>
                 </div>
             </form>

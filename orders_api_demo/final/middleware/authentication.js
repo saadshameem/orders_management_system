@@ -46,7 +46,7 @@
 const mysql2 = require('mysql2/promise');
 const jwt = require('jsonwebtoken');
 const { UnauthenticatedError } = require('../errors');
-const dbConfig = require('../db/connect'); // Import database connection configuration
+const dbConfig = require('../db/config'); // Import database connection configuration
 
 const auth = async (req, res, next) => {
     const authHeader = req.headers.authorization;

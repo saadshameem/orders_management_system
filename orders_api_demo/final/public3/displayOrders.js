@@ -34,6 +34,7 @@ function getAllOrders() {
             table.classList.add('table');
             table.innerHTML = `
                 <tr>
+                
                     <th>Sr. No</th>
                     <th>Case. No</th>
                     <th>PO. No</th>
@@ -50,6 +51,7 @@ function getAllOrders() {
                     <th>Order Status</th>
                     <th>Priority</th>
                     <th>Payment Status</th>
+                    
                     <th>Actions</th>
                 </tr>
             `;
@@ -200,7 +202,7 @@ function addTableRow(table, order, serialNumber) {
      if (deadlineDate < currentDate && order.order_status !== 'Shipped') {
         // console.log('Deadline has passed and order is not shipped:', order.case_no);
         // Apply red background color to the row
-        row.style.backgroundColor = 'red';
+        row.style.backgroundColor = '#e43838';
     }
 
     row.innerHTML = `
@@ -226,6 +228,75 @@ function addTableRow(table, order, serialNumber) {
         </td>
     `;
 }
+
+
+
+
+// function addTableRow(table, order, serialNumber) {
+//     const orderDate = new Date(order.createdAt);
+//     const formattedDate = orderDate.toLocaleDateString('en-US', {
+//         month: 'short',
+//         day: '2-digit',
+//         year: 'numeric'
+//     });
+
+//     const deadlineDate = new Date(order.deadline_date); // Assuming deadline_date is the field containing the deadline date
+//     const currentDate = new Date();
+//     const timeDifference = deadlineDate.getTime() - currentDate.getTime();
+//     const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+
+//     const formattedDeadlineDate = deadlineDate.toLocaleDateString('en-US', {
+//         month: 'short',
+//         day: '2-digit',
+//         year: 'numeric'
+//     });
+
+//     // Create table row with case number
+//     const row = table.insertRow();
+
+//     // Check if the deadline date has passed
+//     if (deadlineDate < currentDate && order.order_status !== 'Shipped') {
+//         // Apply red background color to the row
+//         row.style.backgroundColor = '#e43838';
+//     }
+
+//     // Create an image element for displaying the uploaded image
+//     const imageCell = row.insertCell();
+//     const image = document.createElement('img');
+//     image.src = order.image; // Assuming order.image contains the URL of the uploaded image
+//     image.alt = 'Order Image';
+//     image.width = 100; // Adjust the width of the image as needed
+//     imageCell.appendChild(image);
+
+//     row.innerHTML += `
+//         <td class="font-semibold text-md" >${serialNumber}</td>
+//         <td class="font-semibold text-md" >${order.case_no}</td>
+//         <td class="font-semibold text-md" >${order.po_no}</td>
+//         <td class="font-semibold text-md" >${order.product_name}</td>
+//         <td class="font-semibold text-md" >${order.price}</td>
+//         <td class="font-semibold text-md" >${order.quantity}</td>
+//         <td class="font-semibold text-md" >${formattedDate}</td>
+//         <td class="font-semibold text-md" >${formattedDeadlineDate}</td>
+//         <td class="font-semibold text-md" >${order.firm_name}</td>
+//         <td class="font-semibold text-md" >${order.customer_name}</td>
+//         <td class="font-semibold text-md" >${order.customer_phone_no}</td>
+//         <td class="font-semibold text-md" >${order.sales_person}</td>
+//         <td class="font-semibold text-md" >${order.sales_person_id}</td>
+//         <td class="font-semibold text-md" >${order.order_status}</td>
+//         <td class="font-semibold text-md" >${order.priority}</td>
+//         <td class="font-semibold text-md" >${order.payment_status}</td>
+//         <td class="">
+//             <button class="btn btn-outline btn-info" onclick="editOrder('${order.id}')">Edit</button>
+//             <button class="btn btn-outline btn-warning" onclick="deleteOrder('${order.id}')">Delete</button>
+//         </td>
+//     `;
+// }
+
+
+
+
+
+
 
 function generateCaseNumber(orderCount) {
     const paddingLength = 5; // Length of padding for case number
