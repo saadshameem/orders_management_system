@@ -20,42 +20,73 @@
         }
 
         body {
-            background: linear-gradient(#efd788, #a7ace6);
+            background: linear-gradient(#8be2b7, #177082);
         }
 
+        .logo-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+        }
 
-       
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
 <body>
-    
+    <div class="logo-container">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
+            <defs>
+                <filter id="tint-filter">
+                    <feColorMatrix type="matrix" values="1 0 0 0 1
+                0 1 0 0 1
+                0 0 1 0 1
+                0 0 0 1 0" />
+                </filter>
+            </defs>
+        </svg>
+        <img src="logo1.png" 
+        alt="EnE Logo " style="filter: url(#tint-filter);" />
+    </div>
 
+    <div class="login-container hidden">
     <form class="login-form" id="loginForm">
         <div class="form-header">
             <h1 style="font-weight: bolder">Login</h1>
         </div>
-    
+
         <div class="form-body">
             <div class="form-group">
                 <label for="email" class="label-title">Email:</label><br>
                 <input type="email" id="email" class="form-input" placeholder="Enter your email" name="email"><br>
             </div>
-    
+
             <!-- Password Field (Initially Shown) -->
             <div id="passwordField" class="form-group">
                 <label for="password" class="label-title">Password:</label><br>
-                <input type="password" id="password" class="form-input" placeholder="Enter your password" name="password"><br><br>
+                <input type="password" id="password" class="form-input" placeholder="Enter your password"
+                    name="password"><br><br>
             </div>
-    
+
             <!-- OTP Field (Initially Hidden) -->
             <div id="otpField" style="display: none;" class="form-group">
                 <label for="otp" class="label-title">OTP:</label><br>
                 <input type="text" id="otp" class="form-input" placeholder="Enter OTP" name="otp"><br><br>
                 <button type="button" onclick="sendOTP()">Send OTP</button> <!-- Add send OTP button -->
             </div>
-            
+
             <!-- Toggle Button -->
             <div class="toggle-button">
                 <label class="switch">
@@ -65,13 +96,14 @@
                 <label for="loginToggle" id="loginLabel">Login with Password</label>
             </div>
         </div>
-    
+
         <div class="form-footer">
-            <button class="button-login" type="submit" >Login</button>
+            <button class="button-login" type="submit">Login</button>
         </div>
     </form>
-    
-    
+
+</div>
+
 
 
 
@@ -83,7 +115,7 @@
                 const formData = new FormData(this);
                 const formDataJSON = Object.fromEntries(formData.entries());
 
-                
+
                 fetch("/api/v1/auth/login", {
                     method: "POST",
                     headers: {
@@ -107,16 +139,16 @@
                         localStorage.setItem('role', role);
                         console.log(data);
                         if (data.success) {
-                        if (role === 'admin') {
-                            window.location.href = "home.html"; 
-                        } else if (role === 'user') {
-                            window.location.href = "user-home.html"; 
+                            if (role === 'admin') {
+                                window.location.href = "home.html";
+                            } else if (role === 'user') {
+                                window.location.href = "user-home.html";
+                            } else {
+                                console.error('Invalid role:', role);
+                            }
                         } else {
-                            console.error('Invalid role:', role);
+                            console.error(data.message);
                         }
-                    } else {
-                        console.error(data.message);
-                    }
                     })
                     .catch(error => {
                         console.error("Error:", error);
@@ -129,71 +161,84 @@
 
 
         function loginWithOTP() {
-    const email = document.getElementById('email').value;
-    const otp = document.getElementById('otp').value;
+            const email = document.getElementById('email').value;
+            const otp = document.getElementById('otp').value;
 
-    // Send request to backend for OTP login
-    fetch("/api/v1/auth/login-otp", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email, otp })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to login with OTP.');
+            // Send request to backend for OTP login
+            fetch("/api/v1/auth/login-otp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, otp })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to login with OTP.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const token = data.token;
+                    const name = data.user.name;
+                    const role = data.user.role;
+
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('name', name);
+                    localStorage.setItem('role', role);
+
+                    if (data.success) {
+                        if (role === 'admin') {
+                            window.location.href = "home.html";
+                        } else if (role === 'user') {
+                            window.location.href = "user-home.html";
+                        } else {
+                            console.error('Invalid role:', role);
+                        }
+                    } else {
+                        console.error(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert('Failed to login with OTP. Please try again.');
+                });
         }
-        return response.json();
-    })
-    .then(data => {
-        const token = data.token;
-        const name = data.user.name;
-        const role = data.user.role;
 
-        localStorage.setItem('token', token);
-        localStorage.setItem('name', name);
-        localStorage.setItem('role', role);
+        window.onload = function () {
+            const passwordField = document.getElementById("passwordField");
+            passwordField.style.display = "block"; // Show the password field by default
+        };
 
-        if (data.success) {
-            if (role === 'admin') {
-                window.location.href = "home.html"; 
-            } else if (role === 'user') {
-                window.location.href = "user-home.html"; 
+        function toggleLoginMethod() {
+            const loginToggle = document.getElementById("loginToggle");
+            const loginLabel = document.getElementById("loginLabel");
+            const passwordField = document.getElementById("passwordField");
+            const otpField = document.getElementById("otpField");
+
+            if (loginToggle.checked) {
+                loginLabel.textContent = "Login with OTP";
+                passwordField.style.display = "none";
+                otpField.style.display = "block";
             } else {
-                console.error('Invalid role:', role);
+                loginLabel.textContent = "Login with Password";
+                passwordField.style.display = "block";
+                otpField.style.display = "none";
             }
-        } else {
-            console.error(data.message);
         }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert('Failed to login with OTP. Please try again.');
-    });
-}
 
-window.onload = function() {
-    const passwordField = document.getElementById("passwordField");
-    passwordField.style.display = "block"; // Show the password field by default
-};
 
-function toggleLoginMethod() {
-    const loginToggle = document.getElementById("loginToggle");
-    const loginLabel = document.getElementById("loginLabel");
-    const passwordField = document.getElementById("passwordField");
-    const otpField = document.getElementById("otpField");
-
-    if (loginToggle.checked) {
-        loginLabel.textContent = "Login with OTP";
-        passwordField.style.display = "none";
-        otpField.style.display = "block";
-    } else {
-        loginLabel.textContent = "Login with Password";
-        passwordField.style.display = "block";
-        otpField.style.display = "none";
-    }
-}
+        document.addEventListener("DOMContentLoaded", function() {
+    // Delay displaying the login page
+    setTimeout(function() {
+        document.querySelector('.login-container').classList.remove('hidden');
+        
+        // Hide the logo 
+        setTimeout(function() {
+            document.querySelector('.logo-container').classList.add('hidden');
+        }, 1);
+    }, 1000); // Adjust the delay time in milliseconds (e.g., 2000 for 2 seconds)
+});
 
     </script>
 </body>

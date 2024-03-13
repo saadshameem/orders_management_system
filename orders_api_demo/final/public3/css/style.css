@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 body {
-    font-family: 'Arial', sans-serif;
+    /* font-family: 'Arial', sans-serif; */
     margin: 0;
     padding: 0;
 }
@@ -101,7 +101,7 @@ button {
 }
 
 button:hover {
-    background-color: #555;
+    background-color: #bb4c4c;
 }
 
 #applyFilterBtn {
@@ -117,6 +117,19 @@ button:hover {
     background-color: #5c5c5c;
 }
 
+#salesButton {
+    color: white;
+    background-color: #090909;
+    border-radius: 10px;
+    /* width: 70px; */
+    margin-left: 2px;
+    padding: 9px;
+    
+}
+
+#salesButton:hover {
+    background-color: #5c5c5c;
+}
 
  #edit {
     background-color: #285ee9;
@@ -178,18 +191,18 @@ button:hover {
     
   }
 
-   /* tr:nth-child(even){
-    background-color: #f2f2f2;
+   tr:nth-child(even){
+    background-color: #abffdb;
 
   }
    tr:nth-child(odd){
-    background-color: #ffffff;
+    background-color: #9ee8c8;
 
   }
    tr:hover{
-    background-color: #ddd;
+    background-color: #7ed2af;
 
-  } */
+  }
    th {
     /* margin-top: 5px; */
     padding-top: 15px;
@@ -211,6 +224,7 @@ button:hover {
     /* background-color: #ffffff; */
     color: rgb(0, 0, 0);
     text-align: center;
+    padding: 8px;
     /* border-radius: 5px; */
     
     

@@ -1,0 +1,44 @@
+/* styles.css */
+.edit-form {
+  max-width: 600px; /* Adjust max-width as needed */
+  margin: auto;
+  padding: 40px;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.edit-form-header {
+  font-size: 1.6em;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.edit-form-row {
+  margin-bottom: 15px;
+  overflow: hidden; /* Ensure content does not overflow */
+}
+
+.edit-form-column {
+  float: left;
+  width: 48%; /* Adjust width to leave space for margins */
+  margin-right: 4%; /* Adjust margin between columns */
+}
+
+.edit-form-column:last-child {
+  margin-right: 0; /* Remove margin from last column */
+}
+
+.edit-form-label,
+.edit-form-input {
+  width: 100%;
+  box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+.edit-form-footer {
+  margin-top: 20px;
+  text-align: center;
+  clear: both; /* Clear floats */
+}

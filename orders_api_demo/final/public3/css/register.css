@@ -13,9 +13,10 @@
 .signup-form {
   /* font-family: "Roboto", sans-serif; */
   width:550px;
-  margin:30px auto;
+  /* margin:30px auto; */
   background:linear-gradient(to right, #ffffff 0%, #fafafa 50%, #ffffff 99%);
   border-radius: 10px;
+  position: relative;
 }
 
 /*---------------------------------------*/
@@ -55,7 +56,7 @@
 
 
 
-  .container {
+  /* .container {
     display: block;
     position: relative;
     padding-left: 35px;
@@ -66,7 +67,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
+  } */
 
 .form-body .form-input {
     font-size: 17px;
@@ -120,15 +121,7 @@ input[type="file"] {
 /*---------------------------------------*/
 /* Form Footer */
 /*---------------------------------------*/
-.signup-form .form-footer  {
-  background-color: #EFF0F1;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  padding:10px 40px;
-  text-align: right;
-  border-top: 1px solid #cccccc;
-  clear:both;
-}
+
 
 .login-form .form-footer  {
   background-color: #EFF0F1;
@@ -147,14 +140,7 @@ input[type="file"] {
   font-style: italic;
   font-weight: thin;
 }
-/* .signedup span{
-  float:left;
-  margin-top: 10px;
-  margin-left: 25px;
-  color:#ff0606;  
-  font-style: italic;
-  font-weight: thin;
-} */
+
 .btn {
    /* display:inline-block; */
    padding:10px 20px;
@@ -173,17 +159,17 @@ input[type="file"] {
   color:white;
 }  
 
-body {
+/* body {
     font-family:Arial, Helvetica, sans-serif, sans-serif;
     margin: 0;
     padding: 0;
     /* background-color: #5676a9; */
     /* background: linear-gradient(#efd788, #a7ace6); */
-    display:grid;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
+    /* display:grid; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* height: 100vh; */
+  /* } */ 
   
   .container {
     max-width: 800px;
@@ -224,25 +210,6 @@ body {
     background-color: #1d1f1d;
   }
   
-  .button-edit {
-    background-color: rgb(14, 226, 234);
-    color: white;
-    padding: 5px 8px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .button-delete {
-    background-color: rgb(228, 22, 22);
-    color: white;
-    padding: 5px 8px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  
 
   .button-login {
     background-color: #4caf50;
@@ -257,113 +224,3 @@ body {
   }
   
 
-  
-  #employeeTable {
-    width:auto;
-    /* display: none; */
-    border-collapse: collapse;
-    /* border:5px solid black; */
-    /* background-color: #cbdced; */
-  }
-  
-  th, td {
-    border:5px solid #ddd;
-    padding: 8px;
-  }
-
-  #employeeTable tr:nth-child(even){
-    background-color: #f2f2f2;
-
-  }
-  #employeeTable tr:nth-child(odd){
-    background-color: #ffffff;
-
-  }
-  #employeeTable tr:hover{
-    background-color: #ddd;
-
-  }
-  #employeeTable th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #000000;
-    color: rgb(255, 255, 255);
-  }
-
-  /* #employeeList {
-    margin-top: 20px;
-    border:1px solid black;
-  } */
-  
-  /* .employee-item {
-    background-color: #8e0f0f;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 5px rgb(0, 0, 0);
-    border-radius: 5px;
-    border:1px solid black;
-  }
-  
-  .employee-item button {
-    background-color: #f44336;
-  }
-  
-  .employee-item button:hover {
-    background-color: #d32f2f;
-  } */
-  
-  /* .table-container {
-    margin-top: 200px;
-    border:1px solid black;
-  } */
-  
-  /* .table-container table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 100px;
-    border:1px solid black;
-  }
-  
-  .table-container th, .table-container td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-    border:1px solid black;
-    
-  } */
-
-   
-  
-  .table-container th {
-    background-color: #1d0303;
-    color: rgb(255, 255, 255);
-    
-  }
-  
-  .auth-form {
-    display: none;
-    max-width: 300px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  #formContainer {
-    text-align: center;
-  }
-
-
-
-  /* footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    padding: auto;
-    width: 100%;
-    background-color: #5676a9;
-    color: white;
-    text-align: center;
-  } */

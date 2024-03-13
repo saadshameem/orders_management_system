@@ -8,7 +8,7 @@
 // const transporter = nodemailer.createTransport(
 //     postmarkTransport({
 //       auth: {
-//         apiKey: '568f4281-801b-4098-baa8-09590c9afc85', // Your Postmark API key
+//         apiKey: '', // Your Postmark API key
 //       },
 //     })
 //   );

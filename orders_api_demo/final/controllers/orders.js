@@ -4,15 +4,17 @@
 const mysql2 = require('mysql2');
 const dbConfig = require('../db/connect'); // Import database connection configuration
 const pool = require('../db/connect');
+const fs = require('fs')
+const path = require('path')
 
 
 // Create a connection pool
 // const pool = mysql2.createPool({
 //     host: 'localhost',
 //     port: '3306',
-//     user: 'root',
-//     password: '0987poiu',
-//     database: 'test',
+//     user: '',
+//     password: '',
+//     database: '',
 //     waitForConnections: true,
 //     connectionLimit: 10,
 //     queueLimit: 0
@@ -43,39 +45,39 @@ exports.getAllOrders = (req, res) => {
 
 
 
-exports.createOrder = async (req, res, next) => {
-  try {
-      // Extract data from request body
-      const {  case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, deadline_date, priority } = req.body;
+// exports.createOrder = async (req, res, next) => {
+//   try {
+//       // Extract data from request body
+//       const {  case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, deadline_date, priority } = req.body;
 
 
-      const deadline = new Date(deadline_date);
-        const formattedDeadlineDate = `${deadline.getFullYear()}-${(deadline.getMonth() + 1).toString().padStart(2, '0')}-${deadline.getDate().toString().padStart(2, '0')}`;
+//       const deadline = new Date(deadline_date);
+//         const formattedDeadlineDate = `${deadline.getFullYear()}-${(deadline.getMonth() + 1).toString().padStart(2, '0')}-${deadline.getDate().toString().padStart(2, '0')}`;
 
-      // Get a connection from the pool
-      pool.getConnection((err, connection) => {
-          if (err) {
-              console.error('Error getting database connection:', err);
-              res.status(500).json({ error: 'Internal server error' });
-              return;
-          }
-          // Execute the query
-          connection.query('INSERT INTO Orders (case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, deadline_date, priority) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',  [case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, formattedDeadlineDate, priority], (error, result) => {
-              // Release the connection back to the pool
-              connection.release();
-              if (error) {
-                  console.error('Error creating order:', error);
-                  res.status(500).json({ error: 'Internal server error' });
-                  return;
-              }
-              res.status(201).json({ message: 'Order created successfully', orderId: result.insertId });
-          });
-      });
-  } catch (error) {
-      console.error('Error creating order:', error);
-      next(new ErrorHandler(500, 'Internal server error'));
-  }
-};
+//       // Get a connection from the pool
+//       pool.getConnection((err, connection) => {
+//           if (err) {
+//               console.error('Error getting database connection:', err);
+//               res.status(500).json({ error: 'Internal server error' });
+//               return;
+//           }
+//           // Execute the query
+//           connection.query('INSERT INTO Orders (case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, deadline_date, priority) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',  [case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, formattedDeadlineDate, priority], (error, result) => {
+//               // Release the connection back to the pool
+//               connection.release();
+//               if (error) {
+//                   console.error('Error creating order:', error);
+//                   res.status(500).json({ error: 'Internal server error' });
+//                   return;
+//               }
+//               res.status(201).json({ message: 'Order created successfully', orderId: result.insertId });
+//           });
+//       });
+//   } catch (error) {
+//       console.error('Error creating order:', error);
+//       next(new ErrorHandler(500, 'Internal server error'));
+//   }
+// };
 
 // exports.createOrder = async (req, res, next) => {
 //     try {
@@ -113,20 +115,22 @@ exports.createOrder = async (req, res, next) => {
 //     }
 // };
 
+
+
 // exports.createOrder = async (req, res, next) => {
 //     try {
 //         // Extract data from request body
-//         const { case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, deadline_date, priority } = req.body;
+//         const { case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, deadline_date, priority, image } = req.body;
         
 //         // Ensure all required fields are present in the request body
-//         if (!case_no || !po_no || !product_name || !price || !quantity || !firm_name || !customer_name || !customer_phone_no || !sales_person || !sales_person_id || !order_status || !payment_status || !deadline_date || !priority) {
+//         if (!case_no || !po_no || !product_name || !price || !quantity || !firm_name || !customer_name || !customer_phone_no || !sales_person || !sales_person_id || !order_status || !payment_status || !deadline_date || !priority || !image) {
 //             return res.status(400).json({ error: 'Missing required fields' });
 //         }
 
 //         // Get image path if available
-//         const host = req.host;
-//         // const imagePath = req.file ? req.file.path : null;
-//         const imagePath = req.protocol + "://" + host + '/' + req.file.path;
+//         // const host = req.host;
+//         const imagePath = req.file ? req.file.path : null;
+//         // const imagePath = req.protocol + "://" + host + '/' + req.file.path;
 
 
 //         // Get a connection from the pool
@@ -156,6 +160,60 @@ exports.createOrder = async (req, res, next) => {
 //     }
 // };
 
+
+exports.createOrder = async (req, res, next) => {
+    try {
+        // Extract order data from req.body
+        const {case_no, po_no, product_name, price, quantity, deadline_date, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, image } = req.body;
+
+        // Handle image data (Base64-encoded) here
+        if (image) {
+            // Remove the data:image/jpeg;base64, prefix
+            const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+            const imageData = Buffer.from(base64Data, 'base64');
+
+            // Define the path where you want to save the image
+            const imagePath = path.join(__dirname, '../public3/uploads/', `image${Date.now()}.jpeg`);
+            console.log(imagePath)
+
+            // Save the image to the uploads directory
+            fs.writeFile(imagePath, imageData, (err) => {
+                if (err) {
+                    console.error('Error saving image:', err);
+                    return res.status(500).json({ error: 'Failed to save image' });
+                }
+                console.log('Image saved successfully');
+            });
+        }
+
+        // Save the order data to the database
+        pool.getConnection((err, connection) => {
+            if (err) {
+                console.error('Error getting database connection:', err);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+
+            // Format deadline date
+            const formattedDeadlineDate = new Date(deadline_date).toISOString().slice(0, 19).replace('T', ' ');
+            const imagePath = path.join(__dirname, '../public3/uploads/', `image${Date.now()}.jpeg`);
+
+
+            // Execute the query
+            connection.query('INSERT INTO Orders (case_no, po_no, product_name, price, quantity, deadline_date, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [case_no ,po_no, product_name, price, quantity, formattedDeadlineDate, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, imagePath], (error, result) => {
+                // Release the connection back to the pool
+                connection.release();
+                if (error) {
+                    console.error('Error creating order:', error);
+                    return res.status(500).json({ error: 'Internal server error' });
+                }
+                return res.status(201).json({ message: 'Order created successfully', orderId: result.insertId });
+            });
+        });
+    } catch (error) {
+        console.error('Error creating order:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 
 exports.getOrder = (req, res) => {

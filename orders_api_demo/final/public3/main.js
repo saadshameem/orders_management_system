@@ -56,25 +56,33 @@ function editOrder(orderId) {
 
             const order = data.order;
 
-             // Format deadline_date
-    const deadlineDate = new Date(order.deadline_date);
-    const formattedDeadlineDate = deadlineDate.toISOString().split('T')[0];
+            // Format deadline_date
+            const deadlineDate = new Date(order.deadline_date);
+            const formattedDeadlineDate = deadlineDate.toISOString().split('T')[0];
 
             // Create a form pre-filled with existing order details
             const form = document.createElement('form');
             form.innerHTML = `
 
 
-                <label for="caseNo">Case No:</label>
-                <input type="text" id="caseNo" name="caseNo" value="${order.case_no}" required>
-
-                <label for="poNo">PO No:</label>
-                <input type="text" id="poNo" name="poNo" value="${order.po_no}" required>
-
+            <div class="edit-form">
+            <div class="edit-form-header">Edit Order</div>
+            <div class="edit-form-row">
+            <div class="edit-form-column">
+                <label class="edit-form-label" for="caseNo" class="edit-form-label">Case No:</label>
+                <input type="text" id="caseNo" name="caseNo" value="${order.case_no}" required class="edit-form-input">
+            </div>
+            <div class="edit-form-column">
+                <label class="edit-form-label" for="poNo" class="edit-form-label">PO No:</label>
+                <input type="text" id="poNo" name="poNo" value="${order.po_no}" required class="edit-form-input">
+            </div>
+        </div>
                 
 
-                <label for="productName">Product Name:</label>
-                <select id="productName" name="productName">
+                <div class="edit-form-row">
+                <div class="edit-form-column">
+                <label class="edit-form-label" for="productName" class="edit-form-label">Product Name:</label>
+                <select id="productName" name="productName" class="edit-form-input">
                     <option value="Piezometer" ${order.product_name === 'Piezometer' ? 'selected' : ''}>Piezometer</option>
                     <option value="CEMS" ${order.product_name === 'CEMS' ? 'selected' : ''}>CEMS</option>
                     <option value="AQMS" ${order.product_name === 'AQMS' ? 'selected' : ''}>AQMS</option>
@@ -82,34 +90,66 @@ function editOrder(orderId) {
                     <option value="Water Analyzer" ${order.product_name === 'Water Analyzer' ? 'selected' : ''}>Water Analyzer</option>
                     <option value="Multi Gas Analyzer" ${order.product_name === 'Multi Gas Analyzer' ? 'selected' : ''}>Multi Gas Analyzer</option>
                 </select>
+                </div>
 
-                <label for="price">Price:</label>
-                <input type="text" id="price" name="price" value="${order.price}" required>
-
-                <label for="quantity">Quantity:</label>
-                <input type="text" id="quantity" name="quantity" value="${order.quantity}" required>
-
-                <label for="date">Days to Deadline:</label>
-        <input type="date" id="date" name="date" value="${formattedDeadlineDate}" required>
+                <div class="edit-form-column">
+                <label class="edit-form-label" for="price" class="edit-form-label">Price:</label>
+                <input type="text" id="price" name="price" value="${order.price}" required class="edit-form-input">
+                </div>
+                </div>
 
 
-                <label for="firmName">Firm Name:</label>
-                <input type="text" id="firmName" name="firmName" value="${order.firm_name}" required>
+                <div class="edit-form-row">
+                <div class="edit-form-column">
+                <label class="edit-form-label" for="quantity">Quantity:</label>
+                <input type="text" id="quantity" name="quantity" value="${order.quantity}" required class="edit-form-input">
+                </div>
 
-                <label for="customerName">Customer Name:</label>
-                <input type="text" id="customerName" name="customerName" value="${order.customer_name}" required>
+                <div class="edit-form-column">
+                <label class="edit-form-label" for="date">Days to Deadline:</label>
+        <input type="date" id="date" name="date" value="${formattedDeadlineDate}" required class="edit-form-input">
+        </div>
+        </div>
 
-                <label for="customerPhoneNo">Customer Phone No.:</label>
-                <input type="text" id="customerPhoneNo" name="customerPhoneNo" value="${order.customer_phone_no}" required>
 
-                <label for="salesPerson">Sales Person:</label>
-                <input type="text" id="salesPerson" name="salesPerson" value="${order.sales_person}" required>
+        <div class="edit-form-row">
+        <div class="edit-form-column">
+                <label class="edit-form-label" for="firmName">Firm Name:</label>
+                <input type="text" id="firmName" name="firmName" value="${order.firm_name}" required class="edit-form-input">
+                </div>
 
-                <label for="salesPersonId">Sales Person Id:</label>
-                <input type="text" id="salesPersonId" name="salesPersonId" value="${order.sales_person_id}" required>
+                <div class="edit-form-column">
+                <label class="edit-form-label" for="customerName">Customer Name:</label>
+                <input type="text" id="customerName" name="customerName" value="${order.customer_name}" required class="edit-form-input">
+                </div>
+                </div>
 
-                <label for="orderStatus">Order Status:</label>
-                <select id="orderStatus" name="orderStatus">
+
+                <div class="edit-form-row">
+                <div class="edit-form-column">
+                        <label class="edit-form-label" for="customerPhoneNo">Customer Ph.:</label>
+                        <input type="text" id="customerPhoneNo" name="customerPhoneNo" value="${order.customer_phone_no}" required class="edit-form-input">
+                        </div>
+        
+                        <div class="edit-form-column">
+                        <label class="edit-form-label" for="salesPerson">Sales Person:</label>
+                        <input type="text" id="salesPerson" name="salesPerson" value="${order.sales_person}" required class="edit-form-input">
+                        </div>
+                        </div>
+
+
+                
+
+
+                <div class="edit-form-row">
+                <div class="edit-form-column">
+                <label class="edit-form-label" for="salesPersonId">Sales Per Id:</label>
+                <input type="text" id="salesPersonId" name="salesPersonId" value="${order.sales_person_id}" required class="edit-form-input">
+                </div>
+
+                <div class="edit-form-column">
+                <label class="edit-form-label" for="orderStatus">Order Status:</label>
+                <select id="orderStatus" name="orderStatus" class="edit-form-input">
                     <option value="Trading" ${order.order_status === 'Trading' ? 'selected' : ''}>Trading</option>
                     <option value="Pending" ${order.order_status === 'Pending' ? 'selected' : ''}>Pending</option>
                     <option value="In Production" ${order.order_status === 'In Production' ? 'selected' : ''}>In Production</option>
@@ -117,14 +157,25 @@ function editOrder(orderId) {
                     <option value="Packed" ${order.order_status === 'Packed' ? 'selected' : ''}>Packed</option>
                     <option value="Shipped" ${order.order_status === 'Shipped' ? 'selected' : ''}>Shipped</option>
                 </select>
+                </div>
+                </div>
 
-                <label for="priority">Priority:</label>
-                <input type="Number" id="priority" name="priority" value="${order.priority}" required>
+                <div class="edit-form-row">
+                <div class="edit-form-column">
+                <label class="edit-form-label" for="priority">Priority:</label>
+                <input type="Number" id="priority" name="priority" value="${order.priority}" required class="edit-form-input">
+                </div>
+                <div class="edit-form-column">
+                <label class="edit-form-label" for="paymentStatus">Payment Status:</label>
+                <input type="text" id="paymentStatus" name="paymentStatus" value="${order.payment_status}" required class="edit-form-input">
+                </div>
+                </div>
+                
 
-                <label for="paymentStatus">Payment Status:</label>
-                <input type="text" id="paymentStatus" name="paymentStatus" value="${order.payment_status}" required>
-
-                <button class="btn btn-outline btn-success mt-5" onclick="submitUpdatedOrder('${orderId}')">Update</button>
+                <div class="edit-form-footer">
+            <button class="btn btn-outline btn-success" onclick="submitUpdatedOrder('${orderId}')">Update</button>
+        </div>
+    </div>
             `;
 
             // Update content area with the form
@@ -211,17 +262,17 @@ function deleteOrder(orderId) {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to delete order');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Order deleted:', data.order);
-        goToAllOrders(); // Refresh the orders table after deletion
-    })
-    .catch(error => console.error('Error deleting order:', error));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete order');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Order deleted:', data.order);
+            goToAllOrders(); // Refresh the orders table after deletion
+        })
+        .catch(error => console.error('Error deleting order:', error));
 }
 
 // JavaScript for handling navigation
@@ -239,4 +290,4 @@ function goToNewOrderForm() {
 }
 
 
-  
+

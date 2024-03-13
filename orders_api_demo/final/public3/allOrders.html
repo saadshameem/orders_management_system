@@ -7,13 +7,16 @@
 
     <title>All Orders</title>
     <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous">
 
     <link href="css/output3.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/editOrder.css">
 
     <style>
+        
         .header {
             text-align: center;
             justify-content: center;
@@ -24,7 +27,7 @@
         }
         
         .table-container {
-            max-height: 500px;
+            max-height: 400px;
             overflow-y: auto;
             border-radius: 10px;
 
@@ -59,41 +62,41 @@
 </head>
 
 <body class="flex min-h-screen   bg-green-100">
-    <aside class="fixed  z-40 w-96 h-screen pt-10 bg-emerald text-white  p-8  overflow-auto">
-        <div id="userInfo" class="text-2xl font-semibold mb-12 mt-20"></div>
+    <aside class="fixed  z-40 w-72 h-screen  bg-emerald text-white  p-4  overflow-auto">
+        <div id="userInfo" class="text-2xl font-semibold mb-12 mt-32"></div>
 
         <ul>
-            <li class="mb-6">
-                <a href="home.html" class="bg-emerald text-white rounded-xl px-6 py-2 text-s font-bold 
+            <li class="mb-6 text-sm">
+                <a href="home.html" class="bg-emerald text-white rounded-xl px-4 py-1 text-s font-medium 
                         focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 
-                        hover:bg-gray-500 text-decoration-none flex items-center hover:text-white">
+                        hover:bg-emerald text-decoration-none flex items-center hover:text-white">
                     <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
             </li>
 
-            <li class="mb-6">
-                <a href="allOrders.html" class="bg-gray-300 text-black rounded-xl px-6 py-2 text-s font-bold 
-                         hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105 
-                         text-decoration-none flex items-center hover:text-white">
+            <li class="mb-6 text-sm">
+                <a href="allOrders.html" class="bg-gray-300 text-black rounded-xl px-4 py-1 text-s font-bold 
+                         hover:bg-gray-300 transition duration-300 focus:outline-none transform hover:scale-105 
+                         text-decoration-none flex items-center hover:text-black">
                     <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
             </li>
 
-            <li class="mb-6">
-                <a href="newOrderForm.html" class="bg-emerald text-white rounded-xl px-6 py-2 text-s font-bold  
-                         hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105
+            <li class="mb-6 text-sm">
+                <a href="newOrderForm.html" class="bg-emerald text-white rounded-xl px-4 py-1 text-s font-medium  
+                         hover:bg-emerald transition duration-300 focus:outline-none transform hover:scale-105
                          text-decoration-none flex items-center">
                     <span class="mr-2"><i class="fas fa-plus"></i></span>Create New Order</a>
             </li>
 
-            <li class="mb-6">
-                <a href="register.html" class="bg-emerald text-white rounded-xl px-6 py-2 text-s font-medium  
-                    hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105
+            <li class="mb-6 text-sm">
+                <a href="register.html" class="bg-emerald text-white rounded-xl px-4 py-1 text-s font-medium  
+                    hover:bg-emerald transition duration-300 focus:outline-none transform hover:scale-105
                      text-decoration-none flex items-center">
                     <span class="mr-2"><i class="fas fa-user-plus"></i></span>Register New User</a>
             </li>
 
-            <li class="mb-6">
-                <button id="logoutBtn" class="bg-emerald text-white rounded-xl px-6 py-2 text-s font-medium  
-                    hover:bg-gray-500 transition duration-300 focus:outline-none transform hover:scale-105
+            <li class="mb-6 text-sm">
+                <button id="logoutBtn" class="bg-emerald text-white rounded-xl px-4 py-1 text-s font-medium  
+                    hover:bg-emerald transition duration-300 focus:outline-none transform hover:scale-105
                      text-decoration-none flex items-center">
                     <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
             </li>
@@ -101,32 +104,30 @@
     </aside>
 
     <nav class="fixed top-0 z-50 w-full bg-emerald border-b border-gray-200 dark:bg-emerald dark:border-gray-700">
-        <div class="px-3 py-6 lg:px-5 lg:pl-3">
+        <div class="px-1 py-4 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-start">
                 <div class="flex items-center justify-start rtl:justify-end">
-                    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
-                        aria-controls="logo-sidebar" type="button"
-                        class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-                        <span class="sr-only">Open sidebar</span>
-                        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path clip-rule="evenodd" fill-rule="evenodd"
-                                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
-                            </path>
-                        </svg>
-                    </button>
-                    <a href="https://www.enggenv.com" class="flex ms-2 md:me-24">
-                        <img src="https://www.enggenv.com/images/ee-brand.png" class="h-8 me-3" alt="FlowBite Logo" />
-                        <span
-                            class="text-white self-center text-xl font-bold sm:text-2xl whitespace-nowrap dark:text-white">E&E
-                            Solutions</span>
+                   
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
+                        <defs>
+                          <filter id="tint-filter">
+                            <feColorMatrix type="matrix" values="1 0 0 0 1
+                            0 1 0 0 1
+                            0 0 1 0 1
+                            0 0 0 1 0" />
+                          </filter>
+                        </defs>
+                      </svg>
+                    <a href="#" class="flex ms-2 md:me-24">
+                        <img src="logo1.png" class="h-20 me-3 ml-5" alt="EnE Logo Logo" style="filter: url(#tint-filter);" />
+                        
                     </a>
                 </div>
 
                 <div class="header">
                     <span
-                        class="text-white self-center text-xl font-bold sm:text-3xl whitespace-nowrap dark:text-white">Order
-                        Flow Pro</span>
+                        class="text-white self-center text-6xl font-bold  whitespace-nowrap dark:text-white">OrderEase
+                        </span>
                    
                 </div>
 
@@ -135,7 +136,7 @@
         </div>
     </nav>
 
-    <div class="flex flex-col mb-2 p-8 ml-96 mt-20 bg-green-100 overflow-auto">
+    <div class="flex flex-col mb-2 p-8 ml-72 mt-24 bg-green-100 overflow-auto">
         <ul
             class=" hidden text-md font-bold text-center text-gray-900 rounded-lg  sm:flex dark:divide-gray-700 dark:text-gray-400 space-x-1">
             <li class="flex-grow flex items-center">
@@ -175,45 +176,19 @@
             </li>
         </ul>
 
-        <div class="  md:w-1/3 px-0 py-3 mt-8  ">
-            <!-- <form class="flex items-center">
-                <label for="searchInput" class="sr-only">Search</label>
-                <div class="relative w-full flex">
-                    <div class="absolute top-2 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class=" w-8 h-7  text-gray-500 dark:text-gray-400" fill="currentColor"
-                            viewbox="0 0 25 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <input type="text" id="searchInput" name="searchInput"
-                        class="block w-full p-2 pl-10 text-lg  text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Search by Firm Name" required="">
-                    <a href="#" class="bg-emerald text-white rounded-xl px-6 py-2 text-s font-bold 
-                    focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 
-                    hover:bg-gray-500 text-decoration-none flex items-center hover:text-white ml-3"
-                        onclick="filterProductsByFirm()">Search</a>
-                </div>
-            </form> -->
-
-
-
-            <!-- <form id="searchForm">
-                <label for="searchInput">Search by Firm Name:</label>
-                <input type="text" id="searchInput" name="searchInput">
-                <button type="submit">Search</button>
-            </form> -->
+        <div class="  mt-4  ">
 
             <label for="filterAttribute">Filter By:</label>
-            <select id="filterAttribute">
+            <div class="flex mb-4">
+            <select id="filterAttribute" class="p-2">
                 <option value="case_no">Case No</option>
                 <option value="product_name">Product Name</option>
                 <option value="firm_name">Firm Name</option>
                 <option value="sales_person">Sales Person</option>
             </select>
-            <input type="text" id="searchTerm" placeholder="Enter search term">
-            <button id="applyFilterBtn" type="submit">Apply Filter</button>
+            <input type="text" id="searchTerm" placeholder="Enter search term" class="ml-2 p-2">
+            <button id="applyFilterBtn" type="submit" class="ml-4">Apply Filter</button>
+        </div>
         </div>
 
         

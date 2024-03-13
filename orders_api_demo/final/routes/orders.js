@@ -7,13 +7,13 @@ const orders = require('../controllers/orders');
 const authAdmin = require('../middleware/authAdmin')
 const authUser = require('../middleware/authUser')
 
-// const upload = require('../middleware/multer')
+const upload = require('../middleware/multer')
 // const upload = multer({ dest: 'public3/uploads/' }); // Define upload directory
 
 
 router.get('/',  authUser, orders.getAllOrders);
-router.post('/', authAdmin, orders.createOrder);
-// router.post('/', upload.single('image'), authAdmin, orders.createOrder); // Use multer middleware for image upload
+// router.post('/', authAdmin, orders.createOrder);
+router.post('/', upload.single('image'), authAdmin, orders.createOrder); // Use multer middleware for image upload
 
 router.get('/:id', authUser, orders.getOrder);
 router.patch('/:id', authAdmin, orders.updateOrder);

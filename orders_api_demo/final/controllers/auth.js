@@ -30,10 +30,10 @@ const generateJWT = (userId, name, role) => {
 // Database connection configuration
 // const connection = mysql2.createConnection({
 //     host: 'localhost',
-//     port: '3306',
-//     user: 'root',
-//     password: '0987poiu',
-//     database: 'test'
+//     port: '',
+//     user: '',
+//     password: '',
+//     database: ''
 // });
 
 // connection.connect((err) => {

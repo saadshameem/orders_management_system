@@ -301,7 +301,7 @@ function renderSalesPieChart(data) {
 
         tooltip: {
             trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)'
+            formatter: '{a} <br/>{b} : Rs.{c} ({d}%)'
         },
         legend: {
             orient: 'vertical',
