@@ -34,7 +34,7 @@ function getAllOrders() {
             table.classList.add('table');
             table.innerHTML = `
                 <tr>
-                    <th>Image</th>
+                <th>Image</th>
                     <th>Sr. No</th>
                     <th>Case. No</th>
                     <th>PO. No</th>
@@ -129,6 +129,7 @@ function fetchOrdersByStatus(status) {
                 table.classList.add('table');
                 table.innerHTML = `
                     <tr>
+                    <th>Image</th>
                         <th>Sr. No</th>
                         <th>Case. No</th>
                         <th>PO. No</th>
@@ -263,14 +264,16 @@ function addTableRow(table, order, serialNumber) {
     // Create an image element for displaying the uploaded image
     const imageCell = row.insertCell();
     const image = document.createElement('img');
-    image.src = order.image; // Assuming order.image contains the URL of the uploaded image
+    // image.src = `/uploads/${order.image}`;  // Assuming order.image contains the URL of the uploaded image
+    image.src = order.image; // Assuming order.image contains the relative path to the image file
+
     image.alt = 'Order Image';
     image.width = 100; // Adjust the width of the image as needed
     imageCell.appendChild(image);
+    
 
     row.innerHTML += `
         <td class="font-semibold text-md" >${serialNumber}</td>
-        
         <td class="font-semibold text-md" >${order.case_no}</td>
         <td class="font-semibold text-md" >${order.po_no}</td>
         <td class="font-semibold text-md" >${order.product_name}</td>
@@ -292,10 +295,6 @@ function addTableRow(table, order, serialNumber) {
         </td>
     `;
 }
-
-
-
-
 
 
 
@@ -358,6 +357,7 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                 table.classList.add('table');
                 table.innerHTML = `
                         <tr>
+                        <th>Image</th>
                             <th>Serial Number</th>
                             <th>Case. No</th>
                             <th>PO. No</th>

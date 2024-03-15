@@ -34,6 +34,7 @@ function getAllOrders() {
             table.classList.add('table');
             table.innerHTML = `
                 <tr>
+                <th>Image</th>
                     <th>Sr. No</th>
                     <th>Case. No</th>
                     <th>PO. No</th>
@@ -127,6 +128,7 @@ function fetchOrdersByStatus(status) {
                 table.classList.add('table');
                 table.innerHTML = `
                     <tr>
+                    <th>Image</th>
                         <th>Sr. No</th>
                         <th>Case. No</th>
                         <th>PO. No</th>
@@ -167,7 +169,6 @@ function fetchOrdersByStatus(status) {
 
 
 
-
 function addTableRow(table, order, serialNumber) {
     const orderDate = new Date(order.createdAt);
     const formattedDate = orderDate.toLocaleDateString('en-US', {
@@ -186,17 +187,28 @@ function addTableRow(table, order, serialNumber) {
         day: '2-digit',
         year: 'numeric'
     });
+
     // Create table row with case number
     const row = table.insertRow();
 
     // Check if the deadline date has passed
     if (deadlineDate < currentDate && order.order_status !== 'Shipped') {
-        // console.log('Deadline has passed and order is not shipped:', order.case_no);
         // Apply red background color to the row
-        row.style.backgroundColor = 'red';
+        row.style.backgroundColor = '#e43838';
     }
 
-    row.innerHTML = `
+    // Create an image element for displaying the uploaded image
+    const imageCell = row.insertCell();
+    const image = document.createElement('img');
+    // image.src = `/uploads/${order.image}`;  // Assuming order.image contains the URL of the uploaded image
+    image.src = order.image; // Assuming order.image contains the relative path to the image file
+
+    image.alt = 'Order Image';
+    image.width = 100; // Adjust the width of the image as needed
+    imageCell.appendChild(image);
+    
+
+    row.innerHTML += `
         <td class="font-semibold text-md" >${serialNumber}</td>
         <td class="font-semibold text-md" >${order.case_no}</td>
         <td class="font-semibold text-md" >${order.po_no}</td>
@@ -216,6 +228,7 @@ function addTableRow(table, order, serialNumber) {
         
     `;
 }
+
 
 function generateCaseNumber(orderCount) {
     const paddingLength = 5; // Length of padding for case number
@@ -276,6 +289,7 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                 table.classList.add('table');
                 table.innerHTML = `
                         <tr>
+                        <th>Image</th>
                             <th>Serial Number</th>
                             <th>Case. No</th>
                             <th>PO. No</th>

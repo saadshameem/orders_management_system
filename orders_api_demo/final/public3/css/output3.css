@@ -2496,7 +2496,7 @@ html {
 
 .bg-emerald {
   --tw-bg-opacity: 1;
-  background-color: rgb(57 184 129 / var(--tw-bg-opacity));
+  background-color: rgb(16 185 129 / var(--tw-bg-opacity));
 }
 
 .bg-gray-200 {
@@ -2654,7 +2654,7 @@ html {
 
 .hover\:bg-emerald:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(57 184 129 / var(--tw-bg-opacity));
+  background-color: rgb(16 185 129 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-gray-300:hover {
@@ -2720,7 +2720,7 @@ html {
 
 :is(.dark .dark\:bg-emerald) {
   --tw-bg-opacity: 1;
-  background-color: rgb(57 184 129 / var(--tw-bg-opacity));
+  background-color: rgb(16 185 129 / var(--tw-bg-opacity));
 }
 
 :is(.dark .dark\:text-gray-400) {

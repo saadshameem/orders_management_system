@@ -49,7 +49,7 @@ module.exports = {
       'forestGreen': '#2C5F2D',
       'mossGreen': '#97BC62',
       'pastelOliveGreen': '#A1BE95',
-      'emerald': '#39b881'
+      'emerald': '#10b981'
 
       
     },

@@ -87,8 +87,10 @@ function generateCaseNumber(orderCount) {
     return `${casePrefix}${padding}${orderCount}`;
 }
 
-// Function to submit a new order
+
+
 // function submitNewOrder() {
+//     // Get other form field values
 //     const poNo = document.getElementById('poNo').value;
 //     const productName = document.getElementById('productName').value;
 //     const price = document.getElementById('price').value;
@@ -102,59 +104,96 @@ function generateCaseNumber(orderCount) {
 //     const orderStatus = document.getElementById('orderStatus').value;
 //     const paymentStatus = document.getElementById('paymentStatus').value;
 
-//     // Fetch the current orders to determine the new priority
+//     // Get image file
+//     const imageFileInput = document.getElementById('image');
+//     const imageFile = imageFileInput.files[0];
 
-//     const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
-
-//     if (!token) {
-//         console.error('JWT token not found.');
-//         // Handle the case where the token is not found (e.g., redirect to login page)
+//     // Check if a file is selected
+//     if (!imageFile) {
+//         console.error('No image file selected.');
 //         return;
 //     }
-//     fetch('/api/v1/orders', {
+
+//      // Fetch the current orders to determine the new priority and case number
+//      fetch('/api/v1/orders', {
 //         headers: {
-//             'Authorization': `Bearer ${token}`
+//             'Authorization': `Bearer ${localStorage.getItem('token')}`
 //         }
 //     })
-//         .then(response => response.json())
-//         .then(data => {
-//             const priority = data.orders.length + 1;
-//             // const caseNo = data.orders.length + 1; // Set priority to the length of orders array + 1
-//             const caseNo = generateCaseNumber(data.orders.length + 1);
+//     .then(response => response.json())
+//     .then(data => {
+//         const priority = data.orders.length + 1;
+//         const caseNo = generateCaseNumber(data.orders.length + 1);
 
-//             const newOrder = {
-//                 po_no: poNo,
-//                 case_no: caseNo,
-//                 product_name: productName,
-//                 price: price,
-//                 quantity: quantity,
-//                 deadline_date: date,
-//                 firm_name: firmName,
-//                 customer_name: customerName,
-//                 customer_phone_no: customerPhoneNo,
-//                 sales_person: salesPerson,
-//                 sales_person_id: salesPersonId,
-//                 order_status: orderStatus,
-//                 payment_status: paymentStatus,
-//                 priority: priority // Set priority
-//             };
+//         // Create a new FileReader object
+//         const reader = new FileReader();
 
-//             return fetch('/api/v1/orders', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Authorization': `Bearer ${token}`,
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify(newOrder)
-//             });
+//         // Define the onload event handler
+//         reader.onload = function(event) {
+//             // Extract the Base64-encoded image data from the FileReader result
+//             const imageBase64 = event.target.result;
+
+//             // Log the Base64-encoded image data (for verification purposes)
+//             console.log('Base64-encoded image:', imageBase64);
+
+//             // Now you can proceed to send the imageBase64 and order details to the server
+//             uploadOrderWithImage(imageBase64, caseNo, priority);
+//         };
+
+//         // Read the image file as a data URL (Base64-encoded)
+//         reader.readAsDataURL(imageFile);
+//     })
+//     .catch(error => {
+//         console.error('Error fetching existing orders:', error);
+//     });
+
+//     function uploadOrderWithImage(imageBase64, caseNo, priority) {
+        
+        
+//         const orderData = {
+//             po_no: poNo,
+//             case_no: caseNo,
+//             product_name: productName,
+//             price: price,
+//             quantity: quantity,
+//             deadline_date: date,
+//             firm_name: firmName,
+//             customer_name: customerName,
+//             customer_phone_no: customerPhoneNo,
+//             sales_person: salesPerson,
+//             sales_person_id: salesPersonId,
+//             order_status: orderStatus,
+//             payment_status: paymentStatus,
+//             image: imageBase64,
+//             priority: priority // Set priority
+//         };
+
+//         // Send the order data to the server
+//         // You can use fetch or another method to send the data to your server
+//         // Make sure to adjust the URL and request method according to your server API
+
+//         const url = '/api/v1/orders'; // Example URL where you want to submit the order
+//         const token = localStorage.getItem('token'); // Assuming you have a token stored in localStorage
+
+//         fetch(url, {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${token}`,
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify(orderData) // Send the order data in the request body
 //         })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log('New order created');
-//             goToAllOrders() // Refresh the orders table after creating a new order
-//             // Optionally, you can display a success message or redirect to the orders page
+//         .then(response => {
+//             if (response.ok) {
+//                 console.log('New order created successfully.');
+//             } else {
+//                 console.error('Failed to create new order.');
+//             }
 //         })
-//         .catch(error => console.error('Error creating new order:', error));
+//         .catch(error => {
+//             console.error('Error creating new order:', error);
+//         });
+//     }
 // }
 
 
@@ -185,16 +224,17 @@ function submitNewOrder() {
         return;
     }
 
-     // Fetch the current orders to determine the new priority and case number
-     fetch('/api/v1/orders', {
+    // Fetch the highest case number and priority
+    fetch('/api/v1/orders/newOrderDetails', {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     })
     .then(response => response.json())
     .then(data => {
-        const priority = data.orders.length + 1;
-        const caseNo = generateCaseNumber(data.orders.length + 1);
+        const highestCaseNumber = data.highestCaseNumber;
+        const caseNo = generateCaseNumber(highestCaseNumber + 1);
+        const priority = data.priority;
 
         // Create a new FileReader object
         const reader = new FileReader();
@@ -207,7 +247,7 @@ function submitNewOrder() {
             // Log the Base64-encoded image data (for verification purposes)
             console.log('Base64-encoded image:', imageBase64);
 
-            // Now you can proceed to send the imageBase64 and order details to the server
+            // send the imageBase64 and order details to the server
             uploadOrderWithImage(imageBase64, caseNo, priority);
         };
 
@@ -215,12 +255,10 @@ function submitNewOrder() {
         reader.readAsDataURL(imageFile);
     })
     .catch(error => {
-        console.error('Error fetching existing orders:', error);
+        console.error('Error fetching highest case number:', error);
     });
 
     function uploadOrderWithImage(imageBase64, caseNo, priority) {
-        
-        
         const orderData = {
             po_no: poNo,
             case_no: caseNo,
@@ -236,15 +274,13 @@ function submitNewOrder() {
             order_status: orderStatus,
             payment_status: paymentStatus,
             image: imageBase64,
-            priority: priority // Set priority
+            priority: priority
         };
 
         // Send the order data to the server
-        // You can use fetch or another method to send the data to your server
-        // Make sure to adjust the URL and request method according to your server API
-
-        const url = '/api/v1/orders'; // Example URL where you want to submit the order
-        const token = localStorage.getItem('token'); // Assuming you have a token stored in localStorage
+        
+        const url = '/api/v1/orders';
+        const token = localStorage.getItem('token');
 
         fetch(url, {
             method: 'POST',
@@ -252,7 +288,7 @@ function submitNewOrder() {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(orderData) // Send the order data in the request body
+            body: JSON.stringify(orderData)
         })
         .then(response => {
             if (response.ok) {
@@ -266,3 +302,9 @@ function submitNewOrder() {
         });
     }
 }
+
+
+
+
+
+

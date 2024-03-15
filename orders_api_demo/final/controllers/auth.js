@@ -27,22 +27,7 @@ const generateJWT = (userId, name, role) => {
     );
 };
 
-// Database connection configuration
-// const connection = mysql2.createConnection({
-//     host: 'localhost',
-//     port: '',
-//     user: '',
-//     password: '',
-//     database: ''
-// });
 
-// connection.connect((err) => {
-//     if (err) {
-//         console.error('Error connecting to database:', err);
-//         return;
-//     }
-//     console.log('Connected to database');
-// });
 
 // Controller for user registration
 exports.register = async (req, res) => {
