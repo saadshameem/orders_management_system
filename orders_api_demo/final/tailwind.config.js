@@ -9,7 +9,7 @@ module.exports = {
             "./public3/user-home.html",
             "./public3/user-allOrders.html",
             "./public3/displayOrdersUser.js",
-            "./node_modules/flowbite/**/*.js"
+            
             
 ],
   theme: {
