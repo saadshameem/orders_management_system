@@ -19,7 +19,10 @@ router.get('/newOrderDetails',authAdmin, orders.getNewOrderDetails);
 
 
 router.get('/:id', authUser, orders.getOrder);
+
 router.patch('/:id', authAdmin, orders.updateOrder);
+// router.patch('/:id', upload.single('image'),authAdmin, orders.updateOrder);
+
 router.delete('/:id', authAdmin, orders.deleteOrder);
 router.get('/status/:status', authUser, orders.fetchOrdersByStatus);
 router.get('/filter-by-firm/:firmName', authUser, orders.filterProductsByFirm);

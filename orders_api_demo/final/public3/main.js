@@ -247,6 +247,99 @@ function submitUpdatedOrder(orderId) {
         .catch(error => console.error('Error updating order:', error));
 }
 
+
+
+// function submitUpdatedOrder(orderId) {
+//     // Get other form field values
+//     const caseNo = document.getElementById('caseNo').value;
+//     const poNo = document.getElementById('poNo').value;
+//     const productName = document.getElementById('productName').value;
+//     const price = document.getElementById('price').value;
+//     const quantity = document.getElementById('quantity').value;
+//     const date = document.getElementById('date').value;
+//     const firmName = document.getElementById('firmName').value;
+//     const customerName = document.getElementById('customerName').value;
+//     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
+//     const salesPerson = document.getElementById('salesPerson').value;
+//     const salesPersonId = document.getElementById('salesPersonId').value;
+//     const orderStatus = document.getElementById('orderStatus').value;
+//     const priority = document.getElementById('priority').value;
+//     const paymentStatus = document.getElementById('paymentStatus').value;
+
+//     // Get image file
+//     const imageFileInput = document.getElementById('image');
+//     const imageFile = imageFileInput.files[0];
+
+//     // Check if a file is selected
+//     if (!imageFile) {
+//         console.error('No image file selected.');
+//         return;
+//     }
+
+//     // Create a new FileReader object
+//     const reader = new FileReader();
+
+//     // Define the onload event handler
+//     reader.onload = function(event) {
+//         // Extract the Base64-encoded image data from the FileReader result
+//         const imageBase64 = event.target.result;
+
+//         // Log the Base64-encoded image data (for verification purposes)
+//         console.log('Base64-encoded image:', imageBase64);
+
+//         // Send the imageBase64 and order details to the server
+//         uploadOrderWithImage(imageBase64, orderId);
+//     };
+
+//     // Read the image file as a data URL (Base64-encoded)
+//     reader.readAsDataURL(imageFile);
+
+//     function uploadOrderWithImage(imageBase64, orderId) {
+//         const updatedOrderData = {
+//             caseNo: caseNo,
+//             poNo: poNo,
+//             productName: productName,
+//             price: price,
+//             quantity: quantity,
+//             date: date,
+//             firmName: firmName,
+//             customerName: customerName,
+//             customerPhoneNo: customerPhoneNo,
+//             salesPerson: salesPerson,
+//             salesPersonId: salesPersonId,
+//             orderStatus: orderStatus,
+//             priority: priority,
+//             paymentStatus: paymentStatus,
+//             image: imageBase64
+//         };
+
+//         // Send the updated order data to the server
+//         const url = `/api/v1/orders/${orderId}`;
+//         const token = localStorage.getItem('token');
+
+//         fetch(url, {
+//             method: 'PATCH',
+//             headers: {
+//                 'Authorization': `Bearer ${token}`,
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify(updatedOrderData)
+//         })
+//         .then(response => {
+//             if (response.ok) {
+//                 console.log('Order updated successfully.');
+//                 goToAllOrders(); // Refresh the orders table after updating
+//             } else {
+//                 console.error('Failed to update order.');
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error updating order:', error);
+//         });
+//     }
+// }
+
+
 // Function to delete an existing order
 function deleteOrder(orderId) {
     const token = localStorage.getItem('token');
