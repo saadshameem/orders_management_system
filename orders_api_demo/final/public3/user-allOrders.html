@@ -6,29 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>All Orders</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
 
-    <link href="css/output3.css" rel="stylesheet">
+    <!-- <link href="css/output3.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/editOrder.css">
 
     <style>
-        
-        .header {
-            text-align: center;
-            justify-content: center;
-            width: 80%;
-            margin-top: 5px;
-            margin-right: 220px;
-            font-size: small;
-        }
-        
         .table-container {
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
-            border-radius: 10px;
+            borderadius: 10px;
 
 
         }
@@ -36,7 +30,7 @@
         .table {
             width: max-content;
             table-layout: fixed;
-            border-radius: 5px;
+            borderadius: 5px;
         }
 
         ::-webkit-scrollbar {
@@ -54,159 +48,239 @@
         ::-webkit-scrollbar-thumb {
             background: #c3c0c0;
             /* Color of the scroll thumb */
-            border-radius: 10px;
+            borderadius: 10px;
             /* Roundness of the scroll thumb */
+        }
+
+        .tab-link.active {
+            background-color: #314155;
+            /* Change to the desired color for the active tab */
+            color: #ffffff;
+            /* Change to the desired text color for the active tab */
+            border-color: transparent;
+            /* Change to the desired border color for the active tab */
         }
     </style>
 </head>
 
-<body class="flex min-h-screen   bg-green-100">
-    <aside class="fixed  z-40 w-72 h-screen  bg-emerald text-white  p-4  overflow-auto">
-        <div id="userInfo" class="text-2xl font-semibold mb-12 mt-32"></div>
+<body class="min-h-screen bg-emerald-50 ">
 
-        <ul>
-            <li class="mb-6 text-sm">
-                <a href="user-home.html" class="bg-emerald text-white rounded-xl px-4 py-1 text-s font-medium 
-                        focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 
-                        hover:bg-emerald text-decoration-none flex items-center hover:text-white">
-                    <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
-            </li>
 
-            <li class="mb-6 text-sm">
-                <a href="user-allOrders.html" class="bg-gray-300 text-black rounded-xl px-4 py-1 text-s font-bold 
-                         hover:bg-gray-300 transition duration-300 focus:outline-none transform hover:scale-105 
-                         text-decoration-none flex items-center hover:text-black">
-                    <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
-            </li>
 
-            <!-- <li class="mb-6 text-sm">
-                <a href="newOrderForm.html" class="bg-emerald text-white rounded-xl px-4 py-1 text-s font-medium  
-                         hover:bg-emerald transition duration-300 focus:outline-none transform hover:scale-105
-                         text-decoration-none flex items-center">
-                    <span class="mr-2"><i class="fas fa-plus"></i></span>Create New Order</a>
-            </li> -->
 
-            <!-- <li class="mb-6 text-sm">
-                <a href="register.html" class="bg-emerald text-white rounded-xl px-4 py-1 text-s font-medium  
-                    hover:bg-emerald transition duration-300 focus:outline-none transform hover:scale-105
-                     text-decoration-none flex items-center">
-                    <span class="mr-2"><i class="fas fa-user-plus"></i></span>Register New User</a>
-            </li> -->
+    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
+        type="button"
+        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-100 dark:hover:text-black  dark:focus:ring-gray-600">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
+            <path clip-rule="evenodd" fill-rule="evenodd"
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+            </path>
+        </svg>
+    </button>
 
-            <li class="mb-6 text-sm">
-                <button id="logoutBtn" class="bg-emerald text-white rounded-xl px-4 py-1 text-s font-medium  
-                    hover:bg-emerald transition duration-300 focus:outline-none transform hover:scale-105
-                     text-decoration-none flex items-center">
-                    <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
-            </li>
-        </ul>
+    <aside id="default-sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-emerald-500">
+
+
+            <div id="userInfo" class="text-2xl font-semibold mb-8 mt-4 text-white "></div>
+            <!-- <div id="userInfo"></div> -->
+
+            <ul class="space-y-2 font-medium">
+                <li>
+
+                    <a href="user-home.html"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+
+                        <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
+                </li>
+
+                <li>
+
+                    <a href="user-allOrders.html"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group bg-white">
+
+                        <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
+                </li>
+
+                
+
+                
+
+                <li class="mb-6 text-sm">
+                    <button id="logoutBtn"
+                        class="flex items-center p-2 bg-emerald-500 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+                        <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
+                </li>
+                <!-- End of Login and Register buttons -->
+
+            </ul>
+        </div>
     </aside>
 
-    <nav class="fixed top-0 z-50 w-full bg-emerald border-b border-gray-200 dark:bg-emerald dark:border-gray-700">
-        <div class="px-1 py-4 lg:px-5 lg:pl-3">
-            <div class="flex items-center justify-start">
-                <div class="flex items-center justify-start rtl:justify-end">
-                   
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
-                        <defs>
-                          <filter id="tint-filter">
-                            <feColorMatrix type="matrix" values="1 0 0 0 1
-                            0 1 0 0 1
-                            0 0 1 0 1
-                            0 0 0 1 0" />
-                          </filter>
-                        </defs>
-                      </svg>
-                    <a href="#" class="flex ms-2 md:me-24">
-                        <img src="logo1.png" class="h-20 me-3 ml-5" alt="EnE Logo Logo" style="filter: url(#tint-filter);" />
-                        
-                    </a>
+
+    <div class=" sm:ml-64">
+        <div class=" pt-4 ">
+            <div class=" items-center justify-center  ">
+
+
+
+                <div class="flex flex-col  p-8    overflow-auto">
+
+                    <div class="relative">
+
+                        <ul
+                            class=" hidden text-md font-bold text-center text-gray-900 rounded-lg  sm:flex dark:divide-gray-700 dark:text-gray-800 space-x-1">
+                            <li class="flex-grow flex items-center">
+                                <a href="#"
+                                    class="inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    aria-current="page" onclick="changeTabAndGetData(this)">All Orders</a>
+                            </li>
+                            <li class="flex-grow flex items-center">
+                                <a href="#"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    data-status="Trading" onclick="changeTab(this)">Trading Orders</a>
+                            </li>
+                            <li class="flex-grow flex items-center">
+                                <a href="#"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    data-status="Pending" onclick="changeTab(this)">Orders Pending</a>
+                            </li>
+                            <li class="flex-grow flex items-center">
+                                <a href="#"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    data-status="In Production" onclick="changeTab(this)">Orders In Production</a>
+                            </li>
+                            <li class="flex-grow flex items-center">
+                                <a href="#"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    data-status="Testing" onclick="changeTab(this)">Orders In Testing</a>
+                            </li>
+                            <li class="flex-grow flex items-center">
+                                <a href="#"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    data-status="Packed" onclick="changeTab(this)">Orders Packed</a>
+                            </li>
+                            <li class="flex-grow flex items-center">
+                                <a href="#"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    data-status="Shipped" onclick="changeTab(this)">Orders Shipped</a>
+                            </li>
+                        </ul>
+
+                        <div
+                            class="sm:hidden absolute inset-x-0 top-full z-10 bg-white border border-gray-200 rounded-lg  ">
+                            <select onchange="handleTabChange(this)"
+                                class="block w-full h-10  text-gray-900 dark:text-gray-400 appearance-none rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 p-2">
+                                <option value="all">All Orders</option>
+                                <option value="Trading">Trading Orders</option>
+                                <option value="Pending">Orders Pending</option>
+                                <option value="In Production">Orders In Production</option>
+                                <option value="Testing">Orders In Testing</option>
+                                <option value="Packed">Orders Packed</option>
+                                <option value="Shipped">Orders Shipped</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="mt-14">
+                        <label for="filterAttribute" class="block text-black">Filter By:</label>
+                        <div class=" items-center mb-4">
+                            <select id="filterAttribute" class="p-2 mb-2 sm:mb-0 sm:mr-2 sm:w-1/3">
+                                <option value="case_no">Case No</option>
+                                <option value="product_name">Product Name</option>
+                                <option value="firm_name">Firm Name</option>
+                                <option value="sales_person">Sales Person</option>
+                            </select>
+                            <input type="text" id="searchTerm" placeholder="Enter search term" class="p-2 mb-2 sm:mb-0 sm:mr-2 sm:w-1/3">
+                            <button id="applyFilterBtn" type="submit" class="p-2">Apply Filter</button>
+                        </div>
+                    </div>
+                    
+                    
+
+
+
+
+                    <div class="content">
+                        <!--  Orders Table Goes Here -->
+
+                        <div class="table-container">
+                            <table id="employeeTable" class="table">
+                                <!-- Table headers to be dynamically added by JavaScript -->
+                            </table>
+                        </div>
+
+                    </div>
+
                 </div>
-
-                <div class="header">
-                    <span
-                        class="text-white self-center text-6xl font-bold  whitespace-nowrap dark:text-white">OrderEase
-                        </span>
-                   
-                </div>
-
-
             </div>
+
         </div>
-    </nav>
-
-    <div class="flex flex-col mb-2 p-8 ml-72 mt-24 bg-green-100 overflow-auto">
-        <ul
-            class=" hidden text-md font-bold text-center text-gray-900 rounded-lg  sm:flex dark:divide-gray-700 dark:text-gray-400 space-x-1">
-            <li class="flex-grow flex items-center">
-                <a href="#"
-                    class="inline-block w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-emerald dark:hover:bg-gray-700"
-                    aria-current="page" onclick="getAllOrders()">All Orders</a>
-            </li>
-            <li class="flex-grow flex items-center">
-                <a href="#"
-                    class="tab-link inline-block w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-emerald dark:hover:bg-gray-700"
-                    data-status="Trading">Trading Orders</a>
-            </li>
-            <li class="flex-grow flex items-center">
-                <a href="#"
-                    class="tab-link inline-block w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-emerald dark:hover:bg-gray-700"
-                    data-status="Pending">Orders Pending</a>
-            </li>
-            <li class="flex-grow flex items-center">
-                <a href="#"
-                    class="tab-link inline-block w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-emerald dark:hover:bg-gray-700"
-                    data-status="In Production">Orders In Production</a>
-            </li>
-            <li class="flex-grow flex items-center">
-                <a href="#"
-                    class="tab-link inline-block w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-emerald dark:hover:bg-gray-700"
-                    data-status="Testing">Orders In Testing</a>
-            </li>
-            <li class="flex-grow flex items-center">
-                <a href="#"
-                    class="tab-link inline-block w-full p-4 bg-white border-r border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-emerald dark:hover:bg-gray-700"
-                    data-status="Packed">Orders Packed</a>
-            </li>
-            <li class="flex-grow flex items-center">
-                <a href="#"
-                    class="tab-link inline-block w-full p-4 bg-white border-s-0 border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:text-white dark:bg-emerald dark:hover:bg-gray-700"
-                    data-status="Shipped">Orders Shipped</a>
-            </li>
-        </ul>
-
-        <div class="  mt-4  ">
-
-            <label for="filterAttribute">Filter By:</label>
-            <div class="flex mb-4">
-            <select id="filterAttribute" class="p-2">
-                <option value="case_no">Case No</option>
-                <option value="product_name">Product Name</option>
-                <option value="firm_name">Firm Name</option>
-                <option value="sales_person">Sales Person</option>
-            </select>
-            <input type="text" id="searchTerm" placeholder="Enter search term" class="ml-2 p-2">
-            <button id="applyFilterBtn" type="submit" class="ml-4">Apply Filter</button>
-        </div>
-        </div>
-
-        
-            <div class="content">
-                <!--  Orders Table Goes Here -->
-
-                <div class="table-container">
-                    <table id="employeeTable" class="table">
-                        <!-- Table headers to be dynamically added by JavaScript -->
-                    </table>
-                </div>
-
-            </div>
-        
     </div>
-    <!-- <script src="main.js"></script> -->
+
+
     <script src="displayOrdersUser.js"></script>
-    <script src="newOrder.js"></script>
     <script>
+
+        function handleTabChange(selectElement) {
+            // Get the value of the selected option
+            const selectedOption = selectElement.value;
+
+            // If the selected option is "all", redirect to the "All Orders" page
+            if (selectedOption === "all") {
+                window.location.href = "allOrders.html"; // Replace with the actual URL of the "All Orders" page
+                return; // Exit the function to prevent further execution
+            }
+
+            // Get all tab links
+            const tabLinks = document.querySelectorAll('.tab-link');
+
+            // Loop through each tab link
+            tabLinks.forEach(tabLink => {
+                // Get the data-status attribute value of the tab link
+                const tabStatus = tabLink.getAttribute('data-status');
+
+                // Check if the data-status attribute matches the selected option value
+                if (tabStatus === selectedOption) {
+                    // Simulate a click on the tab link
+                    tabLink.click();
+                }
+            });
+        }
+
+        function changeTab(tab) {
+            // Remove the 'active' class from all tab links
+            const tabLinks = document.querySelectorAll('.tab-link');
+            tabLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Add the 'active' class to the clicked tab link
+            tab.classList.add('active');
+        }
+        function changeTabAndGetData(tab) {
+            // Remove the 'active' class from all tab links
+            const tabLinks = document.querySelectorAll('.tab-link');
+            tabLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Add the 'active' class to the clicked tab link
+            tab.classList.add('active');
+
+            // Call the function to get all orders
+            getAllOrders();
+        }
+
+
+
+
+
         window.onload = function () {
             getAllOrders();
         };
@@ -247,6 +321,8 @@
         displayUserInfo();
 
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
 </body>
 

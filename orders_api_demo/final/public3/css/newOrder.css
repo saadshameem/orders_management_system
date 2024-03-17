@@ -91,10 +91,12 @@
 }
 
 
-.btn {
+/* .btn {
+  background-color: #1BBA93;
   padding: 10px 20px;
   font-size: 17px;
   border-radius: 5px;
+  border-color: #1BBA93;
   color: #1BBA93;
   cursor: pointer;
 }
@@ -103,7 +105,8 @@
 .btn:hover {
   background-color: #50d199;
   color: white;
-}
+  border-color: #1BBA93;
+} */
 
 
 .container {

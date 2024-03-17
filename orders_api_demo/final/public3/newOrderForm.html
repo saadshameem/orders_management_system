@@ -4,123 +4,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Order</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-        crossorigin="anonymous">
-
-    <!-- <link rel="stylesheet" href="css/output3.css"> -->
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
     <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="css/newOrder.css">
+    <!-- <link rel="stylesheet" href="css/output3.css"> -->
 
+
+
+
+    <title>New Order</title>
     <style>
-        .header {
-            text-align: center;
-            justify-content: center;
-            width: 80%;
-            margin-top: 5px;
-            margin-right: 220px;
-            font-size: small;
-        }
+    
+
     </style>
-
-
-
 </head>
 
-<body class="flex  bg-green-100 overflow-y-auto">
+<body class="min-h-screen bg-emerald-50 ">
 
 
-    <aside class="fixed h-full z-40 w-72   bg-emerald-500 text-white  p-4  overflow-auto">
-
-        <div id="userInfo" class="text-2xl font-semibold mb-12 mt-32"></div>
-
-
-
-
-        <ul>
-            <li class="mb-6 text-sm">
-
-                <a href="home.html" class="bg-emerald-500 text-white rounded-xl px-4 py-1 text-s font-medium 
-                        focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 
-                        hover:bg-emerald-500 text-decoration-none flex items-center hover:text-white">
-                    <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
-            </li>
-
-            <li class="mb-6 text-sm">
-                <a href="allOrders.html" class="bg-emerald-500 text-white rounded-xl px-4 py-1 text-s font-medium 
-                         hover:bg-emerald-500 transition duration-300 focus:outline-none transform hover:scale-105 
-                         text-decoration-none flex items-center">
-                    <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
-            </li>
-
-            <li class="mb-6 text-sm">
-                <a href="newOrderForm.html" class="bg-gray-300 text-black rounded-xl px-4 py-1 text-s font-bold  
-                         hover:bg-gray-300 transition duration-300 focus:outline-none transform hover:scale-105
-                         text-decoration-none flex items-center  hover:text-black">
-                    <span class="mr-2"><i class="fas fa-plus"></i></span>Create New Order</a>
-            </li>
-
-            <li class="mb-6 text-sm">
-                <a href="register.html" class="bg-emerald-500 text-white rounded-xl px-4 py-1 text-s font-medium  
-                    hover:bg-emerald-500 transition duration-300 focus:outline-none transform hover:scale-105
-                     text-decoration-none flex items-center">
-                    <span class="mr-2"><i class="fas fa-user-plus"></i></span>Register New User</a>
-            </li>
-
-            <li class="mb-6 text-sm">
-                <button type="logoutBtn" id="logoutBtn" class="bg-emerald-500 text-white rounded-xl px-4 py-1 text-s font-medium  
-                    hover:bg-emerald-500 transition duration-300 focus:outline-none transform hover:scale-105
-                     text-decoration-none flex items-center">
-                    <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
-            </li>
-
-
-
-
-        </ul>
-
-    </aside>
-
-    <nav
-        class="fixed top-0 z-50 w-full bg-emerald-500 border-b border-gray-200 dark:bg-emerald-500 dark:border-gray-200">
-        <div class="px-1 py-4 lg:px-5 lg:pl-3">
-            <div class="flex items-center justify-start">
-                <div class="flex items-center justify-start rtl:justify-end">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
-                        <defs>
-                            <filter id="tint-filter">
-                                <feColorMatrix type="matrix" values="1 0 0 0 1
-                            0 1 0 0 1
-                            0 0 1 0 1
-                            0 0 0 1 0" />
-                            </filter>
-                        </defs>
-                    </svg>
-                    <a href="#" class="flex ms-2 md:me-24">
-                        <img src="logo1.png" class="h-20 me-3 ml-5" alt="EnE Logo Logo"
-                            style="filter: url(#tint-filter);" />
-
-                    </a>
-                </div>
-
-                <div class="header">
-                    <span class="text-white self-center text-6xl font-bold whitespace-nowrap dark:text-white">OrderEase
-                    </span>
-                </div>
-
+    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-100 dark:hover:text-black  dark:focus:ring-gray-600">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+        </svg>
+     </button>
+        
+     <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-emerald-500">
+    
+    
+                <div id="userInfo" class="text-2xl font-semibold mb-8 mt-4 text-white "></div>
+                <!-- <div id="userInfo"></div> -->
+    
+                <ul class="space-y-2 font-medium">
+                    <li>
+    
+                        <a href="home.html"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+    
+                            <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
+                    </li>
+    
+                    <li>
+    
+                        <a href="allOrders.html"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+    
+                            <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
+                    </li>
+    
+                    <li>
+    
+                        <a href="newOrderForm.html"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group bg-white">
+    
+                            <span class="mr-2"><i class="fas fa-plus"></i></span>Add New Order</a>
+                    </li>
+    
+                    <!-- Added Login and Register buttons -->
+    
+                    <li>
+    
+                        <a href="register.html"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+    
+                            <span class="mr-1"><i class="fas fa-user-plus"></i></span>Register New User</a>
+                    </li>
+    
+                    <li class="mb-6 text-sm">
+                        <button id="logoutBtn"
+                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+                            <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
+                    </li>
+                    <!-- End of Login and Register buttons -->
+    
+                </ul>
             </div>
-        </div>
-    </nav>
+        </aside>
 
-    <div class="flex flex-col mb-2 p-8 ml-96   ">
-
-        <div class="content flex-grow flex items-center mr-20 mt-20">
+        <div class=" sm:ml-64">
+            <div class=" ">
+               
+              
+             
+               <div class="flex items-center justify-center  ">
+                  <div class="flex flex-col  p-8    ">
+             
+                     <div class="content flex-grow flex items-center  ">
 
 
 
@@ -231,9 +207,17 @@
                 </div>
 
                 <div class="form-footer">
-                    <button type="button" class="btn   mt-5" onclick="submitNewOrder()">Submit</button>
+                    <button type="button" class="btn btn-outline btn-success btn-xs sm:btn-sm md:btn-md   " onclick="submitNewOrder()">Submit</button>
                 </div>
             </form>
+
+        </div>
+    </div>
+  </div>
+ 
+</div>
+</div>
+    
             <script src="main.js"></script>
             <script src="newOrder.js"></script>
             <script>
@@ -265,7 +249,7 @@
                     if (name) {
                         userInfoElement.innerHTML = `
             <i class="fas fa-user fa-lg mr-2"></i>
-            <span class="text-lg font-semibold">Welcome, ${name}</span>
+            <span class="text-lg font-semibold">${name}</span>
         `;
                     } else {
                         userInfoElement.innerHTML = `
@@ -280,9 +264,10 @@
 
 
             </script>
-        </div>
 
-    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
+        
 
 </body>
 

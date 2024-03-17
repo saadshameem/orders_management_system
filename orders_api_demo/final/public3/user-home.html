@@ -4,42 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Management System</title>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <title>Orders Management System</title>
     <script src="echarts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.2.2/echarts.min.js"></script>
 
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+       
 
     <!-- <link href="css/output3.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .header {
-            text-align: center;
-            justify-content: center;
-            width: 80%;
-            margin-top: 5px;
-            margin-right: 220px;
-            font-size: small;
-        }
+        
 
         .card {
             background-color: rgb(222, 247, 236);
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+            /* padding: 20px; */
             transition: all 0.3s ease;
         }
 
         .cardInside {
             background-color: rgb(255, 255, 255);
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+            padding: 10px;
             transition: all 0.3s ease;
         }
 
@@ -51,7 +45,7 @@
         .card-inner {
             border: 1px solid #e2e8f0;
             border-radius: 8px;
-            padding: 20px;
+            padding: 5px;
         }
 
         .card-inner:hover {
@@ -62,165 +56,156 @@
             width: 100%;
             height: 350px;
         }
+
+        /* Responsive styles */
+        @media (max-width: 1024px) {
+            .chart {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .chart {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .chart {
+                height: 200px;
+            }
+        }
     </style>
 </head>
 
-<body class="flex max-w-screen  bg-green-100">
+<body class="min-h-screen bg-emerald-50 ">
 
 
 
-    <div class="fixed h-full bg-emerald-500 text-white w-72 p-4 z-20 overflow-auto ">
+    
+    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-100 dark:hover:text-black  dark:focus:ring-gray-600">
+     <span class="sr-only">Open sidebar</span>
+     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+     <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+     </svg>
+  </button>
+     
+  <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+     <div class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-emerald-500">
+ 
+ 
+             <div id="userInfo" class="text-2xl font-semibold mb-8 mt-4 text-white "></div>
+             <!-- <div id="userInfo"></div> -->
+ 
+             <ul class="space-y-2 font-medium">
+                 <li>
+ 
+                     <a href="user-home.html"
+                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group bg-white">
+ 
+                         <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
+                 </li>
+ 
+                 <li>
+ 
+                     <a href="user-allOrders.html"
+                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+ 
+                         <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
+                 </li>
+ 
+                 
+
+ 
+                 
+ 
+                 
+ 
+                 <li class="mb-6 text-sm">
+                     <button id="logoutBtn"
+                         class="flex items-center p-2 bg-emerald-500 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+                         <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
+                 </li>
+                 <!-- End of Login and Register buttons -->
+ 
+             </ul>
+         </div>
+     </aside>
+ 
+
+     <div class=" sm:ml-64">
+        <div class=" pt-4 ">         
+           <div class=" items-center justify-center  ">
 
 
 
-        <div id="userInfo" class="text-2xl font-semibold mb-12 mt-32"></div>
 
 
-        <ul>
-            <li class="mb-6 text-sm">
-
-                <a href="user-home.html" class="bg-gray-300 text-black rounded-xl px-4 py-1 text-s font-bold 
-                    focus:outline-none transition duration-300 ease-in-out transform hover:scale-105 
-                    hover:bg-gray-300 text-decoration-none flex items-center hover:text-black">
-                    <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
-            </li>
-
-            <li class="mb-6 text-sm">
-                <a href="user-allOrders.html" class="bg-emerald-500 text-white rounded-xl px-4 py-1 text-s font-medium 
-                     hover:bg-emerald-500 transition duration-300 focus:outline-none transform hover:scale-105 
-                     text-decoration-none flex items-center ">
-                    <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
-            </li>
-
-            <!-- <li class="mb-6 text-sm">
-                <a href="newOrderForm.html" class="bg-emerald-500 text-white rounded-xl px-4 py-1 text-s font-medium  
-                    hover:bg-emerald-500 transition duration-300 focus:outline-none transform hover:scale-105
-                     text-decoration-none flex items-center">
-                    <span class="mr-2"><i class="fas fa-plus"></i></span>Create New Order</a>
-            </li> -->
-
-
-            <!-- <li class="mb-6 text-sm">
-                <a href="register.html" class="bg-emerald-500 text-white rounded-xl px-4 py-1 text-s font-medium  
-                    hover:bg-emerald-500 transition duration-300 focus:outline-none transform hover:scale-105
-                     text-decoration-none flex items-center">
-                    <span class="mr-2"><i class="fas fa-user-plus"></i></span>Register New User</a>
-            </li> -->
-
-            <li class="mb-6 text-sm">
-                <button id="logoutBtn" class="bg-emerald-500 text-white rounded-xl px-4 py-1 text-s font-medium  
-                    hover:bg-emerald-500 transition duration-300 focus:outline-none transform hover:scale-105
-                     text-decoration-none flex items-center">
-                    <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
-            </li>
-
-        </ul>
-
-    </div>
-
-    <nav
-        class="fixed top-0 z-30 w-full bg-emerald-500 border-b border-gray-200 dark:bg-emerald-500 dark:border-gray-200">
-        <div class="px-1 py-4 lg:px-5 lg:pl-3">
-            <div class="flex items-center justify-start">
-                <div class="flex items-center justify-start rtl:justify-end">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
-                        <defs>
-                            <filter id="tint-filter">
-                                <feColorMatrix type="matrix" values="1 0 0 0 1
-                            0 1 0 0 1
-                            0 0 1 0 1
-                            0 0 0 1 0" />
-                            </filter>
-                        </defs>
-                    </svg>
-                    <a href="#" class="flex ms-2 md:me-24">
-                        <img src="logo1.png" class="h-20 me-3 ml-5"
-                            alt="EnE Logo " style="filter: url(#tint-filter);" />
-
-                    </a>
-                </div>
-
-                <div class="header">
-                    <span class="text-white self-center text-6xl font-bold  whitespace-nowrap dark:text-white">OrderEase</span>
-                </div>
-
-
-            </div>
-        </div>
-    </nav>
-
-    <div class="flex-1 px-15  py-20 ml-72 z-10 relative bg-green-100 mt-20">
-
-
-
-        <!-- <div class="flex bg-green-100">
-            <div id="orderStatusChart"
-                style="width: 500px;height:500px; margin-top: 10%; margin-right: 1%; margin-left: 10%;"></div>
-
-            <div id="productNameChart"
-                style="width: 500px;height:400px; margin-top: 10%; margin-right: 1%; margin-left: 10%;"></div>
-        </div> -->
-
-
-        <div class="ml-4 grid grid-cols-1 lg:grid-cols-2 gap-8 mr-4">
+        <div class="ml-2 grid grid-cols-1 lg:grid-cols-2 gap-8 mr-4 pt-4">
             <div class=" card">
-                <div id="orderStatusChart"  class="card-inner chart"></div>
+                <div id="orderStatusChart" class="card-inner chart"></div>
             </div>
-            <div class="card">
-                <div id="productNameChart"  class="card-inner chart"></div>
+            <div class=" card">
+                <div id="productNameChart" class="card-inner chart"></div>
             </div>
         </div>
 
-        <div class="ml-4 mt-8 cardInside grid grid-cols-1 lg:grid-cols-4 gap-8 mr-4">
+        <div class="ml-4 mt-8  grid grid-cols-1 lg:grid-cols-4 gap-8 mr-4">
 
-        <div class=" card col-span-1">
-            <label for="year" class="block">Select Year:</label>
-            <select id="year" class="block w-36">
-                <!-- Year options will be generated dynamically -->
-            </select>
+            <div class="  col-span-1">
+                <label for="year" class="block">Select Year:</label>
+                <select id="year" class="block w-full  py-2 px-4 ">
+                    <!-- Year options will be generated dynamically -->
+                </select>
 
-            <label for="month" class="block mt-4">Select Month:</label>
-            <select id="month" class="block w-36">
-                <option value="1">Jan</option>
-                <option value="2">Feb</option>
-                <option value="3">Mar</option>
-                <option value="4">Apr</option>
-                <option value="5">May</option>
-                <option value="6">Jun</option>
-                <option value="7">Jul</option>
-                <option value="8">Aug</option>
-                <option value="9">Sep</option>
-                <option value="10">Oct</option>
-                <option value="11">Nov</option>
-                <option value="12">Dec</option>
-                <!-- Add more months as needed -->
-            </select>
+                <label for="month" class="block mt-4 ">Select Month:</label>
+                <select id="month" class="block w-full  py-2 px-4 ">
+                    <option value="1">Jan</option>
+                    <option value="2">Feb</option>
+                    <option value="3">Mar</option>
+                    <option value="4">Apr</option>
+                    <option value="5">May</option>
+                    <option value="6">Jun</option>
+                    <option value="7">Jul</option>
+                    <option value="8">Aug</option>
+                    <option value="9">Sep</option>
+                    <option value="10">Oct</option>
+                    <option value="11">Nov</option>
+                    <option value="12">Dec</option>
+                    <!-- Add more months as needed -->
+                </select>
 
-            <button id="salesButton" type="button" onclick="fetchSalesData()" class="block mt-4 bg-emerald-500 text-white py-2 px-4 rounded-md">Show Chart</button>
+                <button id="salesButton" type="button" onclick="fetchSalesData()"
+                    class="block mt-4 w-full bg-emerald-500 text-white py-2 px-4 rounded-md">Show Chart</button>
+                    
+            </div>
+
+            <div class="card col-span-3">
+                <div id="salesChart" class="card-inner chart"></div>
+            </div>
         </div>
 
-        
-        <div class="card col-span-3">
-            <div id="salesChart"  class="card-inner chart"></div>
+        <div class="ml-4 mt-8  grid grid-cols-1 lg:grid-cols-5 gap-8 mr-4 pb-4">
+
+            <div class=" col-span-1">
+                <label for="chartType" class="block">Select Chart Type:</label>
+                <select id="chartType" class="block w-full py-2 px-4 " onchange="switchChart()">
+                    <option value="daily">Daily Chart</option>
+                    <option value="monthly">Monthly Chart</option>
+                </select>
+            </div>
+
+            <div class="card col-span-4">
+                <div id="orderStatisticsChart" class="card-inner chart"></div>
+            </div>
+
+            
+
+            
         </div>
     </div>
-
-    <div class="ml-4 mt-8 cardInside grid grid-cols-1 lg:grid-cols-5 gap-8 mr-4">
-        <div class="card col-span-1">
-            <label for="chartType" class="block">Select Chart Type:</label>
-            <select id="chartType" class="block w-36" onchange="switchChart()">
-                <option value="daily">Daily Chart</option>
-                <option value="monthly">Monthly Chart</option>
-            </select>
-        </div>
-
-        <div class="card col-span-4">
-            <div id="orderStatisticsChart" class="card-inner chart"></div>
-        </div>
-        </div>
-    </div>
-
+</div>
+</div>
 
 
 
@@ -256,7 +241,7 @@
             if (name) {
                 userInfoElement.innerHTML = `
             <i class="fas fa-user fa-lg mr-2"></i>
-            <span class="text-lg font-semibold">Welcome, ${name}</span>
+            <span class="text-lg font-semibold">${name}</span>
         `;
             } else {
                 userInfoElement.innerHTML = `
@@ -313,6 +298,7 @@
 
     </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
 </body>
 
