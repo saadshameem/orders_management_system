@@ -2,7 +2,6 @@
 
 
 
-// Function to edit an existing order (if needed)
 function editOrder(orderId) {
     const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
 
@@ -31,28 +30,7 @@ function editOrder(orderId) {
         .then(data => {
             console.log('Received data for editing order:', data);
 
-            if (!data || !data.order) {
-                console.error('Invalid data received for editing order. Expected structure:', {
-                    orders: {
-                        id: '',
-                        po_no: '',
-                        case_no: '',
-                        product_name: '',
-                        price: '',
-                        quantity: '',
-                        deadline_date: '',
-                        firm_name: '',
-                        customer_name: '',
-                        customer_phone_no: '',
-                        sales_person: '',
-                        sales_person_id: '',
-                        order_status: '',
-                        priority: '',
-                        payment_status: ''
-                    }
-                });
-                throw new Error('Invalid data received for editing order.');
-            }
+           
 
             const order = data.order;
 
@@ -170,6 +148,9 @@ function editOrder(orderId) {
                 <input type="text" id="paymentStatus" name="paymentStatus" value="${order.payment_status}" required class="edit-form-input">
                 </div>
                 </div>
+
+                
+
                 
                 
 
@@ -187,7 +168,8 @@ function editOrder(orderId) {
         .catch(error => console.error('Error fetching order for editing:', error));
 }
 
-// Function to submit updated order details
+
+
 function submitUpdatedOrder(orderId) {
     const caseNo = document.getElementById('caseNo').value;
     const poNo = document.getElementById('poNo').value;
@@ -249,98 +231,6 @@ function submitUpdatedOrder(orderId) {
 
 
 
-// function submitUpdatedOrder(orderId) {
-//     // Get other form field values
-//     const caseNo = document.getElementById('caseNo').value;
-//     const poNo = document.getElementById('poNo').value;
-//     const productName = document.getElementById('productName').value;
-//     const price = document.getElementById('price').value;
-//     const quantity = document.getElementById('quantity').value;
-//     const date = document.getElementById('date').value;
-//     const firmName = document.getElementById('firmName').value;
-//     const customerName = document.getElementById('customerName').value;
-//     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
-//     const salesPerson = document.getElementById('salesPerson').value;
-//     const salesPersonId = document.getElementById('salesPersonId').value;
-//     const orderStatus = document.getElementById('orderStatus').value;
-//     const priority = document.getElementById('priority').value;
-//     const paymentStatus = document.getElementById('paymentStatus').value;
-
-//     // Get image file
-//     const imageFileInput = document.getElementById('image');
-//     const imageFile = imageFileInput.files[0];
-
-//     // Check if a file is selected
-//     if (!imageFile) {
-//         console.error('No image file selected.');
-//         return;
-//     }
-
-//     // Create a new FileReader object
-//     const reader = new FileReader();
-
-//     // Define the onload event handler
-//     reader.onload = function(event) {
-//         // Extract the Base64-encoded image data from the FileReader result
-//         const imageBase64 = event.target.result;
-
-//         // Log the Base64-encoded image data (for verification purposes)
-//         console.log('Base64-encoded image:', imageBase64);
-
-//         // Send the imageBase64 and order details to the server
-//         uploadOrderWithImage(imageBase64, orderId);
-//     };
-
-//     // Read the image file as a data URL (Base64-encoded)
-//     reader.readAsDataURL(imageFile);
-
-//     function uploadOrderWithImage(imageBase64, orderId) {
-//         const updatedOrderData = {
-//             caseNo: caseNo,
-//             poNo: poNo,
-//             productName: productName,
-//             price: price,
-//             quantity: quantity,
-//             date: date,
-//             firmName: firmName,
-//             customerName: customerName,
-//             customerPhoneNo: customerPhoneNo,
-//             salesPerson: salesPerson,
-//             salesPersonId: salesPersonId,
-//             orderStatus: orderStatus,
-//             priority: priority,
-//             paymentStatus: paymentStatus,
-//             image: imageBase64
-//         };
-
-//         // Send the updated order data to the server
-//         const url = `/api/v1/orders/${orderId}`;
-//         const token = localStorage.getItem('token');
-
-//         fetch(url, {
-//             method: 'PATCH',
-//             headers: {
-//                 'Authorization': `Bearer ${token}`,
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(updatedOrderData)
-//         })
-//         .then(response => {
-//             if (response.ok) {
-//                 console.log('Order updated successfully.');
-//                 goToAllOrders(); // Refresh the orders table after updating
-//             } else {
-//                 console.error('Failed to update order.');
-//             }
-//         })
-//         .catch(error => {
-//             console.error('Error updating order:', error);
-//         });
-//     }
-// }
-
-
-// Function to delete an existing order
 function deleteOrder(orderId) {
     const token = localStorage.getItem('token');
 
@@ -369,7 +259,6 @@ function deleteOrder(orderId) {
         .catch(error => console.error('Error deleting order:', error));
 }
 
-// JavaScript for handling navigation
 
 function goToHomepage() {
     window.location.href = 'index.html';

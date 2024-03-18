@@ -138,54 +138,6 @@ exports.updateOrder = (req, res) => {
 };
 
 
-// exports.updateOrder = async (req, res) => {
-//     const { id } = req.params;
-//     const { case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, deadline_date, priority } = req.body;
-
-//     let relativeImagePath = null;
-
-//     if (req.body.image) {
-//         // Remove the data:image/jpeg;base64, prefix
-//         const base64Data = req.body.image.replace(/^data:image\/\w+;base64,/, '');
-//         const imageData = Buffer.from(base64Data, 'base64');
-
-//         const imageFileName = `image_${case_no}.jpeg`;
-
-//         // Define the path where you want to save the image
-//         const imagePath = path.join(__dirname, '../public3/uploads/', imageFileName);
-
-//         // Save the image to the uploads directory
-//         try {
-//             await fs.promises.writeFile(imagePath, imageData);
-//             console.log('Image saved successfully');
-//             relativeImagePath = `/uploads/${imageFileName}`;
-//         } catch (error) {
-//             console.error('Error saving image:', error);
-//             return res.status(500).json({ error: 'Failed to save image' });
-//         }
-//     }
-
-//     // Update the order data in the database
-//     const query = 'UPDATE Orders SET case_no = ?, po_no = ?, product_name = ?, price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?, sales_person = ?, sales_person_id = ?, order_status = ?, payment_status = ?, deadline_date = ?, priority = ?, image = ? WHERE id = ?';
-//     const values = [case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, deadline_date, priority, relativeImagePath, id];
-
-//     pool.getConnection((err, connection) => {
-//         if (err) {
-//             console.error('Error getting database connection:', err);
-//             return res.status(500).json({ error: 'Internal server error' });
-//         }
-
-//         connection.query(query, values, (error, result) => {
-//             connection.release();
-//             if (error) {
-//                 console.error('Error updating order:', error);
-//                 return res.status(500).json({ error: 'Internal server error' });
-//             }
-//             res.status(200).json({ message: 'Order updated successfully', order: result });
-//         });
-//     });
-// };
-
 exports.deleteOrder = (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM Orders WHERE id = ?';

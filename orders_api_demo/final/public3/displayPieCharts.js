@@ -1,40 +1,4 @@
-// document.addEventListener('DOMContentLoaded', function () {
 
-//     const token = localStorage.getItem('token');
-//     if (!token) {
-//         console.error('JWT token not found.');
-//         return;
-//     }
-//     // Fetch data from backend API
-//     fetch('/api/v1/orders/piechart/status-summary', {
-//         headers: {
-//             'Authorization': `Bearer ${token}`
-//         }
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             // Extract data for the pie chart
-//             const orderStatusData = {
-//                 labels: Object.keys(data), // Order status labels
-//                 datasets: [{
-//                     data: Object.values(data), // Order count for each status
-//                     backgroundColor: ['#ff6384', '#36a2eb', '#ffce56'], // Color for each segment
-//                 }]
-//             };
-
-//             // Get canvas element
-//             const ctx = document.getElementById('orderStatusChart').getContext('2d');
-
-//             // Create pie chart
-//             new Chart(ctx, {
-//                 type: 'pie',
-//                 data: orderStatusData,
-//             });
-//         })
-//         .catch(error => {
-//             console.error('Error fetching order status data:', error);
-//         });
-// });
 
 function fetchOrderStatusSummary() {
     const token = localStorage.getItem('token');
@@ -86,8 +50,9 @@ function renderOrderStatusPieChart(data) {
         title: {
             text: 'Distribution of Orders ',
             subtext: 'Order Status',
-            left: 'center',
-            // top: '0%'
+            left: 'left',
+            // bottom: '0%'
+            fontSize: 10
         },
 
         tooltip: {
@@ -96,7 +61,7 @@ function renderOrderStatusPieChart(data) {
         },
         legend: {
             orient: 'vertical',
-            left: 'left'
+            left: 'right'
 
         },
         series: [
@@ -112,7 +77,7 @@ function renderOrderStatusPieChart(data) {
                 itemStyle: {
                     borderRadius: 10,
                     borderColor: '#fff',
-                    borderWidth: 2
+                    borderWidth: 1
                 },
                 // label: {
                 //     show: false,
@@ -186,7 +151,8 @@ function renderProductNameBarChart(data) {
     const chart = echarts.init(document.getElementById('productNameChart'));
     const options = {
         title: {
-            text: 'Distribution of Orders by Product Name',
+            text: 'Distribution of Orders',
+            subtext:'Product Name',
             left: 'center'
         },
         tooltip: {
@@ -217,36 +183,7 @@ function renderProductNameBarChart(data) {
 }
 
 
-// function salesPiechart() {
-//     const token = localStorage.getItem('token');
-//     if (!token) {
-//         console.error('JWT token not found.');
-//         return;
-//     }
 
-//     fetch('/api/v1/orders/piechart/sales', {
-//         headers: {
-//             'Authorization': `Bearer ${token}`
-//         }
-//     })
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Network response was not ok');
-//             }
-//             return response.json();
-//         })
-//         .then(data => {
-//             console.log('Received order status summary data:', data);
-
-
-//             renderSalesPieChart(data);
-
-
-//         })
-//         .catch(error => {
-//             console.error('Error fetching order status summary data:', error);
-//         });
-// }
 
 function salesPiechart(year, month) {
     const token = localStorage.getItem('token');
@@ -295,7 +232,7 @@ function renderSalesPieChart(data) {
         title: {
             text: 'Sales Distribution ',
             subtext: 'Sales Persons Name',
-            left: 'center',
+            left: 'right',
             // top: '0%'
         },
 
@@ -321,7 +258,7 @@ function renderSalesPieChart(data) {
                 itemStyle: {
                     borderRadius: 10,
                     borderColor: '#fff',
-                    borderWidth: 2
+                    borderWidth: 1
                 },
                 // label: {
                 //     show: false,
@@ -348,4 +285,5 @@ function renderSalesPieChart(data) {
 
     // Set the chart options and render the chart
     chart.setOption(options);
+    
 }

@@ -42,7 +42,9 @@ function renderOrderStatisticsChart(orderStats) {
     // Define chart options
     const options = {
         title: {
-            text: 'Daily Order Statistics'
+            text: 'Daily Order Statistics',
+            bottom: '0%',
+            left: 'center'
         },
         tooltip: {
             trigger: 'axis'
@@ -131,7 +133,9 @@ function renderOrderStatisticsChartMonthly(monthlyData) {
     // Define chart options
     const options = {
         title: {
-            text: 'Monthly Order Statistics'
+            text: 'Monthly Order Statistics',
+            bottom: '0%',
+            left: 'center'
         },
         tooltip: {
             trigger: 'axis'
