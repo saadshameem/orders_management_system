@@ -293,6 +293,8 @@ function submitNewOrder() {
         .then(response => {
             if (response.ok) {
                 console.log('New order created successfully.');
+                alert("New order created successfully");
+                goToAllOrders();
             } else {
                 console.error('Failed to create new order.');
             }

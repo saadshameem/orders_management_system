@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>All Orders</title>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+
+    <!-- <link href="css/output3.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/editOrder.css">
+
+    <style>
+        .table-container {
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 10px;
+
+
+        }
+
+        .table {
+            width: max-content;
+            table-layout: fixed;
+            border-radius: 5px;
+        }
+
+        .user-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .user-info p {
+            margin: 5px 0;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .user-info p strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-emerald-50 ">
+
+
+
+
+    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
+        type="button"
+        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-100 dark:hover:text-black  dark:focus:ring-gray-600">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
+            <path clip-rule="evenodd" fill-rule="evenodd"
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+            </path>
+        </svg>
+    </button>
+
+    <aside id="default-sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-emerald-500">
+
+
+            <div id="userInfo" class="text-2xl font-semibold mb-8 mt-4 text-white "></div>
+            <!-- <div id="userInfo"></div> -->
+
+            <ul class="space-y-2 font-medium">
+                <li>
+
+                    <a href="home.html"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+
+                        <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
+                </li>
+
+                <li>
+
+                    <a href="allOrders.html"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+
+                        <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
+                </li>
+
+                <li>
+
+                    <a href="newOrderForm.html"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+
+                        <span class="mr-2"><i class="fas fa-plus"></i></span>Add New Order</a>
+                </li>
+
+                <!-- Added Login and Register buttons -->
+
+                <li>
+
+                    <a href="allUsers.html"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group bg-white">
+
+                        <span class="mr-1"><i class="fas fa-users"></i></span>All Users</a>
+                </li>
+
+                <li>
+
+                    <a href="register.html"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+
+                        <span class="mr-1"><i class="fas fa-user-plus"></i></span>Register New User</a>
+                </li>
+
+                <li class="mb-6 text-sm">
+                    <button id="logoutBtn"
+                        class="w-full flex items-center p-2 bg-emerald-500 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+                        <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
+                </li>
+                <!-- End of Login and Register buttons -->
+
+            </ul>
+        </div>
+    </aside>
+
+
+    <div class=" sm:ml-64">
+        <div class=" pt-4 ">
+            <div class=" items-center justify-center  ">
+
+
+
+                <div class="flex flex-col  p-8    overflow-auto">
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="content">
+                        <!--  Orders Table Goes Here -->
+
+                        <div class="table-container">
+                            <table id="employeeTable" class="table">
+                                <!-- Table headers to be dynamically added by JavaScript -->
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="displayUsers.js"></script>
+    <script>
+
+
+
+
+
+
+
+        window.onload = function () {
+            getAllUsers();
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                logout();
+            });
+
+            function logout() {
+                localStorage.removeItem('token');
+                window.location.href = 'index.html'; // Redirect to login page
+            }
+        });
+
+
+        function displayUserInfo() {
+            // Retrieve user's name from local storage
+            const name = localStorage.getItem('name');
+
+            // Display user's name in userInfo element
+            const userInfoElement = document.getElementById('userInfo');
+            if (name) {
+                userInfoElement.innerHTML = `
+                                <i class="fas fa-user fa-lg mr-2"></i>
+                                <span class="text-lg font-semibold">${name}</span>
+                                `;
+            } else {
+                userInfoElement.innerHTML = `
+                                <i class="fas fa-user mr-2"></i>
+                                <span class="text-lg font-semibold">Welcome</span>
+                                `;
+            }
+        }
+
+        // Call the displayUserInfo function when the login page loads
+        displayUserInfo();
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
+</body>
+
+</html>
