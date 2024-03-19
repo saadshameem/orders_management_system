@@ -194,6 +194,7 @@ function addTableRow(table, order, serialNumber) {
     if (deadlineDate < currentDate && order.order_status !== 'Shipped') {
         // Apply red background color to the row
         row.style.backgroundColor = '#e43838';
+        
     }
 
     // Create an image element for displaying the uploaded image

@@ -5,6 +5,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mysql2 = require('mysql2');
 const pool = require('../db/connect');
+// const postmark = require('postmark');
+// const nodemailer = require('nodemailer');
+// const postmarkTransport = require('nodemailer-postmark-transport');
 
 
 // Function to hash password
@@ -151,3 +154,76 @@ exports.logout = async (req, res) => {
 //       res.status(401).json({ error: 'Invalid OTP' });
 //     }
 //   };
+
+
+// // Initialize Postmark client with your server token
+// const client = new postmark.ServerClient('568f4281-801b-4098-baa8-09590c9afc85');
+
+// // Generate OTP
+// function generateOTP() {
+//     return Math.floor(100000 + Math.random() * 900000);
+// }
+
+// // Create a Nodemailer transporter using Postmark
+// const transporter = nodemailer.createTransport(
+//     postmarkTransport({
+//       auth: {
+//         apiKey: '568f4281-801b-4098-baa8-09590c9afc85', // Your Postmark API key
+//       },
+//     })
+//   );
+  
+//   function sendOTP(email, otp) {
+//     const mailOptions = {
+//       from: 'mohammadsaad0606@gmail.com', // Sender's email address
+//       to: email, // Recipient's email address (the user's email)
+//       subject: 'OTP for Sign In',
+//       text: `Your OTP for sign in is: ${otp}`,
+//     };
+  
+//     transporter.sendMail(mailOptions, function (error, info) {
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         console.log('Email sent: ' + info.response);
+//       }
+//     });
+//   }
+
+// // Request OTP
+// exports.requestOTP = (req, res) => {
+//     const { email } = req.body;
+//     const otp = generateOTP();
+//     // Save OTP to the database (optional)
+//     // Assuming you have a 'users' table with 'email' and 'otp' columns
+//     pool.query('UPDATE users SET otp = ? WHERE email = ?', [otp, email], (error, results) => {
+//         if (error) {
+//             console.error(error);
+//             return res.status(500).json({ message: 'Internal server error' });
+//         }
+//         sendOTP(email, otp);
+//         res.status(200).json({ message: 'OTP sent to your email' });
+//     });
+// };
+
+// // Login with OTP
+// exports.loginWithOTP = (req, res) => {
+//     const { email, otp } = req.body;
+//     db.query('SELECT * FROM users WHERE email = ? AND otp = ?', [email, otp], (error, results) => {
+//         if (error) {
+//             console.error(error);
+//             return res.status(500).json({ message: 'Internal server error' });
+//         }
+//         if (results.length === 0) {
+//             return res.status(401).json({ message: 'Invalid OTP' });
+//         }
+//         const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+//         // Clear OTP from the database (optional)
+//         db.query('UPDATE users SET otp = NULL WHERE email = ?', [email], (error, results) => {
+//             if (error) {
+//                 console.error(error);
+//             }
+//         });
+//         res.status(200).json({ token });
+//     });
+// };

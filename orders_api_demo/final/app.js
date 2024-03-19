@@ -5,6 +5,8 @@ const port = 5000;
 const moment = require('moment-timezone');
 const pool = require('./db/connect');
 const path = require('path')
+const bodyParser = require('body-parser');
+
 
 
 moment.tz.setDefault('Asia/Kolkata');
@@ -29,6 +31,7 @@ const authenticateToken = require('./middleware/authentication');
 // app.use(xss())
 
 
+app.use(bodyParser.json());
 
 app.use(express.json());
 app.use(express.static('./public3'));

@@ -49,6 +49,7 @@ function createUserCard(user) {
             <p><strong>ID:</strong> ${user.id}</p>
             <p><strong>Name:</strong> ${user.name}</p>
             <p><strong>Email:</strong> ${user.email}</p>
+            <p><strong>Password:</strong> ${user.password}</p>
             <p><strong>Role:</strong> ${user.role}</p>
         </div>
     `;
