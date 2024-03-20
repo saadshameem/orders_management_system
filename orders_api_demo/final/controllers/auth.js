@@ -39,7 +39,7 @@ exports.register = async (req, res) => {
         const { name, email, password, role } = req.body;
 
         // Check if the user already exists
-        const checkUserQuery = `SELECT * FROM Users WHERE email = ?`;
+        const checkUserQuery = `SELECT * FROM users WHERE email = ?`;
         pool.query(checkUserQuery, [email], async (error, results) => {
             if (error) {
                 console.error('Error checking user:', error);
@@ -55,7 +55,7 @@ exports.register = async (req, res) => {
             const hashedPassword = await hashPassword(password);
 
             // Insert user into the database
-            const insertUserQuery = `INSERT INTO Users (name, email, password, role) VALUES (?, ?, ?, ?)`;
+            const insertUserQuery = `INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)`;
             pool.query(insertUserQuery, [name, email, hashedPassword, role], (err, result) => {
                 if (err) {
                     console.error('Error creating user:', err);
@@ -83,7 +83,7 @@ exports.login = async (req, res) => {
         const { email, password } = req.body;
 
         // Find the user by email
-        const getUserQuery = `SELECT * FROM Users WHERE email = ?`;
+        const getUserQuery = `SELECT * FROM users WHERE email = ?`;
         pool.query(getUserQuery, [email], async (error, results) => {
             if (error) {
                 console.error('Error finding user:', error);

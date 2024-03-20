@@ -8,7 +8,7 @@ const path = require('path')
 
 
 exports.getAllUsers = (req, res) => {
-    const query = 'SELECT * FROM Users ORDER BY id ASC';
+    const query = 'SELECT * FROM users ORDER BY id ASC';
     // Get a connection from the pool
     pool.getConnection((err, connection) => {
         if (err) {

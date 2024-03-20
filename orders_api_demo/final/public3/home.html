@@ -91,7 +91,7 @@
   </button>
      
   <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-     <div class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-emerald-500">
+     <div class="h-full px-3 py-4 overflow-y-auto bg-emerald-500 dark:bg-emerald-500">
  
  
              <div id="userInfo" class="text-2xl font-semibold mb-8 mt-4 text-white "></div>
@@ -101,7 +101,7 @@
                  <li>
  
                      <a href="home.html"
-                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group bg-white">
+                         class="flex items-center p-2 text-black rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black group bg-white">
  
                          <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
                  </li>
@@ -109,7 +109,7 @@
                  <li>
  
                      <a href="allOrders.html"
-                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+                         class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
  
                          <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
                  </li>
@@ -117,7 +117,7 @@
                  <li>
  
                      <a href="newOrderForm.html"
-                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+                         class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
  
                          <span class="mr-2"><i class="fas fa-plus"></i></span>Add New Order</a>
                  </li>
@@ -127,7 +127,7 @@
                  <li>
 
                     <a href="allUsers.html"
-                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group ">
+                    class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group ">
 
                         <span class="mr-1"><i class="fas fa-users"></i></span>All Users</a>
                 </li>
@@ -135,14 +135,14 @@
                  <li>
  
                      <a href="register.html"
-                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+                         class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black group">
  
                          <span class="mr-1"><i class="fas fa-user-plus"></i></span>Register New User</a>
                  </li>
  
                  <li class="mb-6 text-sm">
                      <button id="logoutBtn"
-                         class="w-full flex items-center p-2 bg-emerald-500 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+                         class="w-full flex items-center p-2 bg-emerald-500 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black group">
                          <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
                  </li>
                  <!-- End of Login and Register buttons -->
@@ -162,10 +162,10 @@
 
         <div class="ml-2 grid grid-cols-1 lg:grid-cols-2 gap-8 mr-4 pt-4">
             <div class=" card">
-                <div id="orderStatusChart" class="card-inner chart"></div>
+                <div id="orderStatusChart" class="card-inner chart" style="height: 450px;"></div>
             </div>
             <div class=" card">
-                <div id="productNameChart" class="card-inner chart"></div>
+                <div id="productNameChart" class="card-inner chart" style="height: 450px;"></div>
             </div>
         </div>
 
@@ -200,7 +200,7 @@
             </div>
 
             <div class="card col-span-3">
-                <div id="salesChart" class="card-inner chart"></div>
+                <div id="salesChart" class="card-inner chart " style="height: 450px;"></div>
             </div>
         </div>
 
@@ -215,7 +215,7 @@
             </div>
 
             <div class="card col-span-4">
-                <div id="orderStatisticsChart" class="card-inner chart"></div>
+                <div id="orderStatisticsChart" class="card-inner chart" style="height: 450px;"></div>
             </div>
 
             

@@ -184,23 +184,23 @@ button:hover {
   }
   
   th, td {
-    border:1px solid #373737;
+    border:1px solid #000000;
     padding: 8px;
     color: #000;
     /* border-radius: 5px; */
     
   }
 
-   tr:nth-child(even){
+   /* tr:nth-child(even){
     background-color: #abffdb;
 
   }
    tr:nth-child(odd){
     background-color: #9ee8c8;
 
-  }
+  } */
    tr:hover{
-    background-color: #7ed2af;
+    background-color: #ABFFDB;
 
   }
    th {
@@ -214,19 +214,19 @@ button:hover {
   }
 
   .table-container th {
+    
     background-color: #213d55;
     color: rgb(255, 255, 255);
-    /* border-radius: 5px; */
+    position: sticky;
+    top: 0;
+    border: #000;
     
   }
 
   .table-container td {
-    /* background-color: #ffffff; */
     color: rgb(0, 0, 0);
     text-align: center;
-    padding: 8px;
-    /* border-radius: 5px; */
-    
+    padding: 18px;    
     
   }
 

@@ -20,12 +20,13 @@
 
     <style>
         .table-container {
-            max-height: 500px;
+            max-height: 70vh;
             overflow-y: auto;
             border-radius: 10px;
 
 
         }
+        
 
         .table {
             width: max-content;
@@ -83,7 +84,7 @@
     <aside id="default-sidebar"
         class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-emerald-500">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-emerald-500 dark:bg-emerald-500">
 
 
             <div id="userInfo" class="text-2xl font-semibold mb-8 mt-4 text-white "></div>
@@ -93,7 +94,7 @@
                 <li>
 
                     <a href="user-home.html"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
+                    class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
 
                         <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
                 </li>
@@ -101,7 +102,7 @@
                 <li>
 
                     <a href="user-allOrders.html"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group bg-white">
+                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black group bg-white">
 
                         <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
                 </li>
@@ -112,8 +113,8 @@
 
                 <li class="mb-6 text-sm">
                     <button id="logoutBtn"
-                        class="w-full flex items-center p-2 bg-emerald-500 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black  group">
-                        <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
+                    class="w-full flex items-center p-2 bg-emerald-500 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
+                    <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
                 </li>
                 <!-- End of Login and Register buttons -->
 
@@ -133,40 +134,40 @@
                     <div class="relative">
 
                         <ul
-                            class=" hidden text-md font-bold text-center text-gray-900 rounded-lg  sm:flex dark:divide-gray-700 dark:text-gray-800 space-x-1">
+                            class=" hidden text-md font-bold text-center text-gray-900 rounded-lg  sm:flex dark:divide-gray-700 dark:text-gray-900 space-x-1">
                             <li class="flex-grow flex items-center">
                                 <a href="#"
-                                    class="inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    class="inline-block w-full p-4 bg-white border border-gray-700 dark:border-gray-700 rounded-lg hover:text-gray-50 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
                                     aria-current="page" onclick="changeTabAndGetData(this)">All Orders</a>
                             </li>
                             <li class="flex-grow flex items-center">
                                 <a href="#"
-                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-700 dark:border-gray-700 rounded-lg hover:text-gray-50 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
                                     data-status="Trading" onclick="changeTab(this)">Trading Orders</a>
                             </li>
                             <li class="flex-grow flex items-center">
                                 <a href="#"
-                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-700 dark:border-gray-700 rounded-lg hover:text-gray-50 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
                                     data-status="Pending" onclick="changeTab(this)">Orders Pending</a>
                             </li>
                             <li class="flex-grow flex items-center">
                                 <a href="#"
-                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-700 dark:border-gray-700 rounded-lg hover:text-gray-50 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
                                     data-status="In Production" onclick="changeTab(this)">Orders In Production</a>
                             </li>
                             <li class="flex-grow flex items-center">
                                 <a href="#"
-                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-700 dark:border-gray-700 rounded-lg hover:text-gray-50 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
                                     data-status="Testing" onclick="changeTab(this)">Orders In Testing</a>
                             </li>
                             <li class="flex-grow flex items-center">
                                 <a href="#"
-                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-700 dark:border-gray-700 rounded-lg hover:text-gray-50 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
                                     data-status="Packed" onclick="changeTab(this)">Orders Packed</a>
                             </li>
                             <li class="flex-grow flex items-center">
                                 <a href="#"
-                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-200 dark:border-gray-700 rounded-lg hover:text-gray-800 hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-700 dark:border-gray-700 rounded-lg hover:text-gray-50 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
                                     data-status="Shipped" onclick="changeTab(this)">Orders Shipped</a>
                             </li>
                         </ul>
@@ -197,7 +198,7 @@
                                 <option value="sales_person">Sales Person</option>
                             </select>
                             <input type="text" id="searchTerm" placeholder="Enter search term" class="p-2 mb-2 sm:mb-0 sm:mr-2 sm:w-1/3">
-                            <button id="applyFilterBtn" type="submit" class="p-2">Apply Filter</button>
+                            <button id="applyFilterBtn" type="submit" class="text-white p-2">Apply Filter</button>
                         </div>
                     </div>
                     

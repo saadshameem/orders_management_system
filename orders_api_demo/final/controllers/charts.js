@@ -7,7 +7,7 @@ const path = require('path')
 
 
 exports.piechart = (req, res) => {
-    const query = 'SELECT order_status, COUNT(*) AS count FROM Orders GROUP BY order_status';
+    const query = 'SELECT order_status, COUNT(*) AS count FROM orders GROUP BY order_status';
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting database connection:', err);
@@ -31,7 +31,7 @@ exports.piechart = (req, res) => {
   };
   
   exports.productPiechart = (req, res) => {
-    const query = 'SELECT product_name, COUNT(*) AS count FROM Orders GROUP BY product_name';
+    const query = 'SELECT product_name, COUNT(*) AS count FROM orders GROUP BY product_name';
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting database connection:', err);
@@ -58,7 +58,7 @@ exports.piechart = (req, res) => {
     const { year, month } = req.query;
     const query = `
         SELECT sales_person, SUM(CAST(SUBSTRING_INDEX(price, ".", -1) AS DECIMAL(10,2)) * quantity) AS total_amount
-        FROM Orders
+        FROM orders
         WHERE YEAR(createdAt) = ? AND MONTH(createdAt) = ?
         GROUP BY sales_person
     `;
@@ -93,7 +93,7 @@ exports.getOrderStatisticsMonthly = (req, res) => {
             MONTH(createdAt) AS month,
             SUM(CASE WHEN order_status = 'shipped' THEN 1 ELSE 0 END) AS shippedCount,
             COUNT(*) AS receivedCount
-        FROM Orders
+        FROM orders
         WHERE createdAt BETWEEN ? AND ?
         GROUP BY MONTH(createdAt)
     `;
@@ -133,7 +133,7 @@ exports.getOrderStatisticsMonthly = (req, res) => {
             DATE(createdAt) AS date,
             SUM(CASE WHEN order_status = 'shipped' THEN 1 ELSE 0 END) AS shippedCount,
             COUNT(*) AS receivedCount
-        FROM Orders
+        FROM orders
         WHERE createdAt BETWEEN ? AND ?
         GROUP BY DATE(createdAt)
     `;

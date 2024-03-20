@@ -24,12 +24,7 @@
             background-color: #10b981;
         }
 
-        .logo-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+        
 
         .login-container {
             display: flex;
@@ -40,29 +35,45 @@
             width: 100vw;
         }
 
-        .hidden {
-            display: none;
+        
+
+    
+   
+
+    /* Responsive Styles */
+    @media screen and (max-width: 600px) {
+        .login-container {
+            max-width: 100%;
+            padding: 10px;
         }
+
+        .form-input {
+            width: calc(100% - 20px);
+        }
+
+        
+        .button-login {
+        width: 100%;
+        padding: 10px;
+        background-color: #10b981;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .button-login:hover{
+        background-color: #000000;
+    }
+    }
     </style>
 </head>
 
 <body>
-    <div class="logo-container">
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
-            <defs>
-                <filter id="tint-filter">
-                    <feColorMatrix type="matrix" values="1 0 0 0 1
-                0 1 0 0 1
-                0 0 1 0 1
-                0 0 0 1 0" />
-                </filter>
-            </defs>
-        </svg>
-        <img src="logo1.png" 
-        alt="EnE Logo " style="filter: url(#tint-filter);" />
-    </div>
 
-    <div class="login-container hidden">
+    
+    
+
+    <div class="login-container ">
     <form class="login-form" id="loginForm">
         <div class="form-header">
             <h1 style="font-weight: bolder">Login</h1>
@@ -103,7 +114,7 @@
         </div>
     </form>
 
-</div>
+    </div>
 
 
 
@@ -229,17 +240,7 @@
         }
 
 
-        document.addEventListener("DOMContentLoaded", function() {
-    
-    setTimeout(function() {
-        document.querySelector('.login-container').classList.remove('hidden');
         
-        // Hide the logo 
-        setTimeout(function() {
-            document.querySelector('.logo-container').classList.add('hidden');
-        }, 1);
-    }, 1);
-});
 
     </script>
 </body>

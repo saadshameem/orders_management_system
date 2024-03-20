@@ -10,7 +10,7 @@ const path = require('path')
 
 
 exports.getAllOrders = (req, res) => {
-    const query = 'SELECT * FROM Orders ORDER BY priority ASC';
+    const query = 'SELECT * FROM orders ORDER BY priority ASC';
     // Get a connection from the pool
     pool.getConnection((err, connection) => {
         if (err) {
@@ -92,7 +92,7 @@ exports.createOrder = async (req, res, next) => {
 
 exports.getOrder = (req, res) => {
   const { id } = req.params;
-  const query = 'SELECT * FROM Orders WHERE id = ?';
+  const query = 'SELECT * FROM orders WHERE id = ?';
   pool.getConnection((err, connection) => {
       if (err) {
           console.error('Error getting database connection:', err);
@@ -140,7 +140,7 @@ exports.updateOrder = (req, res) => {
 
 exports.deleteOrder = (req, res) => {
   const { id } = req.params;
-  const query = 'DELETE FROM Orders WHERE id = ?';
+  const query = 'DELETE FROM orders WHERE id = ?';
   pool.getConnection((err, connection) => {
       if (err) {
           console.error('Error getting database connection:', err);
@@ -164,7 +164,7 @@ exports.deleteOrder = (req, res) => {
 
 exports.filterProductsByFirm = (req, res) => {
   const { firmName } = req.params;
-  const query = 'SELECT * FROM Orders WHERE firm_name = ? ORDER BY priority ASC';
+  const query = 'SELECT * FROM orders WHERE firm_name = ? ORDER BY priority ASC';
   pool.getConnection((err, connection) => {
       if (err) {
           console.error('Error getting database connection:', err);
@@ -186,28 +186,51 @@ exports.filterProductsByFirm = (req, res) => {
   });
 };
 
+// exports.fetchOrdersByStatus = (req, res) => {
+//     const { status } = req.params;
+//     const query = 'SELECT * FROM orders WHERE order_status = ?';
+//     pool.getConnection((err, connection) => {
+//       if (err) {
+//         console.error('Error getting database connection:', err);
+//         res.status(500).json({ error: 'Internal server error' });
+//         return;
+//       }
+//       connection.query(query, [status], (error, results) => {
+//         connection.release();
+//         if (error) {
+//           console.error('Error fetching orders by status:', error);
+//           res.status(500).json({ error: 'Internal server error' });
+//           return;
+//         }
+//         if (results.length === 0) {
+//           return res.status(404).json({ error: `No orders found with status: ${status}` });
+//         }
+//         res.status(200).json({ orders: results, count: results.length });
+//       });
+//     });
+//   };
+
 exports.fetchOrdersByStatus = (req, res) => {
-  const { status } = req.params;
-  const query = 'SELECT * FROM Orders WHERE order_status = ?';
-  pool.getConnection((err, connection) => {
-      if (err) {
-          console.error('Error getting database connection:', err);
-          res.status(500).json({ error: 'Internal server error' });
-          return;
-      }
-      connection.query(query, [status], (error, results) => {
-          connection.release();
-          if (error) {
-              console.error('Error fetching orders by status:', error);
-              res.status(500).json({ error: 'Internal server error' });
-              return;
-          }
-          if (results.length === 0) {
-              return res.status(404).json({ error: `No orders found with status: ${status}` });
-          }
-          res.status(200).json({ orders: results, count: results.length });
-      });
-  });
+    const { order_status } = req.query;
+    const query = 'SELECT * FROM orders WHERE order_status = ? ORDER BY priority ASC';
+
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error getting database connection:', err);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+
+        connection.query(query, [order_status], (error, results) => {
+            connection.release();
+            if (error) {
+                console.error('Error fetching orders by status:', error);
+                res.status(500).json({ error: 'Internal server error' });
+                return;
+            }
+            res.status(200).json({ orders: results });
+        });
+    });
 };
 
 exports.filteredOrders = (req, res) => {
@@ -218,7 +241,7 @@ exports.filteredOrders = (req, res) => {
       case 'product_name':
       case 'firm_name':
       case 'sales_person':
-          query = `SELECT * FROM Orders WHERE ${attribute} LIKE ?`;
+          query = `SELECT * FROM orders WHERE ${attribute} LIKE ?`;
           break;
       default:
           return res.status(400).json({ error: 'Invalid filter attribute' });
@@ -245,7 +268,7 @@ exports.filteredOrders = (req, res) => {
 };
 
 exports.getNewOrderDetails = (req, res) => {
-        const query = 'SELECT MAX(CAST(SUBSTRING(case_no, 5) AS UNSIGNED)) AS highest_case_number FROM Orders';
+        const query = 'SELECT MAX(CAST(SUBSTRING(case_no, 5) AS UNSIGNED)) AS highest_case_number FROM orders';
 
     pool.getConnection((err, connection) => {
         if (err) {

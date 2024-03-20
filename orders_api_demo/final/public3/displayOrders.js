@@ -100,7 +100,7 @@ function fetchOrdersByStatus(status) {
         return;
     }
 
-    fetch(`/api/v1/orders/status/${status}`, {
+    fetch(`/api/v1/orders/orderStatus/tab?order_status=${status}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

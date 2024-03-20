@@ -182,9 +182,6 @@ function renderProductNameBarChart(data) {
     chart.setOption(options);
 }
 
-
-
-
 function salesPiechart(year, month) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -212,7 +209,6 @@ function salesPiechart(year, month) {
         });
 }
 
-
 function renderSalesPieChart(data) {
     // Check if data is empty or not an object
     if (!data || typeof data !== 'object') {
@@ -232,7 +228,7 @@ function renderSalesPieChart(data) {
         title: {
             text: 'Sales Distribution ',
             subtext: 'Sales Persons Name',
-            left: 'right',
+            left: 'left',
             // top: '0%'
         },
 
@@ -242,7 +238,7 @@ function renderSalesPieChart(data) {
         },
         legend: {
             orient: 'vertical',
-            left: 'left'
+            left: 'right'
 
         },
         series: [
