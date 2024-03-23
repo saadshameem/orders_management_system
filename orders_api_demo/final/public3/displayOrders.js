@@ -1,11 +1,10 @@
 
 
 function getAllOrders() {
-    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+    const token = localStorage.getItem('token'); 
 
     if (!token) {
         console.error('JWT token not found.');
-        // Handle the case where the token is not found (e.g., redirect to login page)
         return;
     }
     fetch('/api/v1/orders', {
@@ -21,15 +20,18 @@ function getAllOrders() {
                 console.error('Invalid data received for all orders.');
                 return;
             }
-            // console.log('Here is the data:', data);
 
             const orders = data.orders;
 
-            // Create a table container
             const tableContainer = document.createElement('div');
             tableContainer.classList.add('table-container');
 
-            // Create a table to display orders
+            // Create a toggle button for fullscreen mode
+            const fullscreenToggle = document.createElement('button');
+            fullscreenToggle.textContent = 'Full Screen';
+            fullscreenToggle.id = 'fullscreen-toggle';
+            tableContainer.appendChild(fullscreenToggle);
+
             const table = document.createElement('table');
             table.classList.add('table');
             table.innerHTML = `
@@ -56,24 +58,53 @@ function getAllOrders() {
                 </tr>
             `;
 
-            // Add rows to the table
             orders.forEach((order, index) => {
-                // const caseNumber = generateCaseNumber(index + 1);
-                addTableRow(table, order, index + 1,); //caseNumber
+                addTableRow(table, order, index + 1,); 
             });
 
-            // Append table to the table container
             tableContainer.appendChild(table);
 
             // Update content area with the table container
             const content = document.querySelector('.content');
             content.innerHTML = '';
             content.appendChild(tableContainer);
+
+            fullscreenToggle.addEventListener('click', toggleFullscreen);
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+            function toggleFullscreen() {
+                const content = document.querySelector('.content');
+            
+                if (!document.fullscreenElement) {
+                    content.requestFullscreen();
+                    // fullscreenToggle.style.display = 'none'; // Hide toggle button in fullscreen mode
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                        // fullscreenToggle.style.display = ''; // Show toggle button when exiting fullscreen mode
+                    }
+                }
+            }
+            function handleFullscreenChange() {
+                const content = document.querySelector('.content');
+                const isFullscreen = !!document.fullscreenElement;
+            
+                if (isFullscreen) {
+                    fullscreenToggle.style.display = 'none'; // Hide toggle button in fullscreen mode
+                } else {
+                    fullscreenToggle.style.display = ''; // Show toggle button when exiting fullscreen mode
+                }
+            }
+
         })
         .catch(error => {
             console.error('Error fetching all orders:', error);
-            // You can display an error message to the user or handle the error as needed
         });
+}
+
+function toggleFullscreen() {
+    const tableContainer = document.querySelector('.table-container');
+    tableContainer.classList.toggle('fullscreen');
 }
 
 
@@ -92,15 +123,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function fetchOrdersByStatus(status) {
-    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+    if (status === 'all') {
+        getAllOrders(); 
+    } else {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('JWT token not found.');
+            return;
+        }
 
-    if (!token) {
-        console.error('JWT token not found.');
-        // Handle the case where the token is not found (e.g., redirect to login page)
-        return;
-    }
-
-    fetch(`/api/v1/orders/orderStatus/tab?order_status=${status}`, {
+        fetch(`/api/v1/orders/status/${status}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -109,12 +141,10 @@ function fetchOrdersByStatus(status) {
         .then(data => {
             console.log(`Received ${status} orders:`, data);
 
-            // Clear previous content
             const content = document.querySelector('.content');
             content.innerHTML = '';
 
             if (!data || !data.orders || data.orders.length === 0) {
-                // If no orders found, display a message or hide the table
                 const message = document.createElement('p');
                 message.textContent = `No orders found with status: ${status}`;
                 content.appendChild(message);
@@ -123,7 +153,6 @@ function fetchOrdersByStatus(status) {
                 const tableContainer = document.createElement('div');
                 tableContainer.classList.add('table-container');
 
-                // Create a table to display orders
                 const table = document.createElement('table');
                 table.classList.add('table');
                 table.innerHTML = `
@@ -149,12 +178,10 @@ function fetchOrdersByStatus(status) {
                     </tr>
                 `;
 
-                // Add rows to the table
                 data.orders.forEach((order, index) => {
                     addTableRow(table, order, index + 1);
                 });
 
-                // Append table to the table container
                 tableContainer.appendChild(table);
 
                 // Update content area with the table container
@@ -163,9 +190,36 @@ function fetchOrdersByStatus(status) {
         })
         .catch(error => {
             console.error(`Error fetching ${status} orders:`, error);
-            // You can display an error message to the user or handle the error as needed
+            
         });
 }
+}
+
+
+// const orderStatuses = [ 'all','Trading','Pending', 'In Production', 'Testing', 'Packed', 'Shipped'];
+// let currentStatusIndex = 1; 
+// let slideshowRunning = true; 
+
+
+
+
+// function startSlideshow() {
+//     setInterval(() => {
+//         if (slideshowRunning) {
+//             fetchOrdersByStatus(orderStatuses[currentStatusIndex]);
+//             currentStatusIndex = (currentStatusIndex + 1) % orderStatuses.length; 
+//         }
+//     }, 5000); 
+// }
+
+// startSlideshow();
+
+// document.querySelectorAll('.tab').forEach(tab => {
+//     tab.addEventListener('click', () => {
+//         slideshowRunning = true; 
+//     });
+// });
+
 
 
 function addTableRow(table, order, serialNumber) {
@@ -195,6 +249,10 @@ function addTableRow(table, order, serialNumber) {
         // Apply red background color to the row
         row.style.backgroundColor = '#e43838';
         
+    }
+    else{
+        row.style.backgroundColor = '#ffffff';
+
     }
 
     // Create an image element for displaying the uploaded image

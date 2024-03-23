@@ -20,13 +20,13 @@
 
     <style>
         .table-container {
-            max-height: 70vh;
+            max-height: 100vh;
             overflow-y: auto;
             border-radius: 10px;
 
 
         }
-        
+
 
         .table {
             width: max-content;
@@ -53,6 +53,98 @@
             color: #ffffff;
             border-color: transparent;
         }
+
+        /* Styles for fullscreen mode */
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: white;
+        }
+
+        .fullscreen .table-container {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        #fullscreen-toggle {
+            /* position: absolute;
+            top: 10px;
+            right: 10px; */
+            z-index: 10000;
+            background-color: #69ca98;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            margin-bottom: 2px;
+        }
+
+        #fullscreen-toggle:hover {
+            background-color: #69ca98;
+        }
+
+        /* Toggle switch styles */
+/* .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+} */
+
     </style>
 </head>
 
@@ -110,7 +202,7 @@
                 <li>
 
                     <a href="allUsers.html"
-                    class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black group">
+                        class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black group">
 
                         <span class="mr-1"><i class="fas fa-users"></i></span>All Users</a>
                 </li>
@@ -128,7 +220,7 @@
                         class="w-full flex items-center p-2 bg-emerald-500 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
                         <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
                 </li>
-                
+
 
             </ul>
         </div>
@@ -209,28 +301,33 @@
                                 <option value="firm_name">Firm Name</option>
                                 <option value="sales_person">Sales Person</option>
                             </select>
-                            <input type="text" id="searchTerm" placeholder="Enter search term" class="rounded-lg p-2 mb-2 sm:mb-0 sm:mr-2 sm:w-1/3">
+                            <input type="text" id="searchTerm" placeholder="Enter search term"
+                                class="rounded-lg p-2 mb-2 sm:mb-0 sm:mr-2 sm:w-1/3">
                             <button id="applyFilterBtn" type="submit" class="text-white p-2">Apply Filter</button>
                         </div>
                     </div>
-                    
-                    
+
+
 
 
 
 
                     <div class="content">
-                        <!--  Orders Table Goes Here -->
-
+                         <!-- Orders Table Goes Here -->
+                        <button id="fullscreen-toggle">Full Screen</button>
+                        <!-- <label class="switch">
+                            <input type="checkbox" id="fullscreen-toggle">
+                            <span class="slider"></span>
+                        </label> -->
                         <div class="table-container">
                             <table id="employeeTable" class="table">
                                 <!-- Table headers to be dynamically added by JavaScript -->
                             </table>
                         </div>
-
                     </div>
 
                 </div>
+
             </div>
 
         </div>
@@ -241,6 +338,21 @@
     <script src="displayOrders.js"></script>
     <script src="newOrder.js"></script>
     <script>
+        function toggleFullscreen() {
+            const content = document.querySelector('.content');
+            if (!document.fullscreenElement) {
+                content.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Add event listener to the toggle button
+        const toggleButton = document.getElementById('fullscreen-toggle');
+        toggleButton.addEventListener('change', toggleFullscreen);
+
 
         function handleTabChange(selectElement) {
             // Get the value of the selected option
@@ -332,7 +444,6 @@
             }
         }
 
-        // Call the displayUserInfo function when the login page loads
         displayUserInfo();
 
     </script>

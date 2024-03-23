@@ -39,7 +39,7 @@ function getAllOrders() {
                     <th>Case. No</th>
                     <th>PO. No</th>
                     <th>Product Name</th>
-                    <th>Price</th>
+                    
                     <th>Quantity</th>
                     <th>Order Date</th>
                     <th>Deadline Date</th>
@@ -92,13 +92,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function fetchOrdersByStatus(status) {
-    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
-
-    if (!token) {
-        console.error('JWT token not found.');
-        // Handle the case where the token is not found (e.g., redirect to login page)
-        return;
-    }
+    if (status === 'all') {
+        getAllOrders(); // Call function to fetch all orders
+    } else {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('JWT token not found.');
+            return;
+        }
 
     fetch(`/api/v1/orders/status/${status}`, {
         headers: {
@@ -133,7 +134,7 @@ function fetchOrdersByStatus(status) {
                         <th>Case. No</th>
                         <th>PO. No</th>
                         <th>Product Name</th>
-                        <th>Price</th>
+                        
                         <th>Quantity</th>
                         <th>Order Date</th>
                     <th>Deadline Date</th>
@@ -166,7 +167,38 @@ function fetchOrdersByStatus(status) {
             // You can display an error message to the user or handle the error as needed
         });
 }
+}
 
+function startSlideshow() {
+    const statuses = [ 'all','Trading','Pending', 'In Production', 'Testing', 'Packed', 'Shipped'];// List of order statuses
+    let currentIndex = 0;
+    let slideshowRunning = true; // Flag to indicate whether slideshow is running
+
+    // Function to switch to the next status and fetch orders
+    function nextStatus() {
+        const nextIndex = (currentIndex + 1) % statuses.length;
+        const nextStatus = statuses[nextIndex];
+        fetchOrdersByStatus(nextStatus);
+        currentIndex = nextIndex;
+    }
+
+    // Start slideshow
+    const interval = setInterval(nextStatus, 5000); // Switch status every 5 seconds
+
+    // Stop slideshow when user interacts with the page
+    document.addEventListener('click', () => clearInterval(interval));
+}
+// startSlideshow();
+
+// Call startSlideshow function to start the slideshow when the page loads
+window.addEventListener('load', startSlideshow);
+
+// Handle tab clicks
+document.querySelectorAll('.tab-link').forEach(tab => {
+    tab.addEventListener('click', () => {
+        slideshowRunning = false; // Stop slideshow when tab is clicked
+    });
+});
 
 
 function addTableRow(table, order, serialNumber) {
@@ -213,7 +245,7 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.case_no}</td>
         <td class="font-semibold text-md" >${order.po_no}</td>
         <td class="font-semibold text-md" >${order.product_name}</td>
-        <td class="font-semibold text-md" >${order.price}</td>
+        
         <td class="font-semibold text-md" >${order.quantity}</td>
         <td class="font-semibold text-md" >${formattedDate}</td>
         <td class="font-semibold text-md" >${formattedDeadlineDate}</td>

@@ -24,8 +24,8 @@ router.patch('/:id', authAdmin, orders.updateOrder);
 // router.patch('/:id', upload.single('image'),authAdmin, orders.updateOrder);
 
 router.delete('/:id', authAdmin, orders.deleteOrder);
-// router.get('/status/:status', authUser, orders.fetchOrdersByStatus);
-router.get('/orderStatus/tab', authUser, orders.fetchOrdersByStatus);
+router.get('/status/:status', authUser, orders.fetchOrdersByStatus);
+// router.get('/orderStatus/tab', authUser, orders.fetchOrdersByStatus);
 
 router.get('/filter-by-firm/:firmName', authUser, orders.filterProductsByFirm);
 router.get('/piechart/status-summary', authUser, charts.piechart)

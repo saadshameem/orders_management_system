@@ -42,7 +42,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'public3', 'uploads')));
 
 
 // Routes
-app.use('/api/v1/orders', authenticateToken, ordersRoute);
+app.use('/api/v1/orders',  ordersRoute);
 app.use('/api/v1/users', authenticateToken, userRoutes);
 app.use('/api/v1/auth', authRoute);
 // app.use('/api/v1/otp', otpRoutes);

@@ -186,52 +186,52 @@ exports.filterProductsByFirm = (req, res) => {
   });
 };
 
-// exports.fetchOrdersByStatus = (req, res) => {
-//     const { status } = req.params;
-//     const query = 'SELECT * FROM orders WHERE order_status = ?';
-//     pool.getConnection((err, connection) => {
-//       if (err) {
-//         console.error('Error getting database connection:', err);
-//         res.status(500).json({ error: 'Internal server error' });
-//         return;
-//       }
-//       connection.query(query, [status], (error, results) => {
-//         connection.release();
-//         if (error) {
-//           console.error('Error fetching orders by status:', error);
-//           res.status(500).json({ error: 'Internal server error' });
-//           return;
-//         }
-//         if (results.length === 0) {
-//           return res.status(404).json({ error: `No orders found with status: ${status}` });
-//         }
-//         res.status(200).json({ orders: results, count: results.length });
-//       });
-//     });
-//   };
-
 exports.fetchOrdersByStatus = (req, res) => {
-    const { order_status } = req.query;
-    const query = 'SELECT * FROM orders WHERE order_status = ? ORDER BY priority ASC';
-
+    const { status } = req.params;
+    const query = 'SELECT * FROM orders WHERE order_status = ?';
     pool.getConnection((err, connection) => {
-        if (err) {
-            console.error('Error getting database connection:', err);
-            res.status(500).json({ error: 'Internal server error' });
-            return;
+      if (err) {
+        console.error('Error getting database connection:', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      connection.query(query, [status], (error, results) => {
+        connection.release();
+        if (error) {
+          console.error('Error fetching orders by status:', error);
+          res.status(500).json({ error: 'Internal server error' });
+          return;
         }
-
-        connection.query(query, [order_status], (error, results) => {
-            connection.release();
-            if (error) {
-                console.error('Error fetching orders by status:', error);
-                res.status(500).json({ error: 'Internal server error' });
-                return;
-            }
-            res.status(200).json({ orders: results });
-        });
+        if (results.length === 0) {
+          return res.status(404).json({ error: `No orders found with status: ${status}` });
+        }
+        res.status(200).json({ orders: results, count: results.length });
+      });
     });
-};
+  };
+
+// exports.fetchOrdersByStatus = (req, res) => {
+//     const { order_status } = req.query;
+//     const query = 'SELECT * FROM orders WHERE order_status = ? ORDER BY priority ASC';
+
+//     pool.getConnection((err, connection) => {
+//         if (err) {
+//             console.error('Error getting database connection:', err);
+//             res.status(500).json({ error: 'Internal server error' });
+//             return;
+//         }
+
+//         connection.query(query, [order_status], (error, results) => {
+//             connection.release();
+//             if (error) {
+//                 console.error('Error fetching orders by status:', error);
+//                 res.status(500).json({ error: 'Internal server error' });
+//                 return;
+//             }
+//             res.status(200).json({ orders: results });
+//         });
+//     });
+// };
 
 exports.filteredOrders = (req, res) => {
   const { attribute, search } = req.query;
