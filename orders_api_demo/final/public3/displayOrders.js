@@ -1,7 +1,7 @@
 
 
 function getAllOrders() {
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
 
     if (!token) {
         console.error('JWT token not found.');
@@ -26,40 +26,43 @@ function getAllOrders() {
             const tableContainer = document.createElement('div');
             tableContainer.classList.add('table-container');
 
-            // Create a toggle button for fullscreen mode
             const fullscreenToggle = document.createElement('button');
             fullscreenToggle.textContent = 'Full Screen';
             fullscreenToggle.id = 'fullscreen-toggle';
+            // fullscreenToggle.className = 'absolute top-20 right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
+
             tableContainer.appendChild(fullscreenToggle);
 
             const table = document.createElement('table');
             table.classList.add('table');
             table.innerHTML = `
                 <tr>
-                <th>Image</th>
+                
                     <th>Sr. No</th>
                     <th>Case. No</th>
                     <th>PO. No</th>
                     <th>Product Name</th>
                     <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Order Date</th>
+                    <th class="px-1">Quantity</th>
+                    <th  class="px-6">Order Date</th>
                     <th>Deadline Date</th>
+                    <th>Order Status</th>
                     <th>Client's Firm Name</th>
                     <th>Client's Name</th>
                     <th>Client's Phone No.</th>
                     <th>Sales Person's Name</th>
-                    <th>Sales Person's Id</th>
-                    <th>Order Status</th>
-                    <th>Priority</th>
-                    <th>Payment Status</th>
+                    <th  class="px-1">Sales Person's Id</th>
+  
+                    <th class="px-1">Priority</th>
+                    <th class="px-1">Payment Status</th>
                     
                     <th>Actions</th>
+                    <th>P.O Image</th>
                 </tr>
             `;
 
             orders.forEach((order, index) => {
-                addTableRow(table, order, index + 1,); 
+                addTableRow(table, order, index + 1,);
             });
 
             tableContainer.appendChild(table);
@@ -74,25 +77,26 @@ function getAllOrders() {
 
             function toggleFullscreen() {
                 const content = document.querySelector('.content');
-            
+
                 if (!document.fullscreenElement) {
                     content.requestFullscreen();
-                    // fullscreenToggle.style.display = 'none'; // Hide toggle button in fullscreen mode
                 } else {
                     if (document.exitFullscreen) {
                         document.exitFullscreen();
-                        // fullscreenToggle.style.display = ''; // Show toggle button when exiting fullscreen mode
                     }
                 }
             }
+
+
+
             function handleFullscreenChange() {
                 const content = document.querySelector('.content');
                 const isFullscreen = !!document.fullscreenElement;
-            
+
                 if (isFullscreen) {
-                    fullscreenToggle.style.display = 'none'; // Hide toggle button in fullscreen mode
+                    fullscreenToggle.style.display = 'none';
                 } else {
-                    fullscreenToggle.style.display = ''; // Show toggle button when exiting fullscreen mode
+                    fullscreenToggle.style.display = '';
                 }
             }
 
@@ -124,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function fetchOrdersByStatus(status) {
     if (status === 'all') {
-        getAllOrders(); 
+        getAllOrders();
     } else {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -133,31 +137,36 @@ function fetchOrdersByStatus(status) {
         }
 
         fetch(`/api/v1/orders/status/${status}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(`Received ${status} orders:`, data);
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(`Received ${status} orders:`, data);
 
-            const content = document.querySelector('.content');
-            content.innerHTML = '';
+                const content = document.querySelector('.content');
+                content.innerHTML = '';
 
-            if (!data || !data.orders || data.orders.length === 0) {
-                const message = document.createElement('p');
-                message.textContent = `No orders found with status: ${status}`;
-                content.appendChild(message);
-            } else {
-                // Create a table container
-                const tableContainer = document.createElement('div');
-                tableContainer.classList.add('table-container');
+                if (!data || !data.orders || data.orders.length === 0) {
+                    const message = document.createElement('p');
+                    message.textContent = `No orders found with status: ${status}`;
+                    content.appendChild(message);
+                } else {
+                    // Create a table container
+                    const tableContainer = document.createElement('div');
+                    tableContainer.classList.add('table-container');
 
-                const table = document.createElement('table');
-                table.classList.add('table');
-                table.innerHTML = `
+                    const fullscreenToggle = document.createElement('button');
+                    fullscreenToggle.textContent = 'Full Screen';
+                    fullscreenToggle.id = 'fullscreen-toggle';
+                    tableContainer.appendChild(fullscreenToggle);
+
+                    const table = document.createElement('table');
+                    table.classList.add('table');
+                    table.innerHTML = `
                     <tr>
-                    <th>Image</th>
+                    
                         <th>Sr. No</th>
                         <th>Case. No</th>
                         <th>PO. No</th>
@@ -166,60 +175,66 @@ function fetchOrdersByStatus(status) {
                         <th>Quantity</th>
                         <th>Order Date</th>
                     <th>Deadline Date</th>
+                    <th>Order Status</th>
                         <th>Client's Firm Name</th>
                     <th>Client's Name</th>
                     <th>Client's Phone No.</th>
                         <th>Sales Person's Name</th>
                         <th>Sales Person Id</th>
-                        <th>Order Status</th>
+
                         <th>Priority</th>
                         <th>Payment Status</th>
                         <th>Actions</th>
+                        <th>Image</th>
                     </tr>
                 `;
 
-                data.orders.forEach((order, index) => {
-                    addTableRow(table, order, index + 1);
-                });
+                    data.orders.forEach((order, index) => {
+                        addTableRow(table, order, index + 1);
+                    });
 
-                tableContainer.appendChild(table);
+                    tableContainer.appendChild(table);
 
-                // Update content area with the table container
-                content.appendChild(tableContainer);
-            }
-        })
-        .catch(error => {
-            console.error(`Error fetching ${status} orders:`, error);
-            
-        });
+                    // Update content area with the table container
+                    const content = document.querySelector('.content');
+                    content.innerHTML = '';
+                    content.appendChild(tableContainer);
+
+                    fullscreenToggle.addEventListener('click', toggleFullscreen);
+                    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+                    function toggleFullscreen() {
+                        const content = document.querySelector('.content');
+
+                        if (!document.fullscreenElement) {
+                            content.requestFullscreen();
+                        } else {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen();
+                            }
+                        }
+                    }
+
+
+
+                    function handleFullscreenChange() {
+                        const content = document.querySelector('.content');
+                        const isFullscreen = !!document.fullscreenElement;
+
+                        if (isFullscreen) {
+                            fullscreenToggle.style.display = 'none';
+                        } else {
+                            fullscreenToggle.style.display = '';
+                        }
+                    }
+                }
+            })
+            .catch(error => {
+                console.error(`Error fetching ${status} orders:`, error);
+
+            });
+    }
 }
-}
-
-
-// const orderStatuses = [ 'all','Trading','Pending', 'In Production', 'Testing', 'Packed', 'Shipped'];
-// let currentStatusIndex = 1; 
-// let slideshowRunning = true; 
-
-
-
-
-// function startSlideshow() {
-//     setInterval(() => {
-//         if (slideshowRunning) {
-//             fetchOrdersByStatus(orderStatuses[currentStatusIndex]);
-//             currentStatusIndex = (currentStatusIndex + 1) % orderStatuses.length; 
-//         }
-//     }, 5000); 
-// }
-
-// startSlideshow();
-
-// document.querySelectorAll('.tab').forEach(tab => {
-//     tab.addEventListener('click', () => {
-//         slideshowRunning = true; 
-//     });
-// });
-
 
 
 function addTableRow(table, order, serialNumber) {
@@ -230,7 +245,7 @@ function addTableRow(table, order, serialNumber) {
         year: 'numeric'
     });
 
-    const deadlineDate = new Date(order.deadline_date); // Assuming deadline_date is the field containing the deadline date
+    const deadlineDate = new Date(order.deadline_date);
     const currentDate = new Date();
     const timeDifference = deadlineDate.getTime() - currentDate.getTime();
     const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
@@ -241,30 +256,16 @@ function addTableRow(table, order, serialNumber) {
         year: 'numeric'
     });
 
-    // Create table row with case number
     const row = table.insertRow();
 
-    // Check if the deadline date has passed
     if (deadlineDate < currentDate && order.order_status !== 'Shipped') {
-        // Apply red background color to the row
         row.style.backgroundColor = '#e43838';
-        
-    }
-    else{
+        row.style.color = 'white';
+    } else {
         row.style.backgroundColor = '#ffffff';
-
+        row.style.color = '#000000';
     }
 
-    // Create an image element for displaying the uploaded image
-    const imageCell = row.insertCell();
-    const image = document.createElement('img');
-    // image.src = `/uploads/${order.image}`;  // Assuming order.image contains the URL of the uploaded image
-    image.src = order.image; // Assuming order.image contains the relative path to the image file
-
-    image.alt = 'Order Image';
-    image.width = 100; // Adjust the width of the image as needed
-    imageCell.appendChild(image);
-    
 
     row.innerHTML += `
         <td class="font-semibold text-md" >${serialNumber}</td>
@@ -275,20 +276,79 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.quantity}</td>
         <td class="font-semibold text-md" >${formattedDate}</td>
         <td class="font-semibold text-md" >${formattedDeadlineDate}</td>
+        <td class="font-semibold text-md" >${order.order_status}</td>
         <td class="font-semibold text-md" >${order.firm_name}</td>
         <td class="font-semibold text-md" >${order.customer_name}</td>
         <td class="font-semibold text-md" >${order.customer_phone_no}</td>
         <td class="font-semibold text-md" >${order.sales_person}</td>
         <td class="font-semibold text-md" >${order.sales_person_id}</td>
-        <td class="font-semibold text-md" >${order.order_status}</td>
+
         <td class="font-semibold text-md" >${order.priority}</td>
         <td class="font-semibold text-md" >${order.payment_status}</td>
         <td class="">
-            <button class="btn btn-outline btn-info" onclick="editOrder('${order.id}')">Edit</button>
-            <button class="btn btn-outline btn-warning" onclick="deleteOrder('${order.id}')">Delete</button>
+            <button class="btn btn-primary btn-xs btn-info " onclick="editOrder('${order.id}')">Edit</button>
+            <button class="btn btn-sencondary btn-xs btn-warning" onclick="deleteOrder('${order.id}')">Delete</button>
+
+
         </td>
     `;
+    const imageCell = row.insertCell();
+    // const image = document.createElement('img');
+    // // image.src = `/uploads/${order.image}`;  // Assuming order.image contains the URL of the uploaded image
+    // image.src = order.image; // Assuming order.image contains the relative path to the image file
+
+    // image.alt = 'Order Image';
+    // image.width = 100; // Adjust the width of the image as needed
+    // imageCell.appendChild(image);
+
+    const imageButton = document.createElement('button');
+    imageButton.textContent = 'Show P.O';
+    imageButton.classList.add('btn', 'btn-primary', 'btn-success', 'btn-xs');
+    imageButton.addEventListener('click', () => {
+        window.open(order.image, '_blank');
+    })
+    imageCell.appendChild(imageButton)
+    // const imageLink = document.createElement('a');
+    // imageLink.textContent = 'Show P.O';
+    // imageLink.href = order.image;
+    // imageLink.target = '_blank'; // Open the link in a new tab
+
+    // imageCell.appendChild(imageLink);
+
+
 }
+
+// // Add click event listener to the image link to open the modal
+// imageLink.addEventListener('click', (event) => {
+//     event.preventDefault(); // Prevent the default action (opening the link in a new tab)
+
+//     // Open the modal with the full-size image
+//     openImageModal(order.image);
+// });
+
+// function openImageModal(imageUrl) {
+//     // Create the modal element
+//     const modal = document.createElement('div');
+//     modal.classList.add('modal');
+//     modal.innerHTML = `
+//         <div class="modal-content">
+//             <span class="close-modal">&times;</span>
+//             <img src="${imageUrl}" alt="Order Image" class="modal-image">
+//         </div>
+//     `;
+
+//     // Append the modal to the document body
+//     document.body.appendChild(modal);
+
+//     // Add event listener to close the modal when clicking the close button
+//     const closeModalButton = modal.querySelector('.close-modal');
+//     closeModalButton.addEventListener('click', () => {
+//         document.body.removeChild(modal); // Remove the modal from the document body
+//     });
+// }
+
+
+
 
 
 function generateCaseNumber(orderCount) {
@@ -302,7 +362,6 @@ function generateCaseNumber(orderCount) {
     return `${casePrefix}${padding}${orderCount}`;
 }
 
-// JavaScript code to handle filter logic
 document.getElementById('applyFilterBtn').addEventListener('click', () => {
     const filterAttribute = document.getElementById('filterAttribute').value;
     const searchTerm = document.getElementById('searchTerm').value.trim();
@@ -311,7 +370,6 @@ document.getElementById('applyFilterBtn').addEventListener('click', () => {
     fetchFilteredOrders(filterAttribute, searchTerm);
 });
 
-// Function to fetch filtered orders
 function fetchFilteredOrders(filterAttribute, searchTerm) {
 
     const token = localStorage.getItem('token');
@@ -345,38 +403,75 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                 const tableContainer = document.createElement('div');
                 tableContainer.classList.add('table-container');
 
-                // Create a table to display orders
+                const fullscreenToggle = document.createElement('button');
+                fullscreenToggle.textContent = 'Full Screen';
+                fullscreenToggle.id = 'fullscreen-toggle';
+                tableContainer.appendChild(fullscreenToggle);
+
                 const table = document.createElement('table');
                 table.classList.add('table');
                 table.innerHTML = `
                         <tr>
-                        <th>Image</th>
-                            <th>Serial Number</th>
+                        
+                            <th>Sr. No.</th>
                             <th>Case. No</th>
                             <th>PO. No</th>
                             <th>Product Name</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Order Date</th>
-                            <th>Days to Deadline</th>
+                            <th>Deadline Date</th>
+                            <th>Order Status</th>
                             <th>Client's Firm Name</th>
                             <th>Client's Name</th>
                             <th>Client's Phone No.</th>
                             <th>Sales Person's Name</th>
                             <th>Sales Person's Id</th>
-                            <th>Order Status</th>
+
                             <th>Priority</th>
                             <th>Payment Status</th>
                             <th>Actions</th>
+                            <th>Image</th>
                         </tr>
                     `;
 
-                // Add rows to the table
                 data.orders.forEach((order, index) => {
                     addTableRow(table, order, index + 1);
                 });
                 tableContainer.appendChild(table);
+
+                // Update content area with the table container
+                const content = document.querySelector('.content');
+                content.innerHTML = '';
                 content.appendChild(tableContainer);
+
+                fullscreenToggle.addEventListener('click', toggleFullscreen);
+                document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+                function toggleFullscreen() {
+                    const content = document.querySelector('.content');
+
+                    if (!document.fullscreenElement) {
+                        content.requestFullscreen();
+                    } else {
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                        }
+                    }
+                }
+
+
+
+                function handleFullscreenChange() {
+                    const content = document.querySelector('.content');
+                    const isFullscreen = !!document.fullscreenElement;
+
+                    if (isFullscreen) {
+                        fullscreenToggle.style.display = 'none';
+                    } else {
+                        fullscreenToggle.style.display = '';
+                    }
+                }
             }
         })
         .catch(error => {
