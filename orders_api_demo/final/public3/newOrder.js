@@ -210,7 +210,7 @@ function submitNewOrder() {
     const customerName = document.getElementById('customerName').value;
     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
     const salesPerson = document.getElementById('salesPerson').value;
-    const salesPersonId = document.getElementById('salesPersonId').value;
+    // const salesPersonId = document.getElementById('salesPersonId').value;
     const orderStatus = document.getElementById('orderStatus').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
 
@@ -270,7 +270,7 @@ function submitNewOrder() {
             customer_name: customerName,
             customer_phone_no: customerPhoneNo,
             sales_person: salesPerson,
-            sales_person_id: salesPersonId,
+            // sales_person_id: salesPersonId,
             order_status: orderStatus,
             payment_status: paymentStatus,
             image: imageBase64,
@@ -290,13 +290,14 @@ function submitNewOrder() {
             },
             body: JSON.stringify(orderData)
         })
-        .then(response => {
+        .then(response => { 
             if (response.ok) {
                 console.log('New order created successfully.');
                 alert("New order created successfully");
                 goToAllOrders();
             } else {
                 console.error('Failed to create new order.');
+                // alert('Image file too large. Image file should not exceed 5 mb')
             }
         })
         .catch(error => {

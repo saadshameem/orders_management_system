@@ -31,7 +31,9 @@ exports.piechart = (req, res) => {
   };
   
   exports.productPiechart = (req, res) => {
-    const query = 'SELECT product_name, COUNT(*) AS count FROM orders GROUP BY product_name';
+    // const query = 'SELECT product_name, COUNT(*) AS count FROM orders GROUP BY product_name';
+    const query = 'SELECT products.name AS product_name, COUNT(orders.id) AS count FROM products LEFT JOIN orders ON products.id = orders.productId GROUP BY products.name HAVING count > 0;';
+
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting database connection:', err);

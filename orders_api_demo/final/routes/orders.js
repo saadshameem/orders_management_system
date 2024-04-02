@@ -19,6 +19,8 @@ router.get('/newOrderDetails',authAdmin, orders.getNewOrderDetails);
 
 
 router.get('/:id', authUser, orders.getOrder);
+router.get('/products/productName', authUser, orders.getAllProducts);
+router.post('/products/productName', authUser, orders.AddNewProduct);
 
 router.patch('/:id', authAdmin, orders.updateOrder);
 // router.patch('/:id', upload.single('image'),authAdmin, orders.updateOrder);

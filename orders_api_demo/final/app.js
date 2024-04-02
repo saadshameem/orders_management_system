@@ -5,7 +5,7 @@ const port = 5000;
 const moment = require('moment-timezone');
 const pool = require('./db/connect');
 const path = require('path')
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 
 
@@ -31,7 +31,7 @@ const authenticateToken = require('./middleware/authentication');
 // app.use(xss())
 
 
-// app.use(bodyParser.json());
+app.use(bodyParser.json({limit:'5mb'}));
 
 app.use(express.json());
 app.use(express.static('./public3'));

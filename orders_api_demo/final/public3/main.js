@@ -71,7 +71,7 @@ function editOrder(orderId) {
                 </div>
 
                 <div class="edit-form-column">
-                <label class="edit-form-label" for="price" class="edit-form-label">Price:</label>
+                <label class="edit-form-label" for="price" class="edit-form-label">Price(Incl. GST):</label>
                 <input type="text" id="price" name="price" value="${order.price}" required class="edit-form-input">
                 </div>
                 </div>
@@ -84,7 +84,7 @@ function editOrder(orderId) {
                 </div>
 
                 <div class="edit-form-column">
-                <label class="edit-form-label" for="date">Days to Deadline:</label>
+                <label class="edit-form-label" for="date">Deadline Date:</label>
         <input type="date" id="date" name="date" value="${formattedDeadlineDate}" required class="edit-form-input">
         </div>
         </div>

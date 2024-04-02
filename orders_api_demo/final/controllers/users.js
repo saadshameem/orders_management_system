@@ -21,12 +21,61 @@ exports.getAllUsers = (req, res) => {
             // Release the connection back to the pool
             connection.release();
             if (error) {
-                console.error('Error fetching orders:', error);
+                console.error('Error fetching users:', error);
                 res.status(500).json({ error: 'Internal server error' });               
                  return;
             }
             res.status(200).json({ users: results });
         });
+    });
+};
+
+exports.getAllSalesPersons = (req, res) => {
+    const query = 'SELECT name FROM sales_person ORDER BY id ASC';
+    // Get a connection from the pool
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error getting database connection:', err);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        // Execute the query
+        connection.query(query, (error, results) => {
+            // Release the connection back to the pool
+            connection.release();
+            if (error) {
+                console.error('Error fetching sales persons:', error);
+                res.status(500).json({ error: 'Internal server error' });               
+                 return;
+            }
+            const salesPersons = results.map(result => result.name);
+            // Send the product names in the desired format
+            res.status(200).json({ salesPersons });
+        });
+    });
+};
+
+exports.addNewSalesPerson = (req, res) => {
+    // Extract product name from the request body
+    const {id, name } = req.body;
+
+    // Check if the product name is provided
+    if (!name) {
+        return res.status(400).json({ error: ' Name is required' });
+    }
+
+    // SQL query to insert a new product into the database
+    const query = 'INSERT INTO sales_person (id,name) VALUES (?,?)';
+
+    // Execute the query with the provided product name
+    pool.query(query, [id,name], (error, results) => {
+        if (error) {
+            console.error('Error adding product:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        // Return a success response with the ID of the newly added product
+        res.status(201).json({ message: 'Sales Person added successfully', salesPersonId: results.insertId });
     });
 };
 

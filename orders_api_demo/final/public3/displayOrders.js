@@ -318,34 +318,7 @@ function addTableRow(table, order, serialNumber) {
 
 }
 
-// // Add click event listener to the image link to open the modal
-// imageLink.addEventListener('click', (event) => {
-//     event.preventDefault(); // Prevent the default action (opening the link in a new tab)
 
-//     // Open the modal with the full-size image
-//     openImageModal(order.image);
-// });
-
-// function openImageModal(imageUrl) {
-//     // Create the modal element
-//     const modal = document.createElement('div');
-//     modal.classList.add('modal');
-//     modal.innerHTML = `
-//         <div class="modal-content">
-//             <span class="close-modal">&times;</span>
-//             <img src="${imageUrl}" alt="Order Image" class="modal-image">
-//         </div>
-//     `;
-
-//     // Append the modal to the document body
-//     document.body.appendChild(modal);
-
-//     // Add event listener to close the modal when clicking the close button
-//     const closeModalButton = modal.querySelector('.close-modal');
-//     closeModalButton.addEventListener('click', () => {
-//         document.body.removeChild(modal); // Remove the modal from the document body
-//     });
-// }
 
 
 

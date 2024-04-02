@@ -8,19 +8,19 @@
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" /> -->
 
     <link rel="stylesheet" href="css/newOrder.css">
-    <!-- <link rel="stylesheet" href="css/output3.css"> -->
+    <link rel="stylesheet" href="css/output3.css">
 
 
 
 
     <title>New Order</title>
     <style>
-    
+
 
     </style>
 </head>
@@ -28,260 +28,497 @@
 <body class="min-h-screen bg-emerald-50 ">
 
 
-    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  dark:focus:ring-gray-600">
+    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
+        type="button"
+        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  dark:focus:ring-gray-600">
         <span class="sr-only">Open sidebar</span>
-        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
+            <path clip-rule="evenodd" fill-rule="evenodd"
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+            </path>
         </svg>
-     </button>
-        
-     <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-emerald-500 dark:bg-emerald-500">
-    
-    
-                <div id="userInfo" class="text-2xl font-semibold mb-8 mt-4 text-white "></div>
-                <!-- <div id="userInfo"></div> -->
-    
-                <ul class="space-y-2 font-medium">
-                    <li>
-    
-                        <a href="home.html"
-                            class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
-    
-                            <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
-                    </li>
-    
-                    <li>
-    
-                        <a href="allOrders.html"
-                            class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
-    
-                            <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
-                    </li>
-    
-                    <li>
-    
-                        <a href="newOrderForm.html"
-                            class="flex items-center p-2 text-black rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group bg-white">
-    
-                            <span class="mr-2"><i class="fas fa-plus"></i></span>Add New Order</a>
-                    </li>
-                </ul>
-                <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-    
-                    <!-- Added Login and Register buttons -->
+    </button>
 
-                    <li>
+    <aside id="default-sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-emerald dark:bg-emerald">
 
-                        <a href="allUsers.html"
+
+            <div id="userInfo" class="text-2xl font-semibold mb-8 mt-4 text-white "></div>
+            <!-- <div id="userInfo"></div> -->
+
+            <ul class="space-y-2 font-medium">
+                <li>
+
+                    <a href="home.html"
+                        class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
+
+                        <span class="mr-2"><i class="fas fa-home"></i></span>Home</a>
+                </li>
+
+                <li>
+
+                    <a href="allOrders.html"
+                        class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
+
+                        <span class="mr-2"><i class="fas fa-list"></i></span>All Orders</a>
+                </li>
+
+                <li>
+
+                    <a href="newOrderForm.html"
+                        class="flex items-center p-2 text-black rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group bg-white">
+
+                        <span class="mr-2"><i class="fas fa-plus"></i></span>Add New Order</a>
+                </li>
+            </ul>
+            <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+
+                <!-- Added Login and Register buttons -->
+
+                <li>
+
+                    <a href="allUsers.html"
                         class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group ">
-    
-                            <span class="mr-1"><i class="fas fa-users"></i></span>All Users</a>
-                    </li>
-    
-                    <li>
-    
-                        <a href="register.html"
-                            class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
-    
-                            <span class="mr-1"><i class="fas fa-user-plus"></i></span>Register New User</a>
-                    </li>
-                </ul>
-                <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-    
-                    <li class="mb-6 text-sm">
-                        <button id="logoutBtn"
-                            class="w-full flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
-                            <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
-                    </li>
-                    <!-- End of Login and Register buttons -->
-    
-                </ul>
-            </div>
-        </aside>
 
-        <div class=" sm:ml-64">
-            <div class=" ">
-               
-              
-             
-               <div class="flex items-center justify-center  ">
-                  <div class="flex flex-col  p-8    ">
-             
-                     <div class="content flex-grow flex items-center  ">
+                        <span class="mr-1"><i class="fas fa-users"></i></span>All Users</a>
+                </li>
+
+                <li>
+
+                    <a href="register.html"
+                        class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
+
+                        <span class="mr-1"><i class="fas fa-user-plus"></i></span>Register New User</a>
+                </li>
+            </ul>
+            <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+
+                <li class="mb-6 text-sm">
+                    <button id="logoutBtn"
+                        class="w-full flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
+                        <span class="mr-2"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
+                </li>
+                <!-- End of Login and Register buttons -->
+
+            </ul>
+        </div>
+    </aside>
+
+    <div class=" sm:ml-64">
+        <div class=" ">
 
 
 
+            <div class="flex items-center justify-center  ">
+                <div class="flex flex-col  p-8    ">
 
-            <form id="newOrderForm" class="signup-form">
-                <div class="form-header">
-                    <h1 style="font-weight: bolder  ;">New Order</h1>
-                </div>
-
-                <div class="form-body">
-                    <div class="horizontal-group">
-                        <div class="form-group left">
-
-                            <label for="poNo" class="label-title">PO No.:</label>
-                            <input type="text" id="poNo" name="poNo" class="form-input" placeholder="Enter PO No."
-                                required>
-                        </div>
+                    <div class="content flex-grow flex items-center  ">
 
 
 
-                        <div class="form-group right">
-                            <label for="productName" class="label-title">Product Name:</label>
-                            <select id="productName" name="productName" class="form-input">
-                                <option value="Piezometer">Piezometer</option>
-                                <option value="CEMS">CEMS</option>
-                                <option value="AQMS">AQMS</option>
-                                <option value="Flow Meter">Flow Meter</option>
-                                <option value="Water Analyzer">Water Analyzer</option>
-                                <option value="Multi Gas Analyzer">Multi Gas Analyzer</option>
-                            </select>
-                        </div>
 
-                        <div class="form-group left">
-                            <label for="price" class="label-title">Price:</label>
-                            <input type="text" id="price" name="price" class="form-input" placeholder="Enter price"
-                                required>
-                        </div>
+                        <form id="newOrderForm" class="signup-form">
+                            <div class="form-header">
+                                <h1 style="font-weight: bolder  ;">New Order</h1>
+                            </div>
 
-                        <div class="form-group right">
+                            <div class="form-body">
+                                <div class="ml-2 grid grid-cols-1 lg:grid-cols-2 gap-8 mr-4 pt-4">
+                                    <div class="">
 
-                            <label for="quantity" class="label-title">Quantity:</label>
-                            <input type="text" id="quantity" name="quantity" class="form-input"
-                                placeholder="Enter quantity" required>
-                        </div>
-
-                        <div class="form-group left">
-                            <label for="firmName" class="label-title">Firm Name:</label>
-                            <input type="text" id="firmName" name="firmName" class="form-input"
-                                placeholder="Enter firm name" required>
-                        </div>
-
-                        <div class="form-group right">
-                            <label for="customerName" class="label-title">Customer Name:</label>
-                            <input type="text" id="customerName" name="customerName" class="form-input"
-                                placeholder="Enter customer name" required>
-                        </div>
-
-                        <div class="form-group left">
-                            <label for="customerPhoneNo" class="label-title">Customer Phone No.:</label>
-                            <input type="text" id="customerPhoneNo" name="customerPhoneNo" class="form-input"
-                                placeholder="Enter customer's phone no. " required>
-                        </div>
-
-                        <div class="form-group right">
-                            <label for="salesPerson" class="label-title">Sales Person:</label>
-                            <input type="text" id="salesPerson" name="salesPerson" class="form-input"
-                                placeholder="Enter sales person's name" required>
-                        </div>
-
-                        <div class="form-group left">
-                            <label for="salesPersonId" class="label-title">Sales Person Id:</label>
-                            <input type="text" id="salesPersonId" name="salesPersonId" class="form-input"
-                                placeholder="Enter sales person's Id " required>
-                        </div>
-
-                        <div class="form-group right">
-                            <label for="orderStatus" class="label-title">Order Status:</label>
-                            <select id="orderStatus" name="orderStatus" class="form-input">
-                                <option value="Trading">Trading</option>
-                                <option value="Pending">Pending</option>
-                                <option value="In Production">In Production</option>
-                                <option value="Testing">Testing</option>
-                                <option value="Packed">Packed</option>
-                                <option value="Shipped">Shipped</option>
-                            </select>
-                        </div>
+                                        <label for="poNo" class="label-title">PO No.:</label>
+                                        <input type="text" id="poNo" name="poNo" class="form-input"
+                                            placeholder="Enter PO No." required>
+                                    </div>
 
 
-                        <div class="form-group left">
-                            <label for="paymentStatus" class="label-title">Payment Status:</label>
-                            <input type="text" id="paymentStatus" name="paymentStatus" class="form-input"
-                                placeholder="Enter payment status " required>
-                        </div>
 
-                        <div class="form-group right">
-                            <label for="date" class="label-title">Deadline Date:</label>
-                            <input type="date" id="date" name="date" class="form-input"
-                                placeholder="Enter payment status " required>
-                        </div>
+                                    <div class="">
+                                        <label for="productName" class="label-title">Product Name:</label>
+                                        <select id="productName" name="productName" class="form-input">
+
+                                            <option value="">Select</option>
+                                            <option value="Others">Others</option>
+
+                                        </select>
+                                    </div>
+                                    <div id="newProductField" class=" " style="display: none;">
+                                        <label for="newProductName" class="label-title">Product Name :</label>
+                                        
+                                        <div class=" grid grid-cols-1 lg:grid-cols-2 gap-4 ">
+                                            <input type="text" id="newProductName" name="newProductName"
+                                            class="rounded-md form-input" 
+                                            placeholder="Enter new product name">
+                                        <button id="addNewProductBtn" class="bg-emerald p-2 rounded-md text-white">Add Product
+                                        </button>
+                                        </div>
+                                    </div>
 
 
-                        <div class="form-group left">
-                            <label for="image" class="label-title">Image:</label>
-                            <input type="file" id="image" name="image" class="form-input " accept="image/*" required>
-                        </div>
+
+
+                                    <div class="">
+                                        <label for="price" class="label-title">Price(incl. GST):</label>
+                                        <input type="text" id="price" name="price" class="form-input"
+                                            placeholder="Enter price" required>
+                                    </div>
+
+                                    <div class="">
+
+                                        <label for="quantity" class="label-title">Quantity:</label>
+                                        <input type="text" id="quantity" name="quantity" class="form-input"
+                                            placeholder="Enter quantity" required>
+                                    </div>
+
+                                    <div class="">
+                                        <label for="firmName" class="label-title">Firm Name:</label>
+                                        <input type="text" id="firmName" name="firmName" class="form-input"
+                                            placeholder="Enter firm name" required>
+                                    </div>
+
+                                    <div class="">
+                                        <label for="customerName" class="label-title">Customer Name:</label>
+                                        <input type="text" id="customerName" name="customerName" class="form-input"
+                                            placeholder="Enter customer name" required>
+                                    </div>
+
+                                    <div class="">
+                                        <label for="customerPhoneNo" class="label-title">Customer Phone No.:</label>
+                                        <input type="text" id="customerPhoneNo" name="customerPhoneNo"
+                                            class="form-input" placeholder="Enter customer's phone no. " required>
+                                    </div>
+
+                                    
+
+                                    <div class="">
+                                        <label for="salesPerson" class="label-title">Sales Person:</label>
+                                        <select id="salesPerson" name="salesPerson" class="form-input" required>
+                                            <option value="">Select sales person</option> <!-- Default empty option -->
+                                            <option value="Others">Others</option>
+                                        </select>
+                                    </div>
+
+                                    <div id="newField" class="  " style="display: none;">
+                                        
+                                        
+                                            <label for="addNewSalesPersonName" class="label-title">Sales Person Name
+                                                :</label>
+                                            <input type="text" id="addNewSalesPersonName" name="addNewSalesPersonName"
+                                                class="rounded-md form-input "  
+                                                placeholder="Enter name">
+
+                                            <label for="addNewSalesPersonId" class="label-title">Sales Person's ID
+                                                :</label>
+                                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                                <input type="text" id="addNewSalesPersonId" name="addNewSalesPersonId"
+                                                class="rounded-md form-input" 
+                                                placeholder="Enter  Id">
+                                                <button id="addaddNewSalesPersonNameBtn"
+                                            class="bg-emerald p-2 rounded-md text-white ">Add Sales Person
+                                        </button>
+                                            </div>
+                                        
+
+                                        
+                                        
+                                    </div>
+
+                                    
+
+                                    <div class="">
+                                        <label for="orderStatus" class="label-title">Order Status:</label>
+                                        <select id="orderStatus" name="orderStatus" class="form-input">
+                                            <option value="Trading">Trading</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="In Production">In Production</option>
+                                            <option value="Testing">Testing</option>
+                                            <option value="Packed">Packed</option>
+                                            <option value="Shipped">Shipped</option>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="">
+                                        <label for="paymentStatus" class="label-title">Payment Status:</label>
+                                        <input type="text" id="paymentStatus" name="paymentStatus" class="form-input"
+                                            placeholder="Enter payment status " required>
+                                    </div>
+
+                                    <div class="">
+                                        <label for="date" class="label-title">Deadline Date:</label>
+                                        <input type="date" id="date" name="date" class="form-input"
+                                            placeholder="Enter payment status " required>
+                                    </div>
+
+
+                                    <div class="">
+                                        <label for="image" class="label-title">Image:</label>
+                                        <input type="file" id="image" name="image" class="form-input " accept="image/*"
+                                            required>
+                                    </div>
+
+
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-footer">
+                                <button type="button" class="btn btn-outline btn-success btn-xs sm:btn-sm md:btn-md   "
+                                    onclick="submitNewOrder()">Submit</button>
+                            </div>
+                        </form>
+
+
 
                     </div>
                 </div>
-
-                <div class="form-footer">
-                    <button type="button" class="btn btn-outline btn-success btn-xs sm:btn-sm md:btn-md   " onclick="submitNewOrder()">Submit</button>
-                </div>
-            </form>
-
-        
+            </div>
 
         </div>
     </div>
-  </div>
- 
-</div>
-</div>
-    
-            <script src="main.js"></script>
-            <script src="newOrder.js"></script>
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
 
-                    document.getElementById('logoutBtn').addEventListener('click', function () {
-                        // Call logout function
-                        logout();
-                    });
+    <script src="main.js"></script>
+    <script src="newOrder.js"></script>
+    <script>
 
-                    // Function to logout
-                    function logout() {
-                        // Remove token from local storage
-                        localStorage.removeItem('token');
 
-                        // Redirect user to login page or perform any other action after logout
-                        window.location.href = 'index.html'; // Redirect to login page
-                    }
+        // Fetch product names from the backend API with JWT token
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('JWT token not found.');
+            alert('Please login');
+            window.location.href = "index.html";
+        }
 
+        fetch('/api/v1/orders/products/productName', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Get the select element by its ID
+                const selectElement = document.getElementById('productName');
+
+                // Iterate over the product names and create an option element for each
+                data.productNames.forEach(productName => {
+                    const option = document.createElement('option');
+                    option.value = productName;
+                    option.textContent = productName;
+                    selectElement.appendChild(option);
                 });
+            })
+            .catch(error => {
+                console.error('Error fetching product names:', error);
+            });
 
 
-                function displayUserInfo() {
-                    // Retrieve user's name from local storage
-                    const name = localStorage.getItem('name');
+        // Fetch product names from the backend API with JWT token
+        const token2 = localStorage.getItem('token');
+        if (!token2) {
+            console.error('JWT token not found.');
+            alert('Please login');
+            window.location.href = "index.html";
+        }
 
-                    // Display user's name in userInfo element
-                    const userInfoElement = document.getElementById('userInfo');
-                    if (name) {
-                        userInfoElement.innerHTML = `
+        fetch('/api/v1/users/salesPersons', {
+            headers: {
+                'Authorization': `Bearer ${token2}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Get the select element by its ID
+                const selectElement = document.getElementById('salesPerson');
+
+                // Iterate over the product names and create an option element for each
+                data.salesPersons.forEach(salesPerson => {
+                    const option = document.createElement('option');
+                    option.value = salesPerson;
+                    option.textContent = salesPerson;
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching product names:', error);
+            });
+
+        function handleProductSelectionChange() {
+            const productNameSelect = document.getElementById('productName');
+            const newProductField = document.getElementById('newProductField');
+
+            // Show/hide new product field based on selected option
+            if (productNameSelect.value === 'Others') {
+                newProductField.style.display = 'block';
+            } else {
+                newProductField.style.display = 'none';
+            }
+        }
+
+        function handleSalesSelectionChange() {
+            const salesPersonSelect = document.getElementById('salesPerson');
+            const newField = document.getElementById('newField');
+
+            // Show/hide new product field based on selected option
+            if (salesPersonSelect.value === 'Others') {
+                newField.style.display = 'block';
+            } else {
+                newField.style.display = 'none';
+            }
+        }
+
+
+
+        // Function to handle the submission of a new product
+        function addNewProduct() {
+            const newProductName = document.getElementById('newProductName').value.trim();
+
+            // Check if the new product name is empty
+            if (!newProductName) {
+                alert('Please enter a product name');
+                return;
+            }
+
+            // Send a request to the backend API to add the new product
+            fetch('/api/v1/orders/products/productName', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}` // Add JWT token from localStorage
+                },
+                body: JSON.stringify({ name: newProductName })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the product dropdown with the newly added product
+                    const selectElement = document.getElementById('productName');
+                    const option = document.createElement('option');
+                    option.value = newProductName;
+                    option.textContent = newProductName;
+                    selectElement.appendChild(option);
+
+                    // Reset the input field
+                    document.getElementById('newProductName').value = '';
+
+                    alert('New product added successfully');
+                })
+                .catch(error => {
+                    console.error('Error adding new product:', error);
+                    alert('Failed to add new product');
+                });
+        }
+
+        document.getElementById('productName').addEventListener('change', handleProductSelectionChange);
+
+
+        // Add event listener to the "Add Product" button
+        document.getElementById('addNewProductBtn').addEventListener('click', addNewProduct);
+
+
+        function addNewSalesPerson() {
+            const addNewSalesPersonName = document.getElementById('addNewSalesPersonName').value.trim();
+            const addNewSalesPersonId = document.getElementById('addNewSalesPersonId').value.trim();
+
+
+
+            // Check if the new product name is empty
+            if (!addNewSalesPersonName) {
+                alert('Please enter name');
+                return;
+            }
+
+            // Send a request to the backend API to add the new product
+            fetch('/api/v1/users/salesPersons', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}` // Add JWT token from localStorage
+                },
+                body: JSON.stringify({ name: addNewSalesPersonName , id:addNewSalesPersonId})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the product dropdown with the newly added product
+                    const selectElement = document.getElementById('salesPerson');
+                    const option = document.createElement('option');
+                    option.value = addNewSalesPersonName;
+                    option.textContent = addNewSalesPersonName;
+                    selectElement.appendChild(option);
+
+                    // Reset the input field
+                    document.getElementById('addNewSalesPersonName').value = '';
+
+                    alert('New sales person added successfully');
+                })
+                .catch(error => {
+                    console.error('Error adding new sales person:', error);
+                    alert('Failed to add new sales person');
+                });
+        }
+
+        document.getElementById('salesPerson').addEventListener('change', handleSalesSelectionChange);
+
+
+        // Add event listener to the "Add Product" button
+        document.getElementById('addaddNewSalesPersonNameBtn').addEventListener('click', addNewSalesPerson);
+
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                // Call logout function
+                logout();
+            });
+
+            // Function to logout
+            function logout() {
+                // Remove token from local storage
+                localStorage.removeItem('token');
+
+                // Redirect user to login page or perform any other action after logout
+                window.location.href = 'index.html'; // Redirect to login page
+            }
+
+        });
+
+
+        function displayUserInfo() {
+            // Retrieve user's name from local storage
+            const name = localStorage.getItem('name');
+
+            // Display user's name in userInfo element
+            const userInfoElement = document.getElementById('userInfo');
+            if (name) {
+                userInfoElement.innerHTML = `
             <i class="fas fa-user fa-lg mr-2"></i>
             <span class="text-lg font-semibold">${name}</span>
         `;
-                    } else {
-                        userInfoElement.innerHTML = `
+            } else {
+                userInfoElement.innerHTML = `
             <i class="fas fa-user mr-2"></i>
             <span class="text-lg font-semibold">Welcome</span>
         `;
-                    }
-                }
+            }
+        }
 
-                // Call the displayUserInfo function when the login page loads
-                displayUserInfo();
+        // Call the displayUserInfo function when the login page loads
+        displayUserInfo();
 
 
-            </script>
+    </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
-        
+
 
 </body>
 
