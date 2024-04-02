@@ -300,9 +300,9 @@ exports.getOrder = (req, res) => {
 
 exports.updateOrder = (req, res) => {
     const { id } = req.params;
-    const { case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, order_status, payment_status, deadline_date, priority } = req.body;
-    const query = 'UPDATE Orders SET case_no = ?, po_no = ?, product_name = ?, price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?, sales_person = ?, order_status = ?, payment_status = ?, deadline_date = ?, priority = ? WHERE id = ?';
-    const values = [case_no, po_no, product_name, price, quantity, firm_name, customer_name, customer_phone_no, sales_person, order_status, payment_status, deadline_date, priority, id];
+    const { case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, payment_status, deadline_date, priority } = req.body;
+    const query = 'UPDATE orders SET case_no = ?, po_no = ?,  price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?,  order_status = ?, payment_status = ?, deadline_date = ?, priority = ? WHERE id = ?';
+    const values = [case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, payment_status, deadline_date, priority, id];
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting database connection:', err);

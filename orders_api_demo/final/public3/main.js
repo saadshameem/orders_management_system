@@ -58,21 +58,16 @@ function editOrder(orderId) {
                 
 
                 <div class="edit-form-row">
-                <div class="edit-form-column">
-                <label class="edit-form-label" for="productName" class="edit-form-label">Product Name:</label>
-                <select id="productName" name="productName" class="edit-form-input">
-                    <option value="Piezometer" ${order.product_name === 'Piezometer' ? 'selected' : ''}>Piezometer</option>
-                    <option value="CEMS" ${order.product_name === 'CEMS' ? 'selected' : ''}>CEMS</option>
-                    <option value="AQMS" ${order.product_name === 'AQMS' ? 'selected' : ''}>AQMS</option>
-                    <option value="Flow Meter" ${order.product_name === 'Flow Meter' ? 'selected' : ''}>Flow Meter</option>
-                    <option value="Water Analyzer" ${order.product_name === 'Water Analyzer' ? 'selected' : ''}>Water Analyzer</option>
-                    <option value="Multi Gas Analyzer" ${order.product_name === 'Multi Gas Analyzer' ? 'selected' : ''}>Multi Gas Analyzer</option>
-                </select>
-                </div>
+                
 
                 <div class="edit-form-column">
                 <label class="edit-form-label" for="price" class="edit-form-label">Price(Incl. GST):</label>
                 <input type="text" id="price" name="price" value="${order.price}" required class="edit-form-input">
+                </div>
+
+                <div class="edit-form-column">
+                <label class="edit-form-label" for="priority">Priority:</label>
+                <input type="Number" id="priority" name="priority" value="${order.priority}" required class="edit-form-input">
                 </div>
                 </div>
 
@@ -108,11 +103,12 @@ function editOrder(orderId) {
                         <label class="edit-form-label" for="customerPhoneNo">Customer Ph.:</label>
                         <input type="text" id="customerPhoneNo" name="customerPhoneNo" value="${order.customer_phone_no}" required class="edit-form-input">
                         </div>
-        
                         <div class="edit-form-column">
-                        <label class="edit-form-label" for="salesPerson">Sales Person:</label>
-                        <input type="text" id="salesPerson" name="salesPerson" value="${order.sales_person}" required class="edit-form-input">
-                        </div>
+                <label class="edit-form-label" for="paymentStatus">Payment Status:</label>
+                <input type="text" id="paymentStatus" name="paymentStatus" value="${order.payment_status}" required class="edit-form-input">
+                </div>
+        
+                        
                         </div>
 
 
@@ -120,10 +116,7 @@ function editOrder(orderId) {
 
 
                 <div class="edit-form-row">
-                <div class="edit-form-column">
-                <label class="edit-form-label" for="salesPersonId">Sales Per Id:</label>
-                <input type="text" id="salesPersonId" name="salesPersonId" value="${order.sales_person_id}" required class="edit-form-input">
-                </div>
+               
 
                 <div class="edit-form-column">
                 <label class="edit-form-label" for="orderStatus">Order Status:</label>
@@ -136,18 +129,11 @@ function editOrder(orderId) {
                     <option value="Shipped" ${order.order_status === 'Shipped' ? 'selected' : ''}>Shipped</option>
                 </select>
                 </div>
+
+                
                 </div>
 
-                <div class="edit-form-row">
-                <div class="edit-form-column">
-                <label class="edit-form-label" for="priority">Priority:</label>
-                <input type="Number" id="priority" name="priority" value="${order.priority}" required class="edit-form-input">
-                </div>
-                <div class="edit-form-column">
-                <label class="edit-form-label" for="paymentStatus">Payment Status:</label>
-                <input type="text" id="paymentStatus" name="paymentStatus" value="${order.payment_status}" required class="edit-form-input">
-                </div>
-                </div>
+                
 
                 
 
@@ -173,15 +159,15 @@ function editOrder(orderId) {
 function submitUpdatedOrder(orderId) {
     const caseNo = document.getElementById('caseNo').value;
     const poNo = document.getElementById('poNo').value;
-    const productName = document.getElementById('productName').value;
+    // const productName = document.getElementById('productName').value;
     const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
     const date = document.getElementById('date').value;
     const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
-    const salesPerson = document.getElementById('salesPerson').value;
-    const salesPersonId = document.getElementById('salesPersonId').value;
+    // const salesPerson = document.getElementById('salesPerson').value;
+    // const salesPersonId = document.getElementById('salesPersonId').value;
     const orderStatus = document.getElementById('orderStatus').value;
     const priority = document.getElementById('priority').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
@@ -189,15 +175,15 @@ function submitUpdatedOrder(orderId) {
     const updatedOrder = {
         case_no: caseNo,
         po_no: poNo,
-        product_name: productName,
+        // product_name: productName,
         price: price,
         quantity: quantity,
         deadline_date: date,
         firm_name: firmName,
         customer_name: customerName,
         customer_phone_no: customerPhoneNo,
-        sales_person: salesPerson,
-        sales_person_id: salesPersonId,
+        // sales_person: salesPerson,
+        // sales_person_id: salesPersonId,
         order_status: orderStatus,
         priority: priority,
         payment_status: paymentStatus

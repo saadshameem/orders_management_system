@@ -31,7 +31,7 @@ const authenticateToken = require('./middleware/authentication');
 // app.use(xss())
 
 
-app.use(bodyParser.json({limit:'5mb'}));
+app.use(bodyParser.json({limit:'3mb'}));
 
 app.use(express.json());
 app.use(express.static('./public3'));
