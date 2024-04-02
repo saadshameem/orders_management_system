@@ -289,7 +289,6 @@ function addTableRow(table, order, serialNumber) {
             <button class="btn btn-primary btn-xs btn-info " onclick="editOrder('${order.id}')">Edit</button>
             <button class="btn btn-sencondary btn-xs btn-warning" onclick="deleteOrder('${order.id}')">Delete</button>
 
-
         </td>
     `;
     const imageCell = row.insertCell();

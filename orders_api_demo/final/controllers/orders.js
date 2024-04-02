@@ -5,19 +5,20 @@ const mysql2 = require('mysql2');
 const dbConfig = require('../db/connect'); // Import database connection configuration
 const pool = require('../db/connect');
 const fs = require('fs')
-const path = require('path')
+const path = require('path');
+const { error } = require('console');
 
 
 
 exports.getAllOrders = (req, res) => {
-    const query = 'SELECT orders.*, products.name AS product_name FROM orders JOIN products ON orders.productId = Products.id ORDER BY orders.priority ASC';
+    const query = 'SELECT orders.id, orders.case_no, orders.po_no, orders.price, orders.quantity,orders.firm_name, orders.customer_name, orders.customer_phone_no,  orders.sales_person_id, orders.sales_person,orders.order_status, orders.payment_status, orders.deadline_date, orders.priority, orders.image,orders.createdAt, orders.productId,products.name AS product_name FROM test.orders JOIN test.products ON orders.productId = Products.id ORDER BY orders.priority ASC';
     // const query = 'SELECT * FROM orders ORDER BY priority ASC';
 
     // Get a connection from the pool
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting database connection:', err);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: err.message });
             return;
         }
         // Execute the query
@@ -26,7 +27,7 @@ exports.getAllOrders = (req, res) => {
             connection.release();
             if (error) {
                 console.error('Error fetching orders:', error);
-                res.status(500).json({ error: 'Internal server error' });
+                res.status(500).json({ error: error.message });
                 return;
             }
             res.status(200).json({ orders: results });
@@ -41,7 +42,7 @@ exports.getAllProducts = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting database connection:', err);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: err.message  });
             return;
         }
         // Execute the query
@@ -50,7 +51,7 @@ exports.getAllProducts = (req, res) => {
             connection.release();
             if (error) {
                 console.error('Error fetching products:', error);
-                res.status(500).json({ error: 'Internal server error' });               
+                res.status(500).json({ error: error.message  });               
                  return;
             }
             const productNames = results.map(result => result.name);
@@ -76,7 +77,7 @@ exports.AddNewProduct = (req, res) => {
     pool.query(query, [name], (error, results) => {
         if (error) {
             console.error('Error adding product:', error);
-            return res.status(500).json({ error: 'Internal server error' });
+            return res.status(500).json({ error: error.message  });
         }
 
         // Return a success response with the ID of the newly added product
@@ -235,7 +236,7 @@ exports.createOrder = async (req, res, next) => {
         pool.query(salesPersonIdQuery, [sales_person], (error, results) => {
             if (error) {
                 console.error('Error fetching sales person ID:', error);
-                return res.status(500).json({ error: 'Internal server error' });
+                return res.status(500).json({ error: error.message  });
             }
             if (results.length === 0) {
                 return res.status(400).json({ error: 'Sales person not found' });
@@ -247,7 +248,7 @@ exports.createOrder = async (req, res, next) => {
             pool.query(productIdQuery, [product_name], (error, results) => {
                 if (error) {
                     console.error('Error fetching product ID:', error);
-                    return res.status(500).json({ error: 'Internal server error' });
+                    return res.status(500).json({error: error.message });
                 }
                 if (results.length === 0) {
                     return res.status(400).json({ error: 'Product not found' });
@@ -260,7 +261,7 @@ exports.createOrder = async (req, res, next) => {
                 pool.query(insertOrderQuery, [case_no, po_no, productId, price, quantity, formattedDeadlineDate, firm_name, customer_name, customer_phone_no, sales_person, salesPersonId, order_status, payment_status, priority, relativeImagePath], (error, result) => {
                     if (error) {
                         console.error('Error creating order:', error);
-                        return res.status(500).json({ error: 'Internal server error' });
+                        return res.status(500).json({ error: error.message  });
                     }
                     return res.status(201).json({ message: 'Order created successfully', orderId: result.insertId });
                 });
@@ -268,7 +269,7 @@ exports.createOrder = async (req, res, next) => {
         });
     } catch (error) {
         console.error('Error creating order:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: error.message  });
     }
 };
 
@@ -280,14 +281,14 @@ exports.getOrder = (req, res) => {
   pool.getConnection((err, connection) => {
       if (err) {
           console.error('Error getting database connection:', err);
-          res.status(500).json({ error: 'Internal server error' });
+          res.status(500).json({ error: err.message  });
           return;
       }
       connection.query(query, [id], (error, results) => {
           connection.release();
           if (error) {
               console.error('Error fetching order:', error);
-              res.status(500).json({ error: 'Internal server error' });
+              res.status(500).json({ error: error.message  });
               return;
           }
           if (results.length === 0) {
@@ -306,14 +307,14 @@ exports.updateOrder = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting database connection:', err);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: err.message  });
             return;
         }
         connection.query(query, values, (error, result) => {
             connection.release();
             if (error) {
                 console.error('Error updating order:', error);
-                res.status(500).json({ error: 'Internal server error' });
+                res.status(500).json({ error: error.message  });
                 return;
             }
             res.status(200).json({ order: result });
@@ -377,14 +378,14 @@ exports.fetchOrdersByStatus = (req, res) => {
     pool.getConnection((err, connection) => {
       if (err) {
         console.error('Error getting database connection:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: err.message  });
         return;
       }
       connection.query(query, [status], (error, results) => {
         connection.release();
         if (error) {
           console.error('Error fetching orders by status:', error);
-          res.status(500).json({ error: 'Internal server error' });
+          res.status(500).json({ error: error.message });
           return;
         }
         if (results.length === 0) {
@@ -436,14 +437,14 @@ exports.filteredOrders = (req, res) => {
   pool.getConnection((err, connection) => {
       if (err) {
           console.error('Error getting database connection:', err);
-          res.status(500).json({ error: 'Internal server error' });
+          res.status(500).json({ error: err.message  });
           return;
       }
       connection.query(query, [`%${search}%`], (error, results) => {
           connection.release();
           if (error) {
               console.error('Error filtering orders:', error);
-              res.status(500).json({ error: 'Internal server error' });
+              res.status(500).json({ error: error.message  });
               return;
           }
           if (results.length === 0) {
@@ -460,7 +461,7 @@ exports.getNewOrderDetails = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting database connection:', err);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: err.message  });
             return;
         }
 
@@ -468,7 +469,7 @@ exports.getNewOrderDetails = (req, res) => {
             connection.release();
             if (error) {
                 console.error('Error fetching new order details:', error);
-                res.status(500).json({ error: 'Internal server error' });
+                res.status(500).json({ error: error.message  });
                 return;
             }
             const highestCaseNumber = results[0].highest_case_number || 0;
