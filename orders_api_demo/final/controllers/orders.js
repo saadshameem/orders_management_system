@@ -11,8 +11,11 @@ const { error } = require('console');
 
 
 exports.getAllOrders = (req, res) => {
-    const query = 'SELECT orders.id, orders.case_no, orders.po_no, orders.price, orders.quantity,orders.firm_name, orders.customer_name, orders.customer_phone_no,  orders.sales_person_id, orders.sales_person,orders.order_status, orders.payment_status, orders.deadline_date, orders.priority, orders.image,orders.createdAt, orders.productId,products.name AS product_name FROM test.orders JOIN test.products ON orders.productId = Products.id ORDER BY orders.priority ASC';
-    // const query = 'SELECT * FROM orders ORDER BY priority ASC';
+    // const query = 'SELECT orders.id, orders.case_no, orders.po_no, orders.price, orders.quantity,orders.firm_name, orders.customer_name, orders.customer_phone_no,  orders.sales_person_id, orders.sales_person,orders.order_status, orders.payment_status, orders.deadline_date, orders.priority, orders.image,orders.createdAt, orders.productId,products.name AS product_name FROM test.orders JOIN test.products ON orders.productId = Products.id ORDER BY orders.priority ASC';
+    const query = 'SELECT * FROM orders ORDER BY priority ASC';
+    // const query = 'SELECT orders.*, products.name AS product_name FROM orders JOIN products ON orders.productId = Products.id  ORDER BY orders.priority ASC';
+
+
 
     // Get a connection from the pool
     pool.getConnection((err, connection) => {
@@ -232,7 +235,7 @@ exports.createOrder = async (req, res, next) => {
         }
 
         // Fetch sales person ID based on sales person name
-        const salesPersonIdQuery = 'SELECT id FROM sales_person WHERE name = ?';
+        const salesPersonIdQuery = 'SELECT id FROM sales_persons WHERE name = ?';
         pool.query(salesPersonIdQuery, [sales_person], (error, results) => {
             if (error) {
                 console.error('Error fetching sales person ID:', error);
@@ -241,7 +244,7 @@ exports.createOrder = async (req, res, next) => {
             if (results.length === 0) {
                 return res.status(400).json({ error: 'Sales person not found' });
             }
-            const salesPersonId = results[0].id;
+            const sales_person_id = results[0].id;
 
             // Fetch product ID based on product name
             const productIdQuery = 'SELECT id FROM products WHERE name = ?';
@@ -257,8 +260,8 @@ exports.createOrder = async (req, res, next) => {
 
                 // Save the order data to the database
                 const formattedDeadlineDate = new Date(deadline_date).toISOString().slice(0, 19).replace('T', ' ');
-                const insertOrderQuery = 'INSERT INTO orders (case_no, po_no, productId, price, quantity, deadline_date, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, priority, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-                pool.query(insertOrderQuery, [case_no, po_no, productId, price, quantity, formattedDeadlineDate, firm_name, customer_name, customer_phone_no, sales_person, salesPersonId, order_status, payment_status, priority, relativeImagePath], (error, result) => {
+                const insertOrderQuery = 'INSERT INTO orders (case_no, po_no, product_name, price, quantity, deadline_date, firm_name, customer_name, customer_phone_no,  sales_person,  order_status, payment_status, priority, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?)';
+                pool.query(insertOrderQuery, [case_no, po_no, product_name, price, quantity, formattedDeadlineDate, firm_name, customer_name, customer_phone_no,  sales_person,  order_status, payment_status, priority, relativeImagePath], (error, result) => {
                     if (error) {
                         console.error('Error creating order:', error);
                         return res.status(500).json({ error: error.message  });
@@ -374,7 +377,9 @@ exports.filterProductsByFirm = (req, res) => {
 
 exports.fetchOrdersByStatus = (req, res) => {
     const { status } = req.params;
-    const query = 'SELECT orders.*, products.name AS product_name FROM orders JOIN products ON orders.productId = Products.id WHERE orders.order_status = ? ORDER BY orders.priority ASC';
+    const query = 'Select * from orders WHERE orders.order_status = ? ORDER BY orders.priority ASC'
+    // const query = 'SELECT orders.id, orders.case_no, orders.po_no, orders.price, orders.quantity,orders.firm_name, orders.customer_name, orders.customer_phone_no,  orders.sales_person_id, orders.sales_person,orders.order_status, orders.payment_status, orders.deadline_date, orders.priority, orders.image,orders.createdAt, orders.productId,products.name AS product_name FROM test.orders JOIN test.products ON orders.productId = Products.id WHERE orders.order_status = ? ORDER BY orders.priority ASC';
+    // const query = 'SELECT orders.*, products.name AS product_name FROM orders JOIN products ON orders.productId = Products.id WHERE orders.order_status = ? ORDER BY orders.priority ASC';
     pool.getConnection((err, connection) => {
       if (err) {
         console.error('Error getting database connection:', err);
@@ -427,8 +432,12 @@ exports.filteredOrders = (req, res) => {
       case 'product_name':
       case 'firm_name':
       case 'sales_person':
-        //   query = `SELECT * FROM orders WHERE ${attribute} LIKE ?`;
-          query = `SELECT orders.*, products.name AS product_name FROM orders JOIN products ON orders.productId = Products.id WHERE ${attribute} LIKE ? ORDER BY orders.priority ASC`;
+          query = `SELECT * FROM orders WHERE ${attribute} LIKE ?`;
+
+        //  query = `SELECT orders.id, orders.case_no, orders.po_no, orders.price, orders.quantity,orders.firm_name, orders.customer_name, orders.customer_phone_no,  orders.sales_person_id, orders.sales_person,orders.order_status, orders.payment_status, orders.deadline_date, orders.priority, orders.image,orders.createdAt, orders.productId,products.name AS product_name FROM test.orders JOIN test.products ON orders.productId = Products.id WHERE ${attribute} LIKE ? ORDER BY orders.priority ASC`;
+
+        
+        //   query = `SELECT orders.*, products.name AS product_name FROM orders JOIN products ON orders.productId = Products.id WHERE ${attribute} LIKE ? ORDER BY orders.priority ASC`;
 
           break;
       default:

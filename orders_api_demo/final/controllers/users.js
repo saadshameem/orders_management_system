@@ -31,12 +31,12 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.getAllSalesPersons = (req, res) => {
-    const query = 'SELECT name FROM sales_person ORDER BY id ASC';
+    const query = 'SELECT name FROM sales_persons ORDER BY id ASC';
     // Get a connection from the pool
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting database connection:', err);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error: err.message });
             return;
         }
         // Execute the query
@@ -45,7 +45,7 @@ exports.getAllSalesPersons = (req, res) => {
             connection.release();
             if (error) {
                 console.error('Error fetching sales persons:', error);
-                res.status(500).json({ error: 'Internal server error' });               
+                res.status(500).json({ error: error.message });               
                  return;
             }
             const salesPersons = results.map(result => result.name);
@@ -65,13 +65,13 @@ exports.addNewSalesPerson = (req, res) => {
     }
 
     // SQL query to insert a new product into the database
-    const query = 'INSERT INTO sales_person (id,name) VALUES (?,?)';
+    const query = 'INSERT INTO sales_persons (id,name) VALUES (?,?)';
 
     // Execute the query with the provided product name
     pool.query(query, [id,name], (error, results) => {
         if (error) {
             console.error('Error adding product:', error);
-            return res.status(500).json({ error: 'Internal server error' });
+            return res.status(500).json({ error: error.message });
         }
 
         // Return a success response with the ID of the newly added product

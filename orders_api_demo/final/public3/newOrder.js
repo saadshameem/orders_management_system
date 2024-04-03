@@ -210,7 +210,7 @@ function submitNewOrder() {
     const customerName = document.getElementById('customerName').value;
     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
     const salesPerson = document.getElementById('salesPerson').value;
-    // const salesPersonId = document.getElementById('salesPersonId').value;
+    // const sales_person_id = document.getElementById('sales_person_id').value;
     const orderStatus = document.getElementById('orderStatus').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
 
@@ -270,7 +270,7 @@ function submitNewOrder() {
             customer_name: customerName,
             customer_phone_no: customerPhoneNo,
             sales_person: salesPerson,
-            // sales_person_id: salesPersonId,
+            // sales_person_id: sales_person_id,
             order_status: orderStatus,
             payment_status: paymentStatus,
             image: imageBase64,
