@@ -43,7 +43,7 @@ exports.register = async (req, res) => {
         pool.query(checkUserQuery, [email], async (error, results) => {
             if (error) {
                 console.error('Error checking user:', error);
-                res.status(500).json({ message: 'Internal server error' });
+                res.status(500).json({ message: error.message });
                 return;
             }
 
@@ -59,7 +59,7 @@ exports.register = async (req, res) => {
             pool.query(insertUserQuery, [name, email, hashedPassword, role], (err, result) => {
                 if (err) {
                     console.error('Error creating user:', err);
-                    res.status(500).json({ message: 'Internal server error' });
+                    res.status(500).json({ message: err.message });
                     return;
                 }
                 
@@ -72,7 +72,7 @@ exports.register = async (req, res) => {
         });
     } catch (error) {
         console.error('Error registering user:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -87,7 +87,7 @@ exports.login = async (req, res) => {
         pool.query(getUserQuery, [email], async (error, results) => {
             if (error) {
                 console.error('Error finding user:', error);
-                res.status(500).json({ message: 'Internal server error' });
+                res.status(500).json({ message: error.message });
                 return;
             }
 
@@ -111,7 +111,7 @@ exports.login = async (req, res) => {
         });
     } catch (error) {
         console.error('Error logging in user:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: error.message });
     }
 };
 

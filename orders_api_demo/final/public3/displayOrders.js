@@ -1,107 +1,110 @@
 
-async function getAllOrders() {
-    try {
-        const token = localStorage.getItem('token');
 
-        if (!token) {
-            console.error('JWT token not found.');
-            return;
+function getAllOrders() {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        console.error('JWT token not found.');
+        return;
+    }
+    fetch('/api/v1/orders', {
+        headers: {
+            'Authorization': `Bearer ${token}`
         }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Received all orders:', data);
 
-        const response = await fetch('/api/v1/orders', {
-            headers: {
-                'Authorization': `Bearer ${token}`
+            if (!data || !data.orders) {
+                console.error('Invalid data received for all orders.');
+                return;
             }
-        });
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch orders. Status: ${response.status}`);
-        }
+            const orders = data.orders;
 
-        const data = await response.json();
+            const tableContainer = document.createElement('div');
+            tableContainer.classList.add('table-container');
 
-        console.log('Received all orders:', data);
+            const fullscreenToggle = document.createElement('button');
+            fullscreenToggle.textContent = 'Full Screen';
+            fullscreenToggle.id = 'fullscreen-toggle';
+            // fullscreenToggle.className = 'absolute top-20 right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
 
-        if (!data || !data.orders) {
-            console.error('Invalid data received for all orders.');
-            return;
-        }
+            tableContainer.appendChild(fullscreenToggle);
 
-        const orders = data.orders;
+            const table = document.createElement('table');
+            table.classList.add('table');
+            table.innerHTML = `
+                <tr>
+                
+                    <th>Sr. No</th>
+                    <th>Case. No</th>
+                    <th>PO. No</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th class="px-1">Quantity</th>
+                    <th  class="px-6">Order Date</th>
+                    <th>Deadline Date</th>
+                    <th>Order Status</th>
+                    <th>Client's Firm Name</th>
+                    <th>Client's Name</th>
+                    <th>Client's Phone No.</th>
+                    <th>Sales Person's Name</th>
+                    <th  class="px-1">Sales Person's Id</th>
+  
+                    <th class="px-1">Priority</th>
+                    <th class="px-1">Payment Status</th>
+                    
+                    <th>Actions</th>
+                    <th>P.O Image</th>
+                </tr>
+            `;
 
-        const tableContainer = document.createElement('div');
-        tableContainer.classList.add('table-container');
+            orders.forEach((order, index) => {
+                addTableRow(table, order, index + 1,);
+            });
 
-        const fullscreenToggle = document.createElement('button');
-        fullscreenToggle.textContent = 'Full Screen';
-        fullscreenToggle.id = 'fullscreen-toggle';
+            tableContainer.appendChild(table);
 
-        tableContainer.appendChild(fullscreenToggle);
-
-        const table = document.createElement('table');
-        table.classList.add('table');
-        table.innerHTML = `
-            <tr>
-                <th>Sr. No</th>
-                <th>Case. No</th>
-                <th>PO. No</th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th class="px-1">Quantity</th>
-                <th  class="px-6">Order Date</th>
-                <th>Deadline Date</th>
-                <th>Order Status</th>
-                <th>Client's Firm Name</th>
-                <th>Client's Name</th>
-                <th>Client's Phone No.</th>
-                <th>Sales Person's Name</th>
-                <th class="px-1">Priority</th>
-                <th class="px-1">Payment Status</th>
-                <th>Actions</th>
-                <th>P.O Image</th>
-            </tr>
-        `;
-
-        orders.forEach((order, index) => {
-            addTableRow(table, order, index + 1);
-        });
-
-        tableContainer.appendChild(table);
-
-        const content = document.querySelector('.content');
-        content.innerHTML = '';
-        content.appendChild(tableContainer);
-
-        fullscreenToggle.addEventListener('click', toggleFullscreen);
-        document.addEventListener('fullscreenchange', handleFullscreenChange);
-
-        function toggleFullscreen() {
+            // Update content area with the table container
             const content = document.querySelector('.content');
+            content.innerHTML = '';
+            content.appendChild(tableContainer);
 
-            if (!document.fullscreenElement) {
-                content.requestFullscreen();
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
+            fullscreenToggle.addEventListener('click', toggleFullscreen);
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+            function toggleFullscreen() {
+                const content = document.querySelector('.content');
+
+                if (!document.fullscreenElement) {
+                    content.requestFullscreen();
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
                 }
             }
-        }
 
-        function handleFullscreenChange() {
-            const content = document.querySelector('.content');
-            const isFullscreen = !!document.fullscreenElement;
 
-            if (isFullscreen) {
-                fullscreenToggle.style.display = 'none';
-            } else {
-                fullscreenToggle.style.display = '';
+
+            function handleFullscreenChange() {
+                const content = document.querySelector('.content');
+                const isFullscreen = !!document.fullscreenElement;
+
+                if (isFullscreen) {
+                    fullscreenToggle.style.display = 'none';
+                } else {
+                    fullscreenToggle.style.display = '';
+                }
             }
-        }
-    } catch (error) {
-        console.error('Error fetching all orders:', error);
-    }
-}
 
+        })
+        .catch(error => {
+            console.error('Error fetching all orders:', error);
+        });
+}
 
 function toggleFullscreen() {
     const tableContainer = document.querySelector('.table-container');
@@ -177,6 +180,7 @@ function fetchOrdersByStatus(status) {
                     <th>Client's Name</th>
                     <th>Client's Phone No.</th>
                         <th>Sales Person's Name</th>
+                        <th>Sales Person Id</th>
 
                         <th>Priority</th>
                         <th>Payment Status</th>
@@ -277,6 +281,7 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.customer_name}</td>
         <td class="font-semibold text-md" >${order.customer_phone_no}</td>
         <td class="font-semibold text-md" >${order.sales_person}</td>
+        <td class="font-semibold text-md" >${order.sales_person_id}</td>
 
         <td class="font-semibold text-md" >${order.priority}</td>
         <td class="font-semibold text-md" >${order.payment_status}</td>
@@ -393,6 +398,7 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                             <th>Client's Name</th>
                             <th>Client's Phone No.</th>
                             <th>Sales Person's Name</th>
+                            <th>Sales Person's Id</th>
 
                             <th>Priority</th>
                             <th>Payment Status</th>

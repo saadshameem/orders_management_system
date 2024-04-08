@@ -64,6 +64,58 @@ exports.getAllProducts = (req, res) => {
     });
 };
 
+// exports.getProductsById = (req, res) => {
+//     const query = 'SELECT * FROM products ORDER BY id ASC';
+//     // Get a connection from the pool
+//     pool.getConnection((err, connection) => {
+//         if (err) {
+//             console.error('Error getting database connection:', err);
+//             res.status(500).json({ error: err.message  });
+//             return;
+//         }
+//         // Execute the query
+//         connection.query(query, (error, results) => {
+//             // Release the connection back to the pool
+//             connection.release();
+//             if (error) {
+//                 console.error('Error fetching products:', error);
+//                 res.status(500).json({ error: error.message  });               
+//                  return;
+//             }
+//             const productNames = results.map(result => ({id:result.id, name:result.name}));
+//             // Send the product names in the desired format
+//             res.status(200).json({ productNames });
+//         });
+//     });
+// };
+
+
+
+exports.deleteProduct = (req, res) => {
+    const { name } = req.params;
+    const query = 'DELETE FROM products WHERE name = ?';
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error getting database connection:', err);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        connection.query(query, [name], (error, result) => {
+            connection.release();
+            if (error) {
+                console.error('Error deleting product:', error);
+                res.status(500).json({ error: 'Internal server error' });
+                return;
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: `product with name ${name} not found` });
+            }
+            res.status(200).json({ message: `product with name ${name} deleted successfully` });
+        });
+    });
+  };
+
+
 exports.AddNewProduct = (req, res) => {
     // Extract product name from the request body
     const { name } = req.body;
@@ -72,6 +124,18 @@ exports.AddNewProduct = (req, res) => {
     if (!name) {
         return res.status(400).json({ error: 'Product name is required' });
     }
+
+    const checkUserQuery = `SELECT * FROM products WHERE name = ?`;
+        pool.query(checkUserQuery, [name], async (error, results) => {
+            if (error) {
+                console.error('Error checking user:', error);
+                res.status(500).json({ message: error.message });
+                return;
+            }
+
+            if (results.length > 0) {
+                return res.status(400).json({ message: 'Product already exists' });
+            }
 
     // SQL query to insert a new product into the database
     const query = 'INSERT INTO products (name) VALUES (?)';
@@ -86,6 +150,7 @@ exports.AddNewProduct = (req, res) => {
         // Return a success response with the ID of the newly added product
         res.status(201).json({ message: 'Product added successfully', productId: results.insertId });
     });
+});
 };
 
 // exports.createOrder = async (req, res, next) => {
@@ -260,8 +325,8 @@ exports.createOrder = async (req, res, next) => {
 
                 // Save the order data to the database
                 const formattedDeadlineDate = new Date(deadline_date).toISOString().slice(0, 19).replace('T', ' ');
-                const insertOrderQuery = 'INSERT INTO orders (case_no, po_no, product_name, price, quantity, deadline_date, firm_name, customer_name, customer_phone_no,  sales_person,  order_status, payment_status, priority, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?)';
-                pool.query(insertOrderQuery, [case_no, po_no, product_name, price, quantity, formattedDeadlineDate, firm_name, customer_name, customer_phone_no,  sales_person,  order_status, payment_status, priority, relativeImagePath], (error, result) => {
+                const insertOrderQuery = 'INSERT INTO orders (case_no, po_no, product_name, price, quantity, deadline_date, firm_name, customer_name, customer_phone_no,  sales_person, sales_person_id, order_status, payment_status, priority, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                pool.query(insertOrderQuery, [case_no, po_no, product_name, price, quantity, formattedDeadlineDate, firm_name, customer_name, customer_phone_no,  sales_person, sales_person_id,  order_status, payment_status, priority, relativeImagePath], (error, result) => {
                     if (error) {
                         console.error('Error creating order:', error);
                         return res.status(500).json({ error: error.message  });
@@ -302,29 +367,74 @@ exports.getOrder = (req, res) => {
   });
 };
 
-exports.updateOrder = (req, res) => {
-    const { id } = req.params;
-    const { case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, payment_status, deadline_date, priority } = req.body;
-    const query = 'UPDATE orders SET case_no = ?, po_no = ?,  price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?,  order_status = ?, payment_status = ?, deadline_date = ?, priority = ? WHERE id = ?';
-    const values = [case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, payment_status, deadline_date, priority, id];
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.error('Error getting database connection:', err);
-            res.status(500).json({ error: err.message  });
-            return;
+// exports.updateOrder = (req, res) => {
+//     const { id } = req.params;
+//     const { case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, payment_status, deadline_date, priority } = req.body;
+//     const query = 'UPDATE orders SET case_no = ?, po_no = ?,  price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?,  order_status = ?, payment_status = ?, deadline_date = ?, priority = ? WHERE id = ?';
+//     const values = [case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, payment_status, deadline_date, priority, id];
+//     pool.getConnection((err, connection) => {
+//         if (err) {
+//             console.error('Error getting database connection:', err);
+//             res.status(500).json({ error: err.message  });
+//             return;
+//         }
+//         connection.query(query, values, (error, result) => {
+//             connection.release();
+//             if (error) {
+//                 console.error('Error updating order:', error);
+//                 res.status(500).json({ error: error.message  });
+//                 return;
+//             }
+//             res.status(200).json({ order: result });
+//         });
+//     });
+// };
+
+exports.editOrder = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        // Extract updated order data from req.body
+        const { case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, payment_status, deadline_date, priority, image } = req.body;
+
+        let relativeImagePath = null;
+
+        if (image) {
+            // Remove the data:image/jpeg;base64, prefix
+            const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+            const imageData = Buffer.from(base64Data, 'base64');
+
+            const imageFileName = `image_${case_no}.jpeg`;
+
+            // Define the path where you want to save the image
+            const imagePath = path.join(__dirname, '../public3/uploads/', imageFileName);
+
+            // Save the image to the uploads directory
+            fs.writeFile(imagePath, imageData, (err) => {
+                if (err) {
+                    console.error('Error saving image:', err);
+                    return res.status(500).json({ error: 'Failed to save image' });
+                }
+                console.log('Image saved successfully');
+            });
+            relativeImagePath = `/uploads/${imageFileName}`;
         }
-        connection.query(query, values, (error, result) => {
-            connection.release();
+
+        // Update the order in the database, including the new image path if provided
+        const updateOrderQuery = 'UPDATE orders SET case_no = ?, po_no = ?,  price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?,  order_status = ?, payment_status = ?, deadline_date = ?, priority = ?, image = ? WHERE id = ?';
+        const values = [case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, payment_status, deadline_date, priority, relativeImagePath, id];
+
+        pool.query(updateOrderQuery, values, (error, result) => {
             if (error) {
                 console.error('Error updating order:', error);
-                res.status(500).json({ error: error.message  });
-                return;
+                return res.status(500).json({ error: error.message });
             }
-            res.status(200).json({ order: result });
+            return res.status(200).json({ message: 'Order updated successfully' });
         });
-    });
+    } catch (error) {
+        console.error('Error updating order:', error);
+        return res.status(500).json({ error: error.message });
+    }
 };
-
 
 
 exports.deleteOrder = (req, res) => {

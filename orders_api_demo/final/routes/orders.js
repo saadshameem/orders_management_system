@@ -16,14 +16,18 @@ router.get('/',  authUser, orders.getAllOrders);
 // router.post('/', authAdmin, orders.createOrder);
 router.post('/', upload.single('image'), authAdmin, orders.createOrder); 
 router.get('/newOrderDetails',authAdmin, orders.getNewOrderDetails);
-
-
 router.get('/:id', authUser, orders.getOrder);
-router.get('/products/productName', authUser, orders.getAllProducts);
-router.post('/products/productName', authUser, orders.AddNewProduct);
 
-router.patch('/:id', authAdmin, orders.updateOrder);
-// router.patch('/:id', upload.single('image'),authAdmin, orders.updateOrder);
+
+
+router.get('/products/productName', authUser, orders.getAllProducts);
+// router.get('/products/productId', authUser, orders.getProductsById);
+router.post('/products/productName', authUser, orders.AddNewProduct);
+router.delete('/products/productName/:name', authAdmin, orders.deleteProduct);
+
+
+// router.patch('/:id', authAdmin, orders.updateOrder);
+router.patch('/:id', upload.single('newImage'),authAdmin, orders.editOrder);
 
 router.delete('/:id', authAdmin, orders.deleteOrder);
 router.get('/status/:status', authUser, orders.fetchOrdersByStatus);

@@ -8,9 +8,9 @@
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" /> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="css/newOrder.css">
     <link rel="stylesheet" href="css/output3.css">
@@ -25,7 +25,7 @@
     </style>
 </head>
 
-<body class="min-h-screen bg-emerald-50 ">
+<body class="min-h-screen bg-green-50 ">
 
 
     <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
@@ -79,12 +79,26 @@
                 <!-- Added Login and Register buttons -->
 
                 <li>
-
-                    <a href="allUsers.html"
-                        class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group ">
-
-                        <span class="mr-1"><i class="fas fa-users"></i></span>All Users</a>
-                </li>
+                    <button type="button" class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                          
+                          <span class="mr-1"><i class="fas fa-layer-group"></i></span>Manage<span class="mr-1"><i class="fas fa-caret-down"></i></span>
+                          
+                    </button>
+                    <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                          <li>
+                             <a href="allUsers.html" class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
+                                <span class="mr-1"><i class="fas fa-users"></i></span>Users</a>
+                          </li>
+                          <li>
+                             <a href="allProducts.html" class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
+                                <span class="mr-1"><i class="fas fa-shopping-cart"></i></span>Products</a>
+                          </li>
+                          <li>
+                             <a href="allSalesPersons.html" class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
+                                <span class="mr-1"><i class="fas fa-user-tie"></i></span>Sales Persons</a>
+                          </li>
+                    </ul>
+                 </li>
 
                 <li>
 
@@ -129,7 +143,7 @@
                                 <div class="ml-2 grid grid-cols-1 lg:grid-cols-2 gap-8 mr-4 pt-4">
                                     <div class="">
 
-                                        <label for="poNo" class="label-title">PO No.:</label>
+                                        <label for="poNo" class="label-title">PO No.*:</label>
                                         <input type="text" id="poNo" name="poNo" class="form-input"
                                             placeholder="Enter PO No." required>
                                     </div>
@@ -137,7 +151,7 @@
 
 
                                     <div class="">
-                                        <label for="productName" class="label-title">Product Name:</label>
+                                        <label for="productName" class="label-title">Product Name*:</label>
                                         <select id="productName" name="productName" class="form-input">
 
                                             <option value="">Select</option>
@@ -146,7 +160,7 @@
                                         </select>
                                     </div>
                                     <div id="newProductField" class=" " style="display: none;">
-                                        <label for="newProductName" class="label-title">Product Name :</label>
+                                        <label for="newProductName" class="label-title">Product Name*:</label>
                                         
                                         <div class=" grid grid-cols-1 lg:grid-cols-2 gap-4 ">
                                             <input type="text" id="newProductName" name="newProductName"
@@ -161,40 +175,40 @@
 
 
                                     <div class="">
-                                        <label for="price" class="label-title">Price(incl. GST):</label>
+                                        <label for="price" class="label-title">Price(incl. GST)*:</label>
                                         <input type="text" id="price" name="price" class="form-input"
                                             placeholder="Enter price" required>
                                     </div>
 
                                     <div class="">
 
-                                        <label for="quantity" class="label-title">Quantity:</label>
+                                        <label for="quantity" class="label-title">Quantity*:</label>
                                         <input type="text" id="quantity" name="quantity" class="form-input"
                                             placeholder="Enter quantity" required>
                                     </div>
 
                                     <div class="">
-                                        <label for="firmName" class="label-title">Firm Name:</label>
+                                        <label for="firmName" class="label-title">Firm Name*:</label>
                                         <input type="text" id="firmName" name="firmName" class="form-input"
                                             placeholder="Enter firm name" required>
                                     </div>
 
                                     <div class="">
-                                        <label for="customerName" class="label-title">Customer Name:</label>
+                                        <label for="customerName" class="label-title">Customer Name*:</label>
                                         <input type="text" id="customerName" name="customerName" class="form-input"
                                             placeholder="Enter customer name" required>
                                     </div>
 
                                     <div class="">
-                                        <label for="customerPhoneNo" class="label-title">Customer Phone No.:</label>
+                                        <label for="customerPhoneNo" class="label-title">Customer Phone No.*:</label>
                                         <input type="text" id="customerPhoneNo" name="customerPhoneNo"
-                                            class="form-input" placeholder="Enter customer's phone no. " required>
+                                            class="form-input" placeholder="Enter customer's phone no. " >
                                     </div>
 
                                     
 
                                     <div class="">
-                                        <label for="salesPerson" class="label-title">Sales Person:</label>
+                                        <label for="salesPerson" class="label-title">Sales Person*:</label>
                                         <select id="salesPerson" name="salesPerson" class="form-input" required>
                                             <option value="">Select sales person</option> <!-- Default empty option -->
                                             <option value="Others">Others</option>
@@ -204,13 +218,13 @@
                                     <div id="newField" class="  " style="display: none;">
                                         
                                         
-                                            <label for="addNewSalesPersonName" class="label-title">Sales Person Name
+                                            <label for="addNewSalesPersonName" class="label-title">Sales Person Name*
                                                 :</label>
                                             <input type="text" id="addNewSalesPersonName" name="addNewSalesPersonName"
                                                 class="rounded-md form-input "  
                                                 placeholder="Enter name">
 
-                                            <label for="addNewSalesPersonId" class="label-title">Sales Person's ID
+                                            <label for="addNewSalesPersonId" class="label-title">Sales Person's ID*
                                                 :</label>
                                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                                 <input type="text" id="addNewSalesPersonId" name="addNewSalesPersonId"
@@ -229,10 +243,10 @@
                                     
 
                                     <div class="">
-                                        <label for="orderStatus" class="label-title">Order Status:</label>
+                                        <label for="orderStatus" class="label-title">Order Status*:</label>
                                         <select id="orderStatus" name="orderStatus" class="form-input">
-                                            <option value="Trading">Trading</option>
                                             <option value="Pending">Pending</option>
+                                            <option value="Trading">Trading</option>
                                             <option value="In Production">In Production</option>
                                             <option value="Testing">Testing</option>
                                             <option value="Packed">Packed</option>
@@ -242,22 +256,23 @@
 
 
                                     <div class="">
-                                        <label for="paymentStatus" class="label-title">Payment Status:</label>
+                                        <label for="paymentStatus" class="label-title">Payment Status*:</label>
                                         <input type="text" id="paymentStatus" name="paymentStatus" class="form-input"
                                             placeholder="Enter payment status " required>
                                     </div>
 
                                     <div class="">
-                                        <label for="date" class="label-title">Deadline Date:</label>
+                                        <label for="date" class="label-title">Deadline Date*:</label>
                                         <input type="date" id="date" name="date" class="form-input"
                                             placeholder="Enter payment status " required>
                                     </div>
 
 
                                     <div class="">
-                                        <label for="image" class="label-title">Image:</label>
+                                        <label for="image" class="label-title">Image*:</label>
                                         <input type="file" id="image" name="image" class="form-input " accept="image/*"
                                             required>
+                                            <p class="text-red-600 text-xs">*Size limit: 2mb</p>
                                     </div>
 
 
@@ -267,8 +282,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-footer">
-                                <button type="button" class="btn btn-outline btn-success btn-xs sm:btn-sm md:btn-md   "
+                            <div class="form-footer flex items-center justify-between">
+                                <p class=" ml-4 text-sm text-black ">*required</p>
+                                <button type="button" class="btn btn-outline btn-success btn-xs sm:btn-sm md:btn-md mr-4  "
                                     onclick="submitNewOrder()">Submit</button>
                             </div>
                         </form>
@@ -393,25 +409,30 @@
                 },
                 body: JSON.stringify({ name: newProductName })
             })
-                .then(response => response.json())
-                .then(data => {
-                    // Update the product dropdown with the newly added product
-                    const selectElement = document.getElementById('productName');
-                    const option = document.createElement('option');
-                    option.value = newProductName;
-                    option.textContent = newProductName;
-                    selectElement.appendChild(option);
+            .then(response => response.json())
 
-                    // Reset the input field
-                    document.getElementById('newProductName').value = '';
+    .then(data => {
+        // Check if the response contains a message indicating that the product already exists
+        if (data.message === 'Product already exists') {
+            alert('Product already exists');
+        } else {
+            // Update the product dropdown with the newly added product
+            const selectElement = document.getElementById('productName');
+            const option = document.createElement('option');
+            option.value = newProductName;
+            option.textContent = newProductName;
+            selectElement.appendChild(option);
 
-                    alert('New product added successfully');
-                })
-                .catch(error => {
-                    console.error('Error adding new product:', error);
-                    alert('Failed to add new product');
-                });
+            // Reset the input field
+            document.getElementById('newProductName').value = '';
+
+            alert('New product added successfully');
         }
+    })
+    .catch(error => {
+        alert(error.message);
+    });
+}
 
         document.getElementById('productName').addEventListener('change', handleProductSelectionChange);
 
@@ -443,6 +464,10 @@
             })
                 .then(response => response.json())
                 .then(data => {
+        // Check if the response contains a message indicating that the product already exists
+        if (data.message === 'Person already exists') {
+            alert('Person already exists');
+        } else {
                     // Update the product dropdown with the newly added product
                     const selectElement = document.getElementById('salesPerson');
                     const option = document.createElement('option');
@@ -454,11 +479,11 @@
                     document.getElementById('addNewSalesPersonName').value = '';
 
                     alert('New sales person added successfully');
-                })
-                .catch(error => {
-                    console.error('Error adding new sales person:', error);
-                    alert('Failed to add new sales person');
-                });
+                }
+            })
+            .catch(error => {
+        alert(error.message);
+    });
         }
 
         document.getElementById('salesPerson').addEventListener('change', handleSalesSelectionChange);

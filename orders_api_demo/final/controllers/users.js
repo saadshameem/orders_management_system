@@ -22,7 +22,7 @@ exports.getAllUsers = (req, res) => {
             connection.release();
             if (error) {
                 console.error('Error fetching users:', error);
-                res.status(500).json({ error: 'Internal server error' });               
+                res.status(500).json({ error: error.message });               
                  return;
             }
             res.status(200).json({ users: results });
@@ -55,6 +55,34 @@ exports.getAllSalesPersons = (req, res) => {
     });
 };
 
+
+
+exports.getSalesPerson = (req, res) => {
+    const { name } = req.params;
+    const query = 'SELECT * FROM sales_persons WHERE name = ?';
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error getting database connection:', err);
+            res.status(500).json({ error: err.message  });
+            return;
+        }
+        connection.query(query, [name], (error, results) => {
+            connection.release();
+            if (error) {
+                console.error('Error fetching order:', error);
+                res.status(500).json({ error: error.message  });
+                return;
+            }
+            if (results.length === 0) {
+                return res.status(404).json({ error: `Person with name ${name} not found` });
+            }
+            res.status(200).json({ order: results[0] });
+        });
+    });
+  };
+  
+
+
 exports.addNewSalesPerson = (req, res) => {
     // Extract product name from the request body
     const {id, name } = req.body;
@@ -63,6 +91,18 @@ exports.addNewSalesPerson = (req, res) => {
     if (!name) {
         return res.status(400).json({ error: ' Name is required' });
     }
+
+    const checkUserQuery = `SELECT * FROM sales_persons WHERE name = ?`;
+    pool.query(checkUserQuery, [name], async (error, results) => {
+        if (error) {
+            console.error('Error checking user:', error);
+            res.status(500).json({ message: error.message });
+            return;
+        }
+
+        if (results.length > 0) {
+            return res.status(400).json({ message: 'Person already exists' });
+        }
 
     // SQL query to insert a new product into the database
     const query = 'INSERT INTO sales_persons (id,name) VALUES (?,?)';
@@ -77,7 +117,34 @@ exports.addNewSalesPerson = (req, res) => {
         // Return a success response with the ID of the newly added product
         res.status(201).json({ message: 'Sales Person added successfully', salesPersonId: results.insertId });
     });
+});
+
 };
+
+
+exports.deleteSalesPerson = (req, res) => {
+    const { name } = req.params;
+    const query = 'DELETE FROM sales_persons WHERE name = ?';
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error getting database connection:', err);
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        connection.query(query, [name], (error, result) => {
+            connection.release();
+            if (error) {
+                console.error('Error deleting product:', error);
+                res.status(500).json({ error: error.message });
+                return;
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: `Person with name ${name} not found` });
+            }
+            res.status(200).json({ message: `Person with name ${name} deleted successfully` });
+        });
+    });
+  };
 
 exports.deleteUser = (req, res) => {
     const {id} = req.params;
@@ -92,7 +159,7 @@ exports.deleteUser = (req, res) => {
             connection.release();
             if(error){
                 console.log('Error deleting user:', error);
-                res.status(500).json({error: 'Internal server error'})
+                res.status(500).json({error: error.message})
                 return;
             }
             if(result.affectedRows === 0){

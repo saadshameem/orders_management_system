@@ -2,7 +2,7 @@
 
 
 function getAllOrders() {
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
 
     if (!token) {
         console.error('JWT token not found.');
@@ -61,7 +61,7 @@ function getAllOrders() {
         `;
 
             orders.forEach((order, index) => {
-                addTableRow(table, order, index + 1,); 
+                addTableRow(table, order, index + 1,);
             });
 
             tableContainer.appendChild(table);
@@ -76,7 +76,7 @@ function getAllOrders() {
 
             function toggleFullscreen() {
                 const content = document.querySelector('.content');
-            
+
                 if (!document.fullscreenElement) {
                     content.requestFullscreen();
                     // fullscreenToggle.style.display = 'none'; // Hide toggle button in fullscreen mode
@@ -90,7 +90,7 @@ function getAllOrders() {
             function handleFullscreenChange() {
                 const content = document.querySelector('.content');
                 const isFullscreen = !!document.fullscreenElement;
-            
+
                 if (isFullscreen) {
                     fullscreenToggle.style.display = 'none'; // Hide toggle button in fullscreen mode
                 } else {
@@ -133,33 +133,38 @@ function fetchOrdersByStatus(status) {
             return;
         }
 
-    fetch(`/api/v1/orders/status/${status}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(`Received ${status} orders:`, data);
+        fetch(`/api/v1/orders/status/${status}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(`Received ${status} orders:`, data);
 
-            // Clear previous content
-            const content = document.querySelector('.content');
-            content.innerHTML = '';
+                // Clear previous content
+                const content = document.querySelector('.content');
+                content.innerHTML = '';
 
-            if (!data || !data.orders || data.orders.length === 0) {
-                // If no orders found, display a message or hide the table
-                const message = document.createElement('p');
-                message.textContent = `No orders found with status: ${status}`;
-                content.appendChild(message);
-            } else {
-                // Create a table container
-                const tableContainer = document.createElement('div');
-                tableContainer.classList.add('table-container');
+                if (!data || !data.orders || data.orders.length === 0) {
+                    // If no orders found, display a message or hide the table
+                    const message = document.createElement('p');
+                    message.textContent = `No orders found with status: ${status}`;
+                    content.appendChild(message);
+                } else {
+                    // Create a table container
+                    const tableContainer = document.createElement('div');
+                    tableContainer.classList.add('table-container');
 
-                // Create a table to display orders
-                const table = document.createElement('table');
-                table.classList.add('table');
-                table.innerHTML = `
+                    const fullscreenToggle = document.createElement('button');
+                    fullscreenToggle.textContent = 'Full Screen';
+                    fullscreenToggle.id = 'fullscreen-toggle';
+                    tableContainer.appendChild(fullscreenToggle);
+
+                    // Create a table to display orders
+                    const table = document.createElement('table');
+                    table.classList.add('table');
+                    table.innerHTML = `
                     <tr>
                     <th>Image</th>
                         <th>Sr. No</th>
@@ -182,23 +187,53 @@ function fetchOrdersByStatus(status) {
                     </tr>
                 `;
 
-                // Add rows to the table
-                data.orders.forEach((order, index) => {
-                    addTableRow(table, order, index + 1);
-                });
+                    // Add rows to the table
+                    data.orders.forEach((order, index) => {
+                        addTableRow(table, order, index + 1);
+                    });
 
-                // Append table to the table container
-                tableContainer.appendChild(table);
+                    // Append table to the table container
+                    tableContainer.appendChild(table);
 
-                // Update content area with the table container
-                content.appendChild(tableContainer);
-            }
-        })
-        .catch(error => {
-            console.error(`Error fetching ${status} orders:`, error);
-            // You can display an error message to the user or handle the error as needed
-        });
-}
+                    // Update content area with the table container
+                    const content = document.querySelector('.content');
+                    content.innerHTML = '';
+                    content.appendChild(tableContainer);
+
+                    fullscreenToggle.addEventListener('click', toggleFullscreen);
+                    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+                    function toggleFullscreen() {
+                        const content = document.querySelector('.content');
+
+                        if (!document.fullscreenElement) {
+                            content.requestFullscreen();
+                        } else {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen();
+                            }
+                        }
+                    }
+
+
+
+                    function handleFullscreenChange() {
+                        const content = document.querySelector('.content');
+                        const isFullscreen = !!document.fullscreenElement;
+
+                        if (isFullscreen) {
+                            fullscreenToggle.style.display = 'none';
+                        } else {
+                            fullscreenToggle.style.display = '';
+                        }
+                    }
+                }
+            })
+            .catch(error => {
+                console.error(`Error fetching ${status} orders:`, error);
+                // You can display an error message to the user or handle the error as needed
+            });
+    }
 }
 
 
@@ -226,8 +261,8 @@ function addTableRow(table, order, serialNumber) {
     // Create table row with case number
     const row = table.insertRow();
 
-     // Check if the deadline date has passed
-     if (deadlineDate < currentDate && order.order_status !== 'Shipped') {
+    // Check if the deadline date has passed
+    if (deadlineDate < currentDate && order.order_status !== 'Shipped') {
         // Apply red background color to the row
         row.style.backgroundColor = '#e43838';
         row.style.color = 'white'; // Change text color to white
@@ -237,7 +272,7 @@ function addTableRow(table, order, serialNumber) {
     }
 
 
-    
+
 
     row.innerHTML += `
         <td class="font-semibold text-md" >${serialNumber}</td>
@@ -259,30 +294,30 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.payment_status}</td>
         
     `;
-      // Create an image element for displaying the uploaded image
-      const imageCell = row.insertCell();
-      // const image = document.createElement('img');
-      // // image.src = `/uploads/${order.image}`;  // Assuming order.image contains the URL of the uploaded image
-      // image.src = order.image; // Assuming order.image contains the relative path to the image file
-  
-      // image.alt = 'Order Image';
-      // image.width = 100; // Adjust the width of the image as needed
-      // imageCell.appendChild(image);
-  
-      // Create a link element for showing the full-size image in a modal
-      const imageButton = document.createElement('button');
-      imageButton.textContent = 'Show P.O';
-      imageButton.classList.add('btn', 'btn-primary', 'btn-success', 'btn-xs');
-      imageButton.addEventListener('click', () => {
-          window.open(order.image, '_blank');
-      })
-      imageCell.appendChild(imageButton)
-      // const imageLink = document.createElement('a');
-      // imageLink.textContent = 'Show P.O';
-      // imageLink.href = order.image;
-      // imageLink.target = '_blank'; // Open the link in a new tab
-  
-      // imageCell.appendChild(imageLink);
+    // Create an image element for displaying the uploaded image
+    const imageCell = row.insertCell();
+    // const image = document.createElement('img');
+    // // image.src = `/uploads/${order.image}`;  // Assuming order.image contains the URL of the uploaded image
+    // image.src = order.image; // Assuming order.image contains the relative path to the image file
+
+    // image.alt = 'Order Image';
+    // image.width = 100; // Adjust the width of the image as needed
+    // imageCell.appendChild(image);
+
+    // Create a link element for showing the full-size image in a modal
+    const imageButton = document.createElement('button');
+    imageButton.textContent = 'Show P.O';
+    imageButton.classList.add('btn', 'btn-primary', 'btn-success', 'btn-xs');
+    imageButton.addEventListener('click', () => {
+        window.open(order.image, '_blank');
+    })
+    imageCell.appendChild(imageButton)
+    // const imageLink = document.createElement('a');
+    // imageLink.textContent = 'Show P.O';
+    // imageLink.href = order.image;
+    // imageLink.target = '_blank'; // Open the link in a new tab
+
+    // imageCell.appendChild(imageLink);
 }
 
 
@@ -340,6 +375,11 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                 const tableContainer = document.createElement('div');
                 tableContainer.classList.add('table-container');
 
+                const fullscreenToggle = document.createElement('button');
+                fullscreenToggle.textContent = 'Full Screen';
+                fullscreenToggle.id = 'fullscreen-toggle';
+                tableContainer.appendChild(fullscreenToggle);
+
                 // Create a table to display orders
                 const table = document.createElement('table');
                 table.classList.add('table');
@@ -371,7 +411,38 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                     addTableRow(table, order, index + 1);
                 });
                 tableContainer.appendChild(table);
+                // Update content area with the table container
+                const content = document.querySelector('.content');
+                content.innerHTML = '';
                 content.appendChild(tableContainer);
+
+                fullscreenToggle.addEventListener('click', toggleFullscreen);
+                document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+                function toggleFullscreen() {
+                    const content = document.querySelector('.content');
+
+                    if (!document.fullscreenElement) {
+                        content.requestFullscreen();
+                    } else {
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                        }
+                    }
+                }
+
+
+
+                function handleFullscreenChange() {
+                    const content = document.querySelector('.content');
+                    const isFullscreen = !!document.fullscreenElement;
+
+                    if (isFullscreen) {
+                        fullscreenToggle.style.display = 'none';
+                    } else {
+                        fullscreenToggle.style.display = '';
+                    }
+                }
             }
         })
         .catch(error => {

@@ -130,8 +130,15 @@ function editOrder(orderId) {
                 </select>
                 </div>
 
+                <div class="edit-form-column">
+                            <label class="edit-form-label" for="image">New Image:</label>
+                            <input type="file" id="image" name="image" class="form-input" accept="image/*">
+                            <p class="text-red-600 text-xs">*Size limit: 2mb</p>
+                        </div>
                 
                 </div>
+
+
 
                 
 
@@ -171,24 +178,36 @@ function submitUpdatedOrder(orderId) {
     const orderStatus = document.getElementById('orderStatus').value;
     const priority = document.getElementById('priority').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
+    const newImageFile = document.getElementById('image').files[0];
+   
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        // Extract the Base64-encoded image data from the FileReader result
+        const newImageBase64 = event.target.result;
 
-    const updatedOrder = {
-        case_no: caseNo,
-        po_no: poNo,
-        // product_name: productName,
-        price: price,
-        quantity: quantity,
-        deadline_date: date,
-        firm_name: firmName,
-        customer_name: customerName,
-        customer_phone_no: customerPhoneNo,
-        // sales_person: salesPerson,
-        // sales_person_id: salesPersonId,
-        order_status: orderStatus,
-        priority: priority,
-        payment_status: paymentStatus
-    };
+        // Log the Base64-encoded image data (for verification purposes)
+        console.log('Base64-encoded image:', newImageBase64);
 
+        const updatedOrder = {
+            case_no: caseNo,
+            po_no: poNo,
+            // product_name: productName,
+            price: price,
+            quantity: quantity,
+            deadline_date: date,
+            firm_name: firmName,
+            customer_name: customerName,
+            customer_phone_no: customerPhoneNo,
+            // sales_person: salesPerson,
+            // sales_person_id: salesPersonId,
+            order_status: orderStatus,
+            priority: priority,
+            payment_status: paymentStatus,
+            image: newImageBase64 
+            
+        };
+
+    
     const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
 
     if (!token) {
@@ -203,17 +222,33 @@ function submitUpdatedOrder(orderId) {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
         },
+        // body: formData
         body: JSON.stringify(updatedOrder)
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Order updated:', data.order);
-            // Optionally, you can display a success message or redirect to the orders page
-            goToAllOrders(); // Refresh the orders table after updating
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update order.');
+            
 
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Order updated:', data.order);
+        alert('error')
+        // goToAllOrders(); // Refresh the orders table after updating
+    })
+        .catch(error => {
+            console.error('Error updating order:', error);
+            alert(error.message)
         })
-        .catch(error => console.error('Error updating order:', error));
+    
+
 }
+// Read the image file as a data URL (Base64-encoded)
+reader.readAsDataURL(newImageFile);
+}
+
 
 
 

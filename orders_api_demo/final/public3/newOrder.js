@@ -200,6 +200,17 @@ function generateCaseNumber(orderCount) {
 
 
 function submitNewOrder() {
+
+    function checkEmptyField(fieldValue, fieldName) {
+        if (!fieldValue.trim()) { // Check if the field value is empty or contains only whitespace
+            console.error(`${fieldName} field is empty.`);
+            alert(`${fieldName} field is empty.`); // Show error message in an alert box
+            return true; // Return true if field is empty
+        }
+        return false; // Return false if field is not empty
+    }
+
+
     // Get other form field values
     const poNo = document.getElementById('poNo').value;
     const productName = document.getElementById('productName').value;
@@ -221,7 +232,23 @@ function submitNewOrder() {
     // Check if a file is selected
     if (!imageFile) {
         console.error('No image file selected.');
+        alert('No image file selected')
         return;
+    }
+    if (
+        checkEmptyField(poNo, 'PO Number') ||
+        checkEmptyField(productName, 'Product Name') ||
+        checkEmptyField(price, 'Price') ||
+        checkEmptyField(quantity, 'Quantity') ||
+        checkEmptyField(date, 'Date') ||
+        checkEmptyField(firmName, 'Firm Name') ||
+        checkEmptyField(customerName, 'Customer Name') ||
+        // checkEmptyField(customerPhoneNo, 'Customer Phone Number') ||
+        checkEmptyField(salesPerson, 'Sales Person') ||
+        checkEmptyField(orderStatus, 'Order Status') ||
+        checkEmptyField(paymentStatus, 'Payment Status')
+    ) {
+        return; // Exit the function if any field is empty
     }
 
     // Fetch the highest case number and priority
@@ -256,9 +283,11 @@ function submitNewOrder() {
     })
     .catch(error => {
         console.error('Error fetching highest case number:', error);
+        alert('Error fetching case number')
     });
 
     function uploadOrderWithImage(imageBase64, caseNo, priority) {
+        
         const orderData = {
             po_no: poNo,
             case_no: caseNo,
@@ -290,18 +319,34 @@ function submitNewOrder() {
             },
             body: JSON.stringify(orderData)
         })
+        // .then(response => { 
+        //     if (response.ok) {
+        //         console.log('New order created successfully.');
+        //         alert("New order created successfully");
+        //         goToAllOrders();
+        //     } else {
+        //         console.error('Failed to create new order.');
+        //         alert(error.message)
+        //     }
+        // })
         .then(response => { 
-            if (response.ok) {
-                console.log('New order created successfully.');
-                alert("New order created successfully");
-                goToAllOrders();
-            } else {
-                console.error('Failed to create new order.');
-                // alert('Image file too large. Image file should not exceed 5 mb')
+            if (!response.ok) {
+                if (response.status === 413) { // Check if the status code is 413 (Payload Too Large)
+                    throw new Error('Image size is too large. Size limit: 2mb');
+                } else {
+                    throw new Error('Failed to create new order.');
+                }
             }
+            return response.json();
+        })
+        .then(data => {
+            console.log('New order created successfully.');
+            alert("New order created successfully");
+            goToAllOrders();
         })
         .catch(error => {
             console.error('Error creating new order:', error);
+            alert('Failed to create new order. ' + error.message); // Show error message in an alert box
         });
     }
 }
