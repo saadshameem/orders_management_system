@@ -32,6 +32,7 @@ function getAllPersons() {
             <tr>
             
                 <th>Sr. No</th>
+                <th>Id</th>
                 <th>Name</th>
                
                 
@@ -66,7 +67,8 @@ function addTableRow(table, person, serialNumber){
     const row = table.insertRow();
     row.innerHTML += `
     <td class="font-semibold text-md">${serialNumber}</td>
-    <td class = "font-semibold text-md">${person}</td>
+    <td class = "font-semibold text-md">${person.id}</td>
+    <td class = "font-semibold text-md">${person.name}</td>
    
     
    <td><button class="btn btn-primary btn-xs btn-warning" onclick="deletePerson('${person}')">Delete</button></td>

@@ -220,11 +220,17 @@ function submitNewOrder() {
     const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
-    const salesPerson = document.getElementById('salesPerson').value;
+    // const salesPerson = document.getElementById('salesPerson').value;
     // const sales_person_id = document.getElementById('sales_person_id').value;
     const orderStatus = document.getElementById('orderStatus').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
 
+     // Get selected sales person's ID
+    //  const salesPersonSelect = document.getElementById('salesPerson');
+    //  const selectedSalesPersonId = salesPersonSelect.options[salesPersonSelect.selectedIndex].value;
+    const salesPersonSelect = document.getElementById('salesPerson');
+    const salesPersonId = salesPersonSelect.value;
+    const salesPerson = salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
     // Get image file
     const imageFileInput = document.getElementById('image');
     const imageFile = imageFileInput.files[0];
@@ -243,7 +249,7 @@ function submitNewOrder() {
         checkEmptyField(date, 'Date') ||
         checkEmptyField(firmName, 'Firm Name') ||
         checkEmptyField(customerName, 'Customer Name') ||
-        // checkEmptyField(customerPhoneNo, 'Customer Phone Number') ||
+        checkEmptyField(customerPhoneNo, 'Customer Phone Number') ||
         checkEmptyField(salesPerson, 'Sales Person') ||
         checkEmptyField(orderStatus, 'Order Status') ||
         checkEmptyField(paymentStatus, 'Payment Status')
@@ -299,7 +305,7 @@ function submitNewOrder() {
             customer_name: customerName,
             customer_phone_no: customerPhoneNo,
             sales_person: salesPerson,
-            // sales_person_id: sales_person_id,
+            sales_person_id: salesPersonId,
             order_status: orderStatus,
             payment_status: paymentStatus,
             image: imageBase64,

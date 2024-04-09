@@ -79,26 +79,32 @@
                 <!-- Added Login and Register buttons -->
 
                 <li>
-                    <button type="button" class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                          
-                          <span class="mr-1"><i class="fas fa-layer-group"></i></span>Manage<span class="mr-1"><i class="fas fa-caret-down"></i></span>
-                          
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+
+                        <span class="mr-1"><i class="fas fa-layer-group"></i></span>Manage<span class="mr-1"><i
+                                class="fas fa-caret-down"></i></span>
+
                     </button>
                     <ul id="dropdown-example" class="hidden py-2 space-y-2">
-                          <li>
-                             <a href="allUsers.html" class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
+                        <li>
+                            <a href="allUsers.html"
+                                class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
                                 <span class="mr-1"><i class="fas fa-users"></i></span>Users</a>
-                          </li>
-                          <li>
-                             <a href="allProducts.html" class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
+                        </li>
+                        <li>
+                            <a href="allProducts.html"
+                                class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
                                 <span class="mr-1"><i class="fas fa-shopping-cart"></i></span>Products</a>
-                          </li>
-                          <li>
-                             <a href="allSalesPersons.html" class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
+                        </li>
+                        <li>
+                            <a href="allSalesPersons.html"
+                                class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
                                 <span class="mr-1"><i class="fas fa-user-tie"></i></span>Sales Persons</a>
-                          </li>
+                        </li>
                     </ul>
-                 </li>
+                </li>
 
                 <li>
 
@@ -161,13 +167,13 @@
                                     </div>
                                     <div id="newProductField" class=" " style="display: none;">
                                         <label for="newProductName" class="label-title">Product Name*:</label>
-                                        
+
                                         <div class=" grid grid-cols-1 lg:grid-cols-2 gap-4 ">
                                             <input type="text" id="newProductName" name="newProductName"
-                                            class="rounded-md form-input" 
-                                            placeholder="Enter new product name">
-                                        <button id="addNewProductBtn" class="bg-emerald p-2 rounded-md text-white">Add Product
-                                        </button>
+                                                class="rounded-md form-input" placeholder="Enter new product name">
+                                            <button id="addNewProductBtn"
+                                                class="bg-emerald p-2 rounded-md text-white">Add Product
+                                            </button>
                                         </div>
                                     </div>
 
@@ -202,45 +208,45 @@
                                     <div class="">
                                         <label for="customerPhoneNo" class="label-title">Customer Phone No.*:</label>
                                         <input type="text" id="customerPhoneNo" name="customerPhoneNo"
-                                            class="form-input" placeholder="Enter customer's phone no. " >
+                                            class="form-input" placeholder="Enter customer's phone no. ">
                                     </div>
 
-                                    
+
 
                                     <div class="">
                                         <label for="salesPerson" class="label-title">Sales Person*:</label>
                                         <select id="salesPerson" name="salesPerson" class="form-input" required>
                                             <option value="">Select sales person</option> <!-- Default empty option -->
                                             <option value="Others">Others</option>
+
                                         </select>
+                                        <input type="hidden" id="salesPersonId" name="salesPersonId">
                                     </div>
 
                                     <div id="newField" class="  " style="display: none;">
-                                        
-                                        
-                                            <label for="addNewSalesPersonName" class="label-title">Sales Person Name*
-                                                :</label>
-                                            <input type="text" id="addNewSalesPersonName" name="addNewSalesPersonName"
-                                                class="rounded-md form-input "  
-                                                placeholder="Enter name">
 
-                                            <label for="addNewSalesPersonId" class="label-title">Sales Person's ID*
-                                                :</label>
-                                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                                <input type="text" id="addNewSalesPersonId" name="addNewSalesPersonId"
-                                                class="rounded-md form-input" 
-                                                placeholder="Enter  Id">
-                                                <button id="addaddNewSalesPersonNameBtn"
-                                            class="bg-emerald p-2 rounded-md text-white ">Add Sales Person
-                                        </button>
-                                            </div>
-                                        
 
-                                        
-                                        
+                                        <label for="addNewSalesPersonName" class="label-title">Sales Person Name*
+                                            :</label>
+                                        <input type="text" id="addNewSalesPersonName" name="addNewSalesPersonName"
+                                            class="rounded-md form-input " placeholder="Enter name">
+
+                                        <label for="addNewSalesPersonId" class="label-title">Sales Person's ID*
+                                            :</label>
+                                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                            <input type="text" id="addNewSalesPersonId" name="addNewSalesPersonId"
+                                                class="rounded-md form-input" placeholder="Enter  Id">
+                                            <button id="addaddNewSalesPersonNameBtn"
+                                                class="bg-emerald p-2 rounded-md text-white ">Add Sales Person
+                                            </button>
+                                        </div>
+
+
+
+
                                     </div>
 
-                                    
+
 
                                     <div class="">
                                         <label for="orderStatus" class="label-title">Order Status*:</label>
@@ -272,7 +278,7 @@
                                         <label for="image" class="label-title">Image*:</label>
                                         <input type="file" id="image" name="image" class="form-input " accept="image/*"
                                             required>
-                                            <p class="text-red-600 text-xs">*Size limit: 2mb</p>
+                                        <p class="text-red-600 text-xs">*Size limit: 2mb</p>
                                     </div>
 
 
@@ -284,7 +290,8 @@
 
                             <div class="form-footer flex items-center justify-between">
                                 <p class=" ml-4 text-sm text-black ">*required</p>
-                                <button type="button" class="btn btn-outline btn-success btn-xs sm:btn-sm md:btn-md mr-4  "
+                                <button type="button"
+                                    class="btn btn-outline btn-success btn-xs sm:btn-sm md:btn-md mr-4  "
                                     onclick="submitNewOrder()">Submit</button>
                             </div>
                         </form>
@@ -355,9 +362,21 @@
                 // Iterate over the product names and create an option element for each
                 data.salesPersons.forEach(salesPerson => {
                     const option = document.createElement('option');
-                    option.value = salesPerson;
-                    option.textContent = salesPerson;
+                    // option.value = salesPerson;
+                    option.value = salesPerson.id;
+                    // option.textContent = salesPerson;
+                    option.textContent = salesPerson.name;
+                    option.dataset.name = salesPerson.name;
                     selectElement.appendChild(option);
+                });
+
+                // Add event listener to the select element to capture the selected salesperson ID and name
+                selectElement.addEventListener('change', function () {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const selectedSalesPersonId = selectedOption.value;
+                    const selectedSalesPersonName = selectedOption.dataset.name;
+                    console.log('Selected Sales Person ID:', selectedSalesPersonId);
+                    console.log('Selected Sales Person Name:', selectedSalesPersonName);
                 });
             })
             .catch(error => {
@@ -409,30 +428,30 @@
                 },
                 body: JSON.stringify({ name: newProductName })
             })
-            .then(response => response.json())
+                .then(response => response.json())
 
-    .then(data => {
-        // Check if the response contains a message indicating that the product already exists
-        if (data.message === 'Product already exists') {
-            alert('Product already exists');
-        } else {
-            // Update the product dropdown with the newly added product
-            const selectElement = document.getElementById('productName');
-            const option = document.createElement('option');
-            option.value = newProductName;
-            option.textContent = newProductName;
-            selectElement.appendChild(option);
+                .then(data => {
+                    // Check if the response contains a message indicating that the product already exists
+                    if (data.message === 'Product already exists') {
+                        alert('Product already exists');
+                    } else {
+                        // Update the product dropdown with the newly added product
+                        const selectElement = document.getElementById('productName');
+                        const option = document.createElement('option');
+                        option.value = newProductName;
+                        option.textContent = newProductName;
+                        selectElement.appendChild(option);
 
-            // Reset the input field
-            document.getElementById('newProductName').value = '';
+                        // Reset the input field
+                        document.getElementById('newProductName').value = '';
 
-            alert('New product added successfully');
+                        alert('New product added successfully');
+                    }
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
         }
-    })
-    .catch(error => {
-        alert(error.message);
-    });
-}
 
         document.getElementById('productName').addEventListener('change', handleProductSelectionChange);
 
@@ -452,6 +471,12 @@
                 alert('Please enter name');
                 return;
             }
+            if (!addNewSalesPersonId) {
+                alert('Sales person ID is required');
+                return;
+            }
+
+
 
             // Send a request to the backend API to add the new product
             fetch('/api/v1/users/salesPersons', {
@@ -460,30 +485,30 @@
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}` // Add JWT token from localStorage
                 },
-                body: JSON.stringify({ name: addNewSalesPersonName , id:addNewSalesPersonId})
+                body: JSON.stringify({ name: addNewSalesPersonName, id: addNewSalesPersonId })
             })
                 .then(response => response.json())
                 .then(data => {
-        // Check if the response contains a message indicating that the product already exists
-        if (data.message === 'Person already exists') {
-            alert('Person already exists');
-        } else {
-                    // Update the product dropdown with the newly added product
-                    const selectElement = document.getElementById('salesPerson');
-                    const option = document.createElement('option');
-                    option.value = addNewSalesPersonName;
-                    option.textContent = addNewSalesPersonName;
-                    selectElement.appendChild(option);
+                    // Check if the response contains a message indicating that the product already exists
+                    if (data.message === 'Person already exists') {
+                        alert('Person already exists');
+                    } else {
+                        // Update the product dropdown with the newly added product
+                        const selectElement = document.getElementById('salesPerson');
+                        const option = document.createElement('option');
+                        option.value = addNewSalesPersonName;
+                        option.textContent = addNewSalesPersonName;
+                        selectElement.appendChild(option);
 
-                    // Reset the input field
-                    document.getElementById('addNewSalesPersonName').value = '';
+                        // Reset the input field
+                        document.getElementById('addNewSalesPersonName').value = '';
 
-                    alert('New sales person added successfully');
-                }
-            })
-            .catch(error => {
-        alert(error.message);
-    });
+                        alert('New sales person added successfully');
+                    }
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
         }
 
         document.getElementById('salesPerson').addEventListener('change', handleSalesSelectionChange);

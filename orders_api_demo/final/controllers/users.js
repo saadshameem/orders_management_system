@@ -30,8 +30,34 @@ exports.getAllUsers = (req, res) => {
     });
 };
 
+exports.deleteUser = (req, res) => {
+    const {id} = req.params;
+    const query = 'delete from users where id = ?';
+    pool.getConnection((err, connection) =>{
+        if(err){
+            console.log('Error getting database connection', err);
+            res.status(500).json({error: 'Internal server error'})
+            return;
+        }
+        connection.query(query, [id], (error, result)=>{
+            connection.release();
+            if(error){
+                console.log('Error deleting user:', error);
+                res.status(500).json({error: error.message})
+                return;
+            }
+            if(result.affectedRows === 0){
+                return res.status(404).json({error: `User with id: ${id} not found`})
+            }
+            res.status(200).json({message: `User with id: ${id} deleted successfully`})
+        })
+
+    })
+}
+
+
 exports.getAllSalesPersons = (req, res) => {
-    const query = 'SELECT name FROM sales_persons ORDER BY id ASC';
+    const query = 'SELECT * FROM sales_persons ORDER BY id ASC';
     // Get a connection from the pool
     pool.getConnection((err, connection) => {
         if (err) {
@@ -48,9 +74,11 @@ exports.getAllSalesPersons = (req, res) => {
                 res.status(500).json({ error: error.message });               
                  return;
             }
-            const salesPersons = results.map(result => result.name);
-            // Send the product names in the desired format
-            res.status(200).json({ salesPersons });
+            // const salesPersons = results.map(result =>({name: result.name, id:result.id}));
+            // // Send the product names in the desired format
+            // res.status(200).json({ salesPersons });
+            res.status(200).json({ salesPersons: results });
+
         });
     });
 };
@@ -146,27 +174,3 @@ exports.deleteSalesPerson = (req, res) => {
     });
   };
 
-exports.deleteUser = (req, res) => {
-    const {id} = req.params;
-    const query = 'delete from users where id = ?';
-    pool.getConnection((err, connection) =>{
-        if(err){
-            console.log('Error getting database connection', err);
-            res.status(500).json({error: 'Internal server error'})
-            return;
-        }
-        connection.query(query, [id], (error, result)=>{
-            connection.release();
-            if(error){
-                console.log('Error deleting user:', error);
-                res.status(500).json({error: error.message})
-                return;
-            }
-            if(result.affectedRows === 0){
-                return res.status(404).json({error: `User with id: ${id} not found`})
-            }
-            res.status(200).json({message: `User with id: ${id} deleted successfully`})
-        })
-
-    })
-}

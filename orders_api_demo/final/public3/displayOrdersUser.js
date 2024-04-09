@@ -385,12 +385,12 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                 table.classList.add('table');
                 table.innerHTML = `
                         <tr>
-                        <th>Image</th>
+                        
                             <th>Serial Number</th>
                             <th>Case. No</th>
                             <th>PO. No</th>
                             <th>Product Name</th>
-                            <th>Price</th>
+                            
                             <th>Quantity</th>
                             <th>Order Date</th>
                             <th>Days to Deadline</th>
@@ -402,6 +402,7 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                             <th>Order Status</th>
                             <th>Priority</th>
                             <th>Payment Status</th>
+                            <th>Image</th>
                             
                         </tr>
                     `;

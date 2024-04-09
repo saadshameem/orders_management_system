@@ -1,6 +1,6 @@
 
 
-function getAllOrders() {
+const getAllOrders = async ()=> {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -38,26 +38,24 @@ function getAllOrders() {
             table.innerHTML = `
                 <tr>
                 
-                    <th>Sr. No</th>
-                    <th>Case. No</th>
-                    <th>PO. No</th>
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th class="px-1">Quantity</th>
-                    <th  class="px-6">Order Date</th>
-                    <th>Deadline Date</th>
-                    <th>Order Status</th>
-                    <th>Client's Firm Name</th>
-                    <th>Client's Name</th>
-                    <th>Client's Phone No.</th>
-                    <th>Sales Person's Name</th>
-                    <th  class="px-1">Sales Person's Id</th>
-  
-                    <th class="px-1">Priority</th>
-                    <th class="px-1">Payment Status</th>
-                    
-                    <th>Actions</th>
-                    <th>P.O Image</th>
+                <th>Sr. No.</th>
+                <th>Case. No</th>
+                <th>Client's Firm Name</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>PO. No</th>
+                <th>Price</th>                  
+                <th>Order Date</th>
+                <th>Deadline Date</th>
+                <th>Order Status</th>                          
+                <th>Client's Name</th>
+                <th>Client's Phone No.</th>
+                <th>Sales Person's Name</th>
+                <th>Sales Person's Id</th>
+                <th>Priority</th>
+                <th>Payment Status</th>
+                <th>Actions</th>
+                <th>Image</th>
                 </tr>
             `;
 
@@ -167,25 +165,24 @@ function fetchOrdersByStatus(status) {
                     table.innerHTML = `
                     <tr>
                     
-                        <th>Sr. No</th>
-                        <th>Case. No</th>
-                        <th>PO. No</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Order Date</th>
+                    <th>Sr. No.</th>
+                    <th>Case. No</th>
+                    <th>Client's Firm Name</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>PO. No</th>
+                    <th>Price</th>                  
+                    <th>Order Date</th>
                     <th>Deadline Date</th>
-                    <th>Order Status</th>
-                        <th>Client's Firm Name</th>
+                    <th>Order Status</th>                          
                     <th>Client's Name</th>
                     <th>Client's Phone No.</th>
-                        <th>Sales Person's Name</th>
-                        <th>Sales Person Id</th>
-
-                        <th>Priority</th>
-                        <th>Payment Status</th>
-                        <th>Actions</th>
-                        <th>Image</th>
+                    <th>Sales Person's Name</th>
+                    <th>Sales Person's Id</th>
+                    <th>Priority</th>
+                    <th>Payment Status</th>
+                    <th>Actions</th>
+                    <th>Image</th>
                     </tr>
                 `;
 
@@ -270,19 +267,18 @@ function addTableRow(table, order, serialNumber) {
     row.innerHTML += `
         <td class="font-semibold text-md" >${serialNumber}</td>
         <td class="font-semibold text-md" >${order.case_no}</td>
-        <td class="font-semibold text-md" >${order.po_no}</td>
+        <td class="font-semibold text-md" >${order.firm_name}</td>
         <td class="font-semibold text-md" >${order.product_name}</td>
-        <td class="font-semibold text-md" >${order.price}</td>
         <td class="font-semibold text-md" >${order.quantity}</td>
+        <td class="font-semibold text-md" >${order.po_no}</td>
+        <td class="font-semibold text-md" >${order.price}</td>
         <td class="font-semibold text-md" >${formattedDate}</td>
         <td class="font-semibold text-md" >${formattedDeadlineDate}</td>
         <td class="font-semibold text-md" >${order.order_status}</td>
-        <td class="font-semibold text-md" >${order.firm_name}</td>
         <td class="font-semibold text-md" >${order.customer_name}</td>
         <td class="font-semibold text-md" >${order.customer_phone_no}</td>
         <td class="font-semibold text-md" >${order.sales_person}</td>
         <td class="font-semibold text-md" >${order.sales_person_id}</td>
-
         <td class="font-semibold text-md" >${order.priority}</td>
         <td class="font-semibold text-md" >${order.payment_status}</td>
         <td class="">
@@ -307,13 +303,6 @@ function addTableRow(table, order, serialNumber) {
         window.open(order.image, '_blank');
     })
     imageCell.appendChild(imageButton)
-    // const imageLink = document.createElement('a');
-    // imageLink.textContent = 'Show P.O';
-    // imageLink.href = order.image;
-    // imageLink.target = '_blank'; // Open the link in a new tab
-
-    // imageCell.appendChild(imageLink);
-
 
 }
 
@@ -387,19 +376,18 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                         
                             <th>Sr. No.</th>
                             <th>Case. No</th>
-                            <th>PO. No</th>
+                            <th>Client's Firm Name</th>
                             <th>Product Name</th>
-                            <th>Price</th>
                             <th>Quantity</th>
+                            <th>PO. No</th>
+                            <th>Price</th>                  
                             <th>Order Date</th>
                             <th>Deadline Date</th>
-                            <th>Order Status</th>
-                            <th>Client's Firm Name</th>
+                            <th>Order Status</th>                          
                             <th>Client's Name</th>
                             <th>Client's Phone No.</th>
                             <th>Sales Person's Name</th>
                             <th>Sales Person's Id</th>
-
                             <th>Priority</th>
                             <th>Payment Status</th>
                             <th>Actions</th>

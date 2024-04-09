@@ -1,17 +1,17 @@
 const express = require('express');
 const app = express();
-const mysql2 = require('mysql2')
+// const mysql2 = require('mysql2')
 const port = 5000;
-const moment = require('moment-timezone');
-const pool = require('./db/connect');
+// const moment = require('moment-timezone');
+// const pool = require('./db/connect');
 const path = require('path')
 const bodyParser = require('body-parser');
 
 
 
-moment.tz.setDefault('Asia/Kolkata');
+// moment.tz.setDefault('Asia/Kolkata');
 
-// const cors = require('cors')
+const cors = require('cors')
 // const xss = require('xss-clean')
 
 // const otpRoutes = require('./routes/otpRoutes');
@@ -27,16 +27,16 @@ require('dotenv').config();
 // Middleware
 const authenticateToken = require('./middleware/authentication');
 
-// app.use(cors())
+app.use(cors())
 // app.use(xss())
 
 
 app.use(express.json({limit:'2mb'}));
-
-app.use(express.json());
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 app.use(express.static('./public3'));
-app.use(express.urlencoded({ extended: true }));
-
 app.use('/uploads', express.static(path.join(__dirname, 'public3', 'uploads')));
 
 

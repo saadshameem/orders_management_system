@@ -45,6 +45,8 @@ function editOrder(orderId) {
 
             <div class="edit-form">
             <div class="edit-form-header">Edit Order</div>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+
             <div class="edit-form-row">
             <div class="edit-form-column">
                 <label class="edit-form-label" for="caseNo" class="edit-form-label">Case No:</label>
@@ -112,7 +114,14 @@ function editOrder(orderId) {
                         </div>
 
 
-                
+                        <div class="edit-form-row">
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="salesPerson">Sales Person:</label>
+                            <select id="salesPerson" name="salesPerson" class="edit-form-input"></select>
+                            <input type="hidden" id="salesPersonId" name="salesPersonId">
+                        </div>
+                        
+                    </div>
 
 
                 <div class="edit-form-row">
@@ -121,8 +130,8 @@ function editOrder(orderId) {
                 <div class="edit-form-column">
                 <label class="edit-form-label" for="orderStatus">Order Status:</label>
                 <select id="orderStatus" name="orderStatus" class="edit-form-input">
-                    <option value="Trading" ${order.order_status === 'Trading' ? 'selected' : ''}>Trading</option>
                     <option value="Pending" ${order.order_status === 'Pending' ? 'selected' : ''}>Pending</option>
+                    <option value="Trading" ${order.order_status === 'Trading' ? 'selected' : ''}>Trading</option>
                     <option value="In Production" ${order.order_status === 'In Production' ? 'selected' : ''}>In Production</option>
                     <option value="Testing" ${order.order_status === 'Testing' ? 'selected' : ''}>Testing</option>
                     <option value="Packed" ${order.order_status === 'Packed' ? 'selected' : ''}>Packed</option>
@@ -150,6 +159,8 @@ function editOrder(orderId) {
                 <div class="edit-form-footer">
             <button class="btn btn-outline btn-success" onclick="submitUpdatedOrder('${orderId}')">Update</button>
         </div>
+        </form>
+
     </div>
             `;
 
@@ -157,9 +168,37 @@ function editOrder(orderId) {
             const content = document.querySelector('.content');
             content.innerHTML = '';
             content.appendChild(form);
+
+              // Fetch sales persons from the backend API and populate the dropdown
+              fetch('/api/v1/users/salesPersons', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const salesPersonSelect = document.getElementById('salesPerson');
+
+                    // Populate the dropdown with sales person names
+                    data.salesPersons.forEach(salesPerson => {
+                        const option = document.createElement('option');
+                        option.value = salesPerson.id; // Set the option value to sales person's ID
+                        option.textContent = salesPerson.name;
+                        salesPersonSelect.appendChild(option);
+                    });
+
+                    // Select the sales person associated with the order
+                    salesPersonSelect.value = order.sales_person;
+                })
+                .catch(error => {
+                    console.error('Error fetching sales persons:', error);
+                });
         })
         .catch(error => console.error('Error fetching order for editing:', error));
 }
+//         })
+//         .catch(error => console.error('Error fetching order for editing:', error));
+// }
 
 
 
@@ -173,19 +212,23 @@ function submitUpdatedOrder(orderId) {
     const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
-    // const salesPerson = document.getElementById('salesPerson').value;
+    // const salesPersonId = document.getElementById('salesPerson').value;
     // const salesPersonId = document.getElementById('salesPersonId').value;
     const orderStatus = document.getElementById('orderStatus').value;
     const priority = document.getElementById('priority').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
     const newImageFile = document.getElementById('image').files[0];
    
+
+    const salesPersonSelect = document.getElementById('salesPerson');
+    const salesPersonId = salesPersonSelect.value;
+    const salesPerson = salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
+
+
     const reader = new FileReader();
     reader.onload = function(event) {
-        // Extract the Base64-encoded image data from the FileReader result
         const newImageBase64 = event.target.result;
 
-        // Log the Base64-encoded image data (for verification purposes)
         console.log('Base64-encoded image:', newImageBase64);
 
         const updatedOrder = {
@@ -198,8 +241,8 @@ function submitUpdatedOrder(orderId) {
             firm_name: firmName,
             customer_name: customerName,
             customer_phone_no: customerPhoneNo,
-            // sales_person: salesPerson,
-            // sales_person_id: salesPersonId,
+            sales_person: salesPerson,
+            sales_person_id: salesPersonId,
             order_status: orderStatus,
             priority: priority,
             payment_status: paymentStatus,
@@ -208,11 +251,10 @@ function submitUpdatedOrder(orderId) {
         };
 
     
-    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+    const token = localStorage.getItem('token');
 
     if (!token) {
         console.error('JWT token not found.');
-        // Handle the case where the token is not found (e.g., redirect to login page)
         return;
     }
 
@@ -226,6 +268,7 @@ function submitUpdatedOrder(orderId) {
         body: JSON.stringify(updatedOrder)
     })
     .then(response => {
+        console.log(response)
         if (!response.ok) {
             throw new Error('Failed to update order.');
             
@@ -235,12 +278,12 @@ function submitUpdatedOrder(orderId) {
     })
     .then(data => {
         console.log('Order updated:', data.order);
-        alert('error')
+        alert('Order updated successfully.');
         // goToAllOrders(); // Refresh the orders table after updating
     })
         .catch(error => {
             console.error('Error updating order:', error);
-            alert(error.message)
+            alert('Failed to update order. Please try again.' + error.message)
         })
     
 

@@ -33,6 +33,7 @@ exports.getAllOrders = (req, res) => {
                 res.status(500).json({ error: error.message });
                 return;
             }
+            // console.log(results)
             res.status(200).json({ orders: results });
         });
     });
@@ -274,7 +275,7 @@ exports.AddNewProduct = (req, res) => {
 exports.createOrder = async (req, res, next) => {
     try {
         // Extract order data from req.body
-        const { case_no, po_no, product_name, price, quantity, deadline_date, firm_name, customer_name, customer_phone_no, sales_person, order_status, payment_status, priority, image } = req.body;
+        const { case_no, po_no, product_name, price, quantity, deadline_date, firm_name, customer_name, customer_phone_no, sales_person, sales_person_id, order_status, payment_status, priority, image } = req.body;
 
         let relativeImagePath = null;
 
@@ -392,10 +393,10 @@ exports.getOrder = (req, res) => {
 
 exports.editOrder = async (req, res, next) => {
     try {
+        console.log("working till now 1")
         const { id } = req.params;
         // Extract updated order data from req.body
-        const { case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, payment_status, deadline_date, priority, image } = req.body;
-
+        const { case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, sales_person, sales_person_id, payment_status, deadline_date, priority, image } = req.body;
         let relativeImagePath = null;
 
         if (image) {
@@ -403,7 +404,7 @@ exports.editOrder = async (req, res, next) => {
             const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
             const imageData = Buffer.from(base64Data, 'base64');
 
-            const imageFileName = `image_${case_no}.jpeg`;
+            const imageFileName = `image_${id}.jpeg`;
 
             // Define the path where you want to save the image
             const imagePath = path.join(__dirname, '../public3/uploads/', imageFileName);
@@ -418,10 +419,12 @@ exports.editOrder = async (req, res, next) => {
             });
             relativeImagePath = `/uploads/${imageFileName}`;
         }
+        console.log("working till now 2")
 
         // Update the order in the database, including the new image path if provided
-        const updateOrderQuery = 'UPDATE orders SET case_no = ?, po_no = ?,  price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?,  order_status = ?, payment_status = ?, deadline_date = ?, priority = ?, image = ? WHERE id = ?';
-        const values = [case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, payment_status, deadline_date, priority, relativeImagePath, id];
+        const updateOrderQuery = 'UPDATE orders SET case_no = ?, po_no = ?,  price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?,  order_status = ?, sales_person = ?, sales_person_id = ?,  payment_status = ?, deadline_date = ?, priority = ?, image = ? WHERE id = ?';
+        const values = [case_no, po_no,  price, quantity, firm_name, customer_name, customer_phone_no,  order_status, sales_person, sales_person_id, payment_status, deadline_date, priority, relativeImagePath, id];
+        console.log("working till now 3")
 
         pool.query(updateOrderQuery, values, (error, result) => {
             if (error) {

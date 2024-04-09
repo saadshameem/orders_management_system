@@ -27,7 +27,7 @@ router.delete('/products/productName/:name', authAdmin, orders.deleteProduct);
 
 
 // router.patch('/:id', authAdmin, orders.updateOrder);
-router.patch('/:id', upload.single('newImage'),authAdmin, orders.editOrder);
+router.patch('/:id', upload.single('image'), authAdmin, orders.editOrder);
 
 router.delete('/:id', authAdmin, orders.deleteOrder);
 router.get('/status/:status', authUser, orders.fetchOrdersByStatus);
