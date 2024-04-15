@@ -4,9 +4,7 @@ const path = require("path");
 const { error } = require("console");
 
 exports.getAllOrders = (req, res) => {
-  // const query = 'SELECT orders.id, orders.case_no, orders.po_no, orders.price, orders.quantity,orders.firm_name, orders.customer_name, orders.customer_phone_no,  orders.sales_person_id, orders.sales_person,orders.order_status, orders.payment_status, orders.deadline_date, orders.priority, orders.image,orders.createdAt, orders.productId,products.name AS product_name FROM test.orders JOIN test.products ON orders.productId = Products.id ORDER BY orders.priority ASC';
   const query = "SELECT * FROM orders ORDER BY priority ASC";
-  // const query = 'SELECT orders.*, products.name AS product_name FROM orders JOIN products ON orders.productId = Products.id  ORDER BY orders.priority ASC';
 
   // Get a connection from the pool
   pool.getConnection((err, connection) => {
@@ -53,31 +51,6 @@ exports.getAllProducts = (req, res) => {
     });
   });
 };
-
-// exports.getProductsById = (req, res) => {
-//     const query = 'SELECT * FROM products ORDER BY id ASC';
-//     // Get a connection from the pool
-//     pool.getConnection((err, connection) => {
-//         if (err) {
-//             console.error('Error getting database connection:', err);
-//             res.status(500).json({ error: err.message  });
-//             return;
-//         }
-//         // Execute the query
-//         connection.query(query, (error, results) => {
-//             // Release the connection back to the pool
-//             connection.release();
-//             if (error) {
-//                 console.error('Error fetching products:', error);
-//                 res.status(500).json({ error: error.message  });
-//                  return;
-//             }
-//             const productNames = results.map(result => ({id:result.id, name:result.name}));
-//             // Send the product names in the desired format
-//             res.status(200).json({ productNames });
-//         });
-//     });
-// };
 
 exports.deleteProduct = (req, res) => {
   const { name } = req.params;
