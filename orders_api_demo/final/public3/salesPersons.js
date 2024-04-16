@@ -71,7 +71,7 @@ function addTableRow(table, person, serialNumber){
     <td class = "font-semibold text-md">${person.name}</td>
    
     
-   <td><button class="btn btn-primary btn-xs btn-warning" onclick="deletePerson('${person}')">Delete</button></td>
+   <td><button class="btn btn-primary btn-xs btn-warning" onclick="deletePerson('${person.id}')">Delete</button></td>
     
 
     `;

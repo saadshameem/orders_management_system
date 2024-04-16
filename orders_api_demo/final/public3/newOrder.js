@@ -224,10 +224,8 @@ function submitNewOrder() {
     // const sales_person_id = document.getElementById('sales_person_id').value;
     const orderStatus = document.getElementById('orderStatus').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
-
+    const remark = document.getElementById('remark').value;
      // Get selected sales person's ID
-    //  const salesPersonSelect = document.getElementById('salesPerson');
-    //  const selectedSalesPersonId = salesPersonSelect.options[salesPersonSelect.selectedIndex].value;
     const salesPersonSelect = document.getElementById('salesPerson');
     const salesPersonId = salesPersonSelect.value;
     const salesPerson = salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
@@ -269,22 +267,17 @@ function submitNewOrder() {
         const caseNo = generateCaseNumber(highestCaseNumber + 1);
         const priority = data.priority;
 
-        // Create a new FileReader object
+        
         const reader = new FileReader();
 
-        // Define the onload event handler
         reader.onload = function(event) {
-            // Extract the Base64-encoded image data from the FileReader result
             const imageBase64 = event.target.result;
 
-            // Log the Base64-encoded image data (for verification purposes)
             console.log('Base64-encoded image:', imageBase64);
 
-            // send the imageBase64 and order details to the server
             uploadOrderWithImage(imageBase64, caseNo, priority);
         };
 
-        // Read the image file as a data URL (Base64-encoded)
         reader.readAsDataURL(imageFile);
     })
     .catch(error => {
@@ -309,7 +302,8 @@ function submitNewOrder() {
             order_status: orderStatus,
             payment_status: paymentStatus,
             image: imageBase64,
-            priority: priority
+            priority: priority,
+            remark: remark
         };
 
         // Send the order data to the server
@@ -325,19 +319,10 @@ function submitNewOrder() {
             },
             body: JSON.stringify(orderData)
         })
-        // .then(response => { 
-        //     if (response.ok) {
-        //         console.log('New order created successfully.');
-        //         alert("New order created successfully");
-        //         goToAllOrders();
-        //     } else {
-        //         console.error('Failed to create new order.');
-        //         alert(error.message)
-        //     }
-        // })
+     
         .then(response => { 
             if (!response.ok) {
-                if (response.status === 413) { // Check if the status code is 413 (Payload Too Large)
+                if (response.status === 413) { 
                     throw new Error('Image size is too large. Size limit: 2mb');
                 } else {
                     throw new Error('Failed to create new order.');

@@ -15,6 +15,8 @@ const upload = require('../middleware/multer')
 router.get('/',  authUser, orders.getAllOrders);
 // router.post('/', authAdmin, orders.createOrder);
 router.post('/', upload.single('image'), authAdmin, orders.createOrder); 
+
+
 router.get('/newOrderDetails',authAdmin, orders.getNewOrderDetails);
 router.get('/:id', authUser, orders.getOrder);
 
@@ -28,11 +30,11 @@ router.delete('/products/productName/:name', authAdmin, orders.deleteProduct);
 
 // router.patch('/:id', authAdmin, orders.updateOrder);
 router.patch('/:id', upload.single('image'), authAdmin, orders.editOrder);
-
 router.delete('/:id', authAdmin, orders.deleteOrder);
+
+
 router.get('/status/:status', authUser, orders.fetchOrdersByStatus);
 // router.get('/orderStatus/tab', authUser, orders.fetchOrdersByStatus);
-
 router.get('/filter-by-firm/:firmName', authUser, orders.filterProductsByFirm);
 router.get('/piechart/status-summary', authUser, charts.piechart)
 router.get('/piechart/productName', authUser, charts.productPiechart)

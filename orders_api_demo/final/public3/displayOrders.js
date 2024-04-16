@@ -54,6 +54,7 @@ const getAllOrders = async ()=> {
                 <th>Sales Person's Id</th>
                 <th>Priority</th>
                 <th>Payment Status</th>
+                <th>Remark</th>
                 <th>Actions</th>
                 <th>Image</th>
                 </tr>
@@ -181,6 +182,7 @@ function fetchOrdersByStatus(status) {
                     <th>Sales Person's Id</th>
                     <th>Priority</th>
                     <th>Payment Status</th>
+                    <th>Remark</th>
                     <th>Actions</th>
                     <th>Image</th>
                     </tr>
@@ -281,8 +283,9 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.sales_person_id}</td>
         <td class="font-semibold text-md" >${order.priority}</td>
         <td class="font-semibold text-md" >${order.payment_status}</td>
+        <td class="font-semibold text-md" >${order.remark}</td>
         <td class="">
-            <button class="btn btn-primary btn-xs btn-info " onclick="editOrder('${order.id}')">Edit</button>
+            <button class="btn btn-primary btn-xs btn-info " onclick="showEditOrderForm('${order.id}')">Edit</button>
             <button class="btn btn-sencondary btn-xs btn-warning" onclick="deleteOrder('${order.id}')">Delete</button>
 
         </td>
@@ -390,6 +393,7 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                             <th>Sales Person's Id</th>
                             <th>Priority</th>
                             <th>Payment Status</th>
+                            <th>Remark</th>
                             <th>Actions</th>
                             <th>Image</th>
                         </tr>

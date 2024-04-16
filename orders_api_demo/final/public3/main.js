@@ -30,7 +30,7 @@ function editOrder(orderId) {
         .then(data => {
             console.log('Received data for editing order:', data);
 
-           
+
 
             const order = data.order;
 
@@ -120,6 +120,11 @@ function editOrder(orderId) {
                             <select id="salesPerson" name="salesPerson" class="edit-form-input"></select>
                             <input type="hidden" id="salesPersonId" name="salesPersonId">
                         </div>
+
+                        <div class="edit-form-column">
+                        <label class="edit-form-label" for="remark" class="edit-form-label">Remark:</label>
+                        <input type="text" id="remark" name="remark" value="${order.remark}" required class="edit-form-input">
+                        </div>
                         
                     </div>
 
@@ -169,8 +174,8 @@ function editOrder(orderId) {
             content.innerHTML = '';
             content.appendChild(form);
 
-              // Fetch sales persons from the backend API and populate the dropdown
-              fetch('/api/v1/users/salesPersons', {
+            // Fetch sales persons from the backend API and populate the dropdown
+            fetch('/api/v1/users/salesPersons', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -217,8 +222,9 @@ function submitUpdatedOrder(orderId) {
     const orderStatus = document.getElementById('orderStatus').value;
     const priority = document.getElementById('priority').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
+    const remark = document.getElementById('remark').value;
     const newImageFile = document.getElementById('image').files[0];
-   
+
 
     const salesPersonSelect = document.getElementById('salesPerson');
     const salesPersonId = salesPersonSelect.value;
@@ -226,7 +232,7 @@ function submitUpdatedOrder(orderId) {
 
 
     const reader = new FileReader();
-    reader.onload = function(event) {
+    reader.onload = function (event) {
         const newImageBase64 = event.target.result;
 
         console.log('Base64-encoded image:', newImageBase64);
@@ -246,50 +252,51 @@ function submitUpdatedOrder(orderId) {
             order_status: orderStatus,
             priority: priority,
             payment_status: paymentStatus,
-            image: newImageBase64 
-            
+            remark: remark,
+            image: newImageBase64
+
         };
 
-    
-    const token = localStorage.getItem('token');
 
-    if (!token) {
-        console.error('JWT token not found.');
-        return;
-    }
+        const token = localStorage.getItem('token');
 
-    fetch(`/api/v1/orders/${orderId}`, {
-        method: 'PATCH',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        },
-        // body: formData
-        body: JSON.stringify(updatedOrder)
-    })
-    .then(response => {
-        console.log(response)
-        if (!response.ok) {
-            throw new Error('Failed to update order.');
-            
-
+        if (!token) {
+            console.error('JWT token not found.');
+            return;
         }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Order updated:', data.order);
-        alert('Order updated successfully.');
-        // goToAllOrders(); // Refresh the orders table after updating
-    })
-        .catch(error => {
-            console.error('Error updating order:', error);
-            alert('Failed to update order. Please try again.' + error.message)
-        })
-    
 
-}
-// Read the image file as a data URL (Base64-encoded)
-reader.readAsDataURL(newImageFile);
+        fetch(`/api/v1/orders/${orderId}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            // body: formData
+            body: JSON.stringify(updatedOrder)
+        })
+            .then(response => {
+                console.log(response)
+                if (!response.ok) {
+                    throw new Error('Failed to update order.');
+
+
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Order updated:', data.order);
+                alert('Order updated successfully.');
+                // goToAllOrders(); // Refresh the orders table after updating
+            })
+            .catch(error => {
+                console.error('Error updating order:', error);
+                alert('Please try again.' + error.message)
+            })
+
+
+    }
+    // Read the image file as a data URL (Base64-encoded)
+    reader.readAsDataURL(newImageFile);
 }
 
 

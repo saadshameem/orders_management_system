@@ -280,248 +280,140 @@
                             <button id="fullscreen-toggle">Full Screen</button>
                         </div>
                     </div>
-
-
-
-
-
-
                     
-                    
-                    <form id="editOrderForm" class="edit-order-form mb-10" style="display: none; " action="/upload"
-                        method="post" enctype="multipart/form-data">
-                        <div class="edit-form">
-                            <div class="edit-form-header">Edit Order</div>
+                    <form id="editOrderForm" class="edit-order-form" style="display: none; " action="/upload"
+                    method="post" enctype="multipart/form-data">
 
-                        <input type="hidden" id="orderId" name="orderId">
+                    <input type="hidden" id="orderId" name="orderId">
 
-                        <div class="edit-form-row">
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="caseNo" class="edit-form-label">Case No:</label>
-                                <input type="text" id="caseNo" name="caseNo" required class="edit-form-input">
-                            </div>
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="poNo" class="edit-form-label">PO No:</label>
-                                <input type="text" id="poNo" name="poNo" required class="edit-form-input">
-                            </div>
+                    <div class="edit-form-row">
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="caseNo" class="edit-form-label">Case No:</label>
+                            <input type="text" id="caseNo" name="caseNo" required class="edit-form-input">
                         </div>
-
-
-                        <div class="edit-form-row">
-
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="price" class="edit-form-label">Price(Incl.
-                                    GST):</label>
-                                <input type="text" id="price" name="price" required class="edit-form-input">
-                            </div>
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="priority">Priority:</label>
-                                <input type="Number" id="priority" name="priority" required class="edit-form-input">
-                            </div>
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="poNo" class="edit-form-label">PO No:</label>
+                            <input type="text" id="poNo" name="poNo" required class="edit-form-input">
                         </div>
-
-
-                        <div class="edit-form-row">
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="quantity">Quantity:</label>
-                                <input type="text" id="quantity" name="quantity" required class="edit-form-input">
-                            </div>
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="date">Deadline Date:</label>
-                                <input type="date" id="date" name="date" required class="edit-form-input">
-                            </div>
-                        </div>
-
-
-                        <div class="edit-form-row">
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="firmName">Firm Name:</label>
-                                <input type="text" id="firmName" name="firmName" required class="edit-form-input">
-                            </div>
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="customerName">Customer Name:</label>
-                                <input type="text" id="customerName" name="customerName" required
-                                    class="edit-form-input">
-                            </div>
-                        </div>
-
-
-                        <div class="edit-form-row">
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="customerPhoneNo">Customer Ph.:</label>
-                                <input type="text" id="customerPhoneNo" name="customerPhoneNo" required
-                                    class="edit-form-input">
-                            </div>
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="paymentStatus">Payment Status:</label>
-                                <input type="text" id="paymentStatus" name="paymentStatus" required
-                                    class="edit-form-input">
-                            </div>
-
-
-                        </div>
-
-
-                        <div class="edit-form-row">
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="salesPerson">Sales Person:</label>
-                                <select id="salesPerson" name="salesPerson" class="edit-form-input"></select>
-                                <input type="hidden" id="salesPersonId" name="salesPersonId">
-                            </div>
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="remark" class="edit-form-label">Remark:</label>
-                                <input type="text" id="remark" name="remark" required class="edit-form-input">
-                            </div>
-
-                        </div>
-
-
-                        <div class="edit-form-row">
-
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="orderStatus">Order Status:</label>
-                                <select id="orderStatus" name="orderStatus" class="edit-form-input">
-                                    <option value="Pending">Pending</option>
-                                    <option value="Trading">Trading</option>
-                                    <option value="In Production">In Production</option>
-                                    <option value="Testing">Testing</option>
-                                    <option value="Packed">Packed</option>
-                                    <option value="Shipped">Shipped</option>
-                                </select>
-                            </div>
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="image">New Image:</label>
-                                <input type="file" id="image" name="image" class="form-input" accept="image/*">
-                                <p class="text-red-600 text-xs">*Size limit: 2mb</p>
-                            </div>
-
-                        </div>
-
-
-
-
-                        <!-- Submit button -->
-                        <div class="edit-form-footer">
-                        <button type="button" class="btn btn-primary" onclick="submitEditedOrder()">Submit</button>
                     </div>
-                    </form>
-                </div>
-
-                    <div class="content">
 
 
-                        <div class="table-container">
-                            <table id="employeeTable" class="table table-xs">
-                                <!-- Table headers to be dynamically added  -->
-                            </table>
+                    <div class="edit-form-row">
+
+
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="price" class="edit-form-label">Price(Incl.
+                                GST):</label>
+                            <input type="text" id="price" name="price" required class="edit-form-input">
+                        </div>
+
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="priority">Priority:</label>
+                            <input type="Number" id="priority" name="priority" required class="edit-form-input">
+                        </div>
+                    </div>
+
+
+                    <div class="edit-form-row">
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="quantity">Quantity:</label>
+                            <input type="text" id="quantity" name="quantity" required class="edit-form-input">
+                        </div>
+
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="date">Deadline Date:</label>
+                            <input type="date" id="date" name="date" required class="edit-form-input">
+                        </div>
+                    </div>
+
+
+                    <div class="edit-form-row">
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="firmName">Firm Name:</label>
+                            <input type="text" id="firmName" name="firmName" required class="edit-form-input">
+                        </div>
+
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="customerName">Customer Name:</label>
+                            <input type="text" id="customerName" name="customerName" required
+                                class="edit-form-input">
+                        </div>
+                    </div>
+
+
+                    <div class="edit-form-row">
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="customerPhoneNo">Customer Ph.:</label>
+                            <input type="text" id="customerPhoneNo" name="customerPhoneNo" required
+                                class="edit-form-input">
+                        </div>
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="paymentStatus">Payment Status:</label>
+                            <input type="text" id="paymentStatus" name="paymentStatus" required
+                                class="edit-form-input">
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="edit-form-row">
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="salesPerson">Sales Person:</label>
+                            <select id="salesPerson" name="salesPerson" class="edit-form-input"></select>
+                            <input type="hidden" id="salesPersonId" name="salesPersonId">
+                        </div>
+
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="remark" class="edit-form-label">Remark:</label>
+                            <input type="text" id="remark" name="remark" required class="edit-form-input">
                         </div>
 
                     </div>
-                </div>
+
+
+                    <div class="edit-form-row">
+
+
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="orderStatus">Order Status:</label>
+                            <select id="orderStatus" name="orderStatus" class="edit-form-input">
+                                <option value="Pending">Pending</option>
+                                <option value="Trading">Trading</option>
+                                <option value="In Production">In Production</option>
+                                <option value="Testing">Testing</option>
+                                <option value="Packed">Packed</option>
+                                <option value="Shipped">Shipped</option>
+                            </select>
+                        </div>
+
+                        <div class="edit-form-column">
+                            <label class="edit-form-label" for="image">New Image:</label>
+                            <input type="file" id="image" name="image" class="form-input" accept="image/*">
+                            <p class="text-red-600 text-xs">*Size limit: 2mb</p>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <!-- Submit button -->
+                    <button type="button" class="btn btn-primary" onclick="submitEditedOrder()">Submit</button>
+                </form>
 
             </div>
 
         </div>
+
     </div>
+</div>
 
+<script src="editOrder.js"></script>
+<script src="displayOrders.js"></script>
+<script src="newOrder.js"></script>
 
-    <script src="editOrder.js"></script>
-    <script src="displayOrders.js"></script>
-    <script src="newOrder.js"></script>
-
-
-
-
-
-    <script>
-            function toggleFullscreen() {
-                const content = document.querySelector('.content');
-                if (!document.fullscreenElement) {
-                    content.requestFullscreen();
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
-                }
-            }
-
-            // Add event listener to the toggle button
-            const toggleButton = document.getElementById('fullscreen-toggle');
-            toggleButton.addEventListener('change', toggleFullscreen);
-
-
-            function handleTabChange(selectElement) {
-                // Get the value of the selected option
-                const selectedOption = selectElement.value;
-
-                if (selectedOption === "all") {
-                    window.location.href = "allOrders.html";
-                    return;
-                }
-
-                const tabLinks = document.querySelectorAll('.tab-link');
-
-                tabLinks.forEach(tabLink => {
-                    const tabStatus = tabLink.getAttribute('data-status');
-
-                    // Check if the data-status attribute matches the selected option value
-                    if (tabStatus === selectedOption) {
-                        // Simulate a click on the tab link
-                        tabLink.click();
-                    }
-                });
-            }
-
-            function changeTab(tab) {
-                const tabLinks = document.querySelectorAll('.tab-link');
-                tabLinks.forEach(link => {
-                    link.classList.remove('active');
-                });
-
-                tab.classList.add('active');
-            }
-            function changeTabAndGetData(tab) {
-                const tabLinks = document.querySelectorAll('.tab-link');
-                tabLinks.forEach(link => {
-                    link.classList.remove('active');
-                });
-
-                tab.classList.add('active');
-
-                getAllOrders();
-            }
-
-
-
-
-
-            window.onload = function () {
-                getAllOrders();
-            };
-
-            document.addEventListener("DOMContentLoaded", function () {
-
-                document.getElementById('logoutBtn').addEventListener('click', function () {
-                    logout();
-                });
-
-                function logout() {
-                    localStorage.removeItem('token');
-                    window.location.href = 'index.html';
-                }
-            });
-
-
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
 </body>
 

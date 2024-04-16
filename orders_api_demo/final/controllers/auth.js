@@ -40,41 +40,47 @@ exports.register = async (req, res) => {
 
         // Check if the user already exists
         const checkUserQuery = `SELECT * FROM users WHERE email = ?`;
-        pool.query(checkUserQuery, [email], async (error, results) => {
-            if (error) {
-                console.error('Error checking user:', error);
-                res.status(500).json({ message: error.message });
-                return;
-            }
 
-            if (results.length > 0) {
-                return res.status(400).json({ message: 'User already exists' });
-            }
+        // Get a connection from the pool
+        const connection = await pool.getConnection();
 
-            // Hash the password
-            const hashedPassword = await hashPassword(password);
+        // Execute the query
+        const [existingUsers] = await connection.query(checkUserQuery, [email]);
 
-            // Insert user into the database
-            const insertUserQuery = `INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)`;
-            pool.query(insertUserQuery, [name, email, hashedPassword, role], (err, result) => {
-                if (err) {
-                    console.error('Error creating user:', err);
-                    res.status(500).json({ message: err.message });
-                    return;
-                }
-                
-                // Generate JWT token
-                const token = generateJWT(result.insertId, name, role);
+        // Release the connection back to the pool
+        connection.release();
 
-                // Send response with token
-                res.status(201).json({ success: true, user: { name, role }, msg: 'User created successfully', token });
-            });
-        });
+        if (existingUsers.length > 0) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        // Hash the password
+        const hashedPassword = await hashPassword(password);
+
+        // Insert user into the database
+        const insertUserQuery = `INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)`;
+
+        // Get a new connection from the pool
+        const newConnection = await pool.getConnection();
+
+        // Execute the query
+        const [result] = await newConnection.query(insertUserQuery, [name, email, hashedPassword, role]);
+
+        // Release the connection back to the pool
+        newConnection.release();
+
+        // Generate JWT token
+        const token = generateJWT(result.insertId, name, role);
+
+        // Send response with token
+        res.status(201).json({ success: true, user: { name, role }, msg: 'User created successfully', token });
     } catch (error) {
         console.error('Error registering user:', error);
         res.status(500).json({ message: error.message });
     }
 };
+
+
 
 // Controller for user login
 exports.login = async (req, res) => {
@@ -84,36 +90,39 @@ exports.login = async (req, res) => {
 
         // Find the user by email
         const getUserQuery = `SELECT * FROM users WHERE email = ?`;
-        pool.query(getUserQuery, [email], async (error, results) => {
-            if (error) {
-                console.error('Error finding user:', error);
-                res.status(500).json({ message: error.message });
-                return;
-            }
+        
+        // Get a connection from the pool
+        const connection = await pool.getConnection();
+        
+        // Execute the query
+        const [results] = await connection.query(getUserQuery, [email]);
+        
+        // Release the connection back to the pool
+        connection.release();
+        
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
-            if (results.length === 0) {
-                return res.status(404).json({ message: 'User not found' });
-            }
+        const user = results[0];
 
-            const user = results[0];
+        // Compare passwords
+        const isMatch = await comparePassword(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
 
-            // Compare passwords
-            const isMatch = await comparePassword(password, user.password);
-            if (!isMatch) {
-                return res.status(401).json({ message: 'Invalid credentials' });
-            }
+        // Generate JWT token
+        const token = generateJWT(user.id, user.name, user.role);
 
-            // Generate JWT token
-            const token = generateJWT(user.id, user.name, user.role);
-
-            // Send response with token
-            res.status(200).json({ success: true, user: { name: user.name, role: user.role }, token });
-        });
+        // Send response with token
+        res.status(200).json({ success: true, user: { name: user.name, role: user.role }, token });
     } catch (error) {
         console.error('Error logging in user:', error);
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Controller for user logout 
 exports.logout = async (req, res) => {

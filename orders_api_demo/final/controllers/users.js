@@ -7,170 +7,179 @@ const path = require('path')
 
 
 
-exports.getAllUsers = (req, res) => {
-    const query = 'SELECT * FROM users ORDER BY id ASC';
-    // Get a connection from the pool
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.error('Error getting database connection:', err);
-            res.status(500).json({ error: 'Internal server error' });
-            return;
-        }
+exports.getAllUsers = async (req, res) => {
+
+    try {
+        const query = 'SELECT * FROM users ORDER BY id ASC';
+        // Get a connection from the pool
+        const connection = await pool.getConnection();
         // Execute the query
-        connection.query(query, (error, results) => {
-            // Release the connection back to the pool
-            connection.release();
-            if (error) {
-                console.error('Error fetching users:', error);
-                res.status(500).json({ error: error.message });               
-                 return;
-            }
-            res.status(200).json({ users: results });
-        });
-    });
-};
+        const [results] = await connection.query(query);
+        // Release the connection back to the pool
+        connection.release();
 
-exports.deleteUser = (req, res) => {
-    const {id} = req.params;
-    const query = 'delete from users where id = ?';
-    pool.getConnection((err, connection) =>{
-        if(err){
-            console.log('Error getting database connection', err);
-            res.status(500).json({error: 'Internal server error'})
-            return;
-        }
-        connection.query(query, [id], (error, result)=>{
-            connection.release();
-            if(error){
-                console.log('Error deleting user:', error);
-                res.status(500).json({error: error.message})
-                return;
-            }
-            if(result.affectedRows === 0){
-                return res.status(404).json({error: `User with id: ${id} not found`})
-            }
-            res.status(200).json({message: `User with id: ${id} deleted successfully`})
-        })
-
-    })
-}
-
-
-exports.getAllSalesPersons = (req, res) => {
-    const query = 'SELECT * FROM sales_persons ORDER BY id ASC';
-    // Get a connection from the pool
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.error('Error getting database connection:', err);
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        // Execute the query
-        connection.query(query, (error, results) => {
-            // Release the connection back to the pool
-            connection.release();
-            if (error) {
-                console.error('Error fetching sales persons:', error);
-                res.status(500).json({ error: error.message });               
-                 return;
-            }
-            // const salesPersons = results.map(result =>({name: result.name, id:result.id}));
-            // // Send the product names in the desired format
-            // res.status(200).json({ salesPersons });
-            res.status(200).json({ salesPersons: results });
-
-        });
-    });
-};
-
-
-
-exports.getSalesPerson = (req, res) => {
-    const { name } = req.params;
-    const query = 'SELECT * FROM sales_persons WHERE name = ?';
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.error('Error getting database connection:', err);
-            res.status(500).json({ error: err.message  });
-            return;
-        }
-        connection.query(query, [name], (error, results) => {
-            connection.release();
-            if (error) {
-                console.error('Error fetching order:', error);
-                res.status(500).json({ error: error.message  });
-                return;
-            }
-            if (results.length === 0) {
-                return res.status(404).json({ error: `Person with name ${name} not found` });
-            }
-            res.status(200).json({ order: results[0] });
-        });
-    });
-  };
-  
-
-
-exports.addNewSalesPerson = (req, res) => {
-    // Extract product name from the request body
-    const {id, name } = req.body;
-
-    // Check if the product name is provided
-    if (!name) {
-        return res.status(400).json({ error: ' Name is required' });
+        res.status(200).json({ users: results });
+    } catch (error) {
+        console.error('Error fetching persons:', error);
+        res.status(500).json({ error: error.message });
     }
+};
 
-    const checkUserQuery = `SELECT * FROM sales_persons WHERE name = ?`;
-    pool.query(checkUserQuery, [name], async (error, results) => {
-        if (error) {
-            console.error('Error checking user:', error);
-            res.status(500).json({ message: error.message });
-            return;
+exports.deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const query = 'DELETE FROM users WHERE id = ?';
+
+        // Get a connection from the pool
+        const connection = await pool.getConnection();
+
+        // Execute the query
+        const [result] = await connection.query(query, [id]);
+
+        // Release the connection back to the pool
+        connection.release();
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: `User with id: ${id} not found` });
         }
 
-        if (results.length > 0) {
+        res.status(200).json({ message: `User with id: ${id} deleted successfully` });
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+exports.getAllSalesPersons = async (req, res) => {
+
+    try {
+        const query = 'SELECT * FROM sales_persons ORDER BY id ASC';
+        // Get a connection from the pool
+        const connection = await pool.getConnection();
+        // Execute the query
+        const [results] = await connection.query(query);
+        // Release the connection back to the pool
+        connection.release();
+
+        res.status(200).json({ salesPersons: results });
+
+    } catch (error) {
+        console.error('Error fetching persons:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+exports.getSalesPerson = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const query = 'SELECT * FROM sales_persons WHERE id = ?';
+
+        // Get a connection from the pool
+        const connection = await pool.getConnection();
+
+        // Execute the query
+        const [results] = await connection.query(query, [id]);
+
+        // Release the connection back to the pool
+        connection.release();
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: `Person with id ${id} not found` });
+        }
+
+        res.status(200).json({ order: results[0] });
+    } catch (error) {
+        console.error('Error fetching order:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+exports.addNewSalesPerson = async (req, res) => {
+    try {
+        // Extract sales person details from the request body
+        const { id, name } = req.body;
+
+        // Check if the name is provided
+        if (!name) {
+            return res.status(400).json({ error: 'Name is required' });
+        }
+
+        // Check if the sales person already exists
+        const checkUserQuery = `SELECT * FROM sales_persons WHERE name = ?`;
+        const [existingSalesPersons] = await pool.query(checkUserQuery, [name]);
+        if (existingSalesPersons.length > 0) {
             return res.status(400).json({ message: 'Person already exists' });
         }
 
-    // SQL query to insert a new product into the database
-    const query = 'INSERT INTO sales_persons (id,name) VALUES (?,?)';
+        // SQL query to insert a new sales person into the database
+        const insertQuery = 'INSERT INTO sales_persons (id, name) VALUES (?, ?)';
 
-    // Execute the query with the provided product name
-    pool.query(query, [id,name], (error, results) => {
-        if (error) {
-            console.error('Error adding product:', error);
-            return res.status(500).json({ error: error.message });
-        }
+        // Execute the query to add the new sales person
+        const [results] = await pool.query(insertQuery, [id, name]);
 
-        // Return a success response with the ID of the newly added product
+        // Return a success response with the ID of the newly added sales person
         res.status(201).json({ message: 'Sales Person added successfully', salesPersonId: results.insertId });
-    });
-});
-
+    } catch (error) {
+        console.error('Error adding sales person:', error);
+        res.status(500).json({ error: error.message });
+    }
 };
 
 
-exports.deleteSalesPerson = (req, res) => {
-    const { name } = req.params;
-    const query = 'DELETE FROM sales_persons WHERE name = ?';
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.error('Error getting database connection:', err);
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        connection.query(query, [name], (error, result) => {
-            connection.release();
-            if (error) {
-                console.error('Error deleting product:', error);
-                res.status(500).json({ error: error.message });
-                return;
-            }
-            if (result.affectedRows === 0) {
-                return res.status(404).json({ error: `Person with name ${name} not found` });
-            }
-            res.status(200).json({ message: `Person with name ${name} deleted successfully` });
-        });
-    });
-  };
 
+exports.deleteSalesPerson = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const query = 'DELETE FROM sales_persons WHERE id = ?';
+        // Get a connection from the pool
+        const connection = await pool.getConnection();
+
+        // Execute the query
+        const [result] = await connection.query(query, [id]);
+
+        // Release the connection back to the pool
+        connection.release();
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: `Person with id ${id} not found` });
+        }
+        res.status(200).json({ message: `Person with id ${id} deleted successfully` });
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        res.status(500).json({ error: error.message });
+    }
+
+};
+
+exports.updateSalesPersonName = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name } = req.body;
+
+        // Check if the new name is provided
+        if (!name) {
+            return res.status(400).json({ error: 'Name is required' });
+        }
+
+        // SQL query to update the name of the sales person
+        const query = 'UPDATE sales_persons SET name = ? WHERE id = ?';
+
+        // Execute the query to update the name
+        const [result] = await pool.query(query, [name, id]);
+
+        // Check if the sales person with the given ID exists
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: `Sales person with id ${id} not found` });
+        }
+
+        // Return a success response
+        res.status(200).json({ message: `Sales person name with id ${id}  updated successfully` });
+    } catch (error) {
+        console.error('Error updating sales person name:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
