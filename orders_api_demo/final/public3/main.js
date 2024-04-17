@@ -1,46 +1,42 @@
-
-
-
-
 function editOrder(orderId) {
-    const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+  const token = localStorage.getItem("token"); // Assuming you store the token in localStorage
 
-    if (!token) {
-        console.error('JWT token not found.');
-        // Handle the case where the token is not found (e.g., redirect to login page)
-        return;
-    }
-    fetch(`/api/v1/orders/${orderId}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache'
-        }
+  if (!token) {
+    console.error("JWT token not found.");
+    // Handle the case where the token is not found (e.g., redirect to login page)
+    return;
+  }
+  fetch(`/api/v1/orders/${orderId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+    },
+  })
+    .then((response) => {
+      console.log("Response status:", response.status);
+      console.log("Response headers:", response.headers);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch order for editing. Status: ${response.status}`
+        );
+      }
+
+      return response.json();
     })
-        .then(response => {
-            console.log('Response status:', response.status);
-            console.log('Response headers:', response.headers);
+    .then((data) => {
+      console.log("Received data for editing order:", data);
 
-            if (!response.ok) {
-                throw new Error(`Failed to fetch order for editing. Status: ${response.status}`);
-            }
+      const order = data.order;
 
-            return response.json();
-        })
-        .then(data => {
-            console.log('Received data for editing order:', data);
+      // Format deadline_date
+      const deadlineDate = new Date(order.deadline_date);
+      const formattedDeadlineDate = deadlineDate.toISOString().split("T")[0];
 
-           
-console.log("1111111111111111111", data);
-const order = data.order[0];
-console.log("22222222222222222222222222222222222222222222", order);
-// Format deadline_date
-const deadlineDate = new Date(order.deadline_date);
-const formattedDeadlineDate = deadlineDate.toISOString().split("T")[0];
-
-// Create a form pre-filled with existing order details
-const form = document.createElement("form");
-form.innerHTML = `
+      // Create a form pre-filled with existing order details
+      const form = document.createElement("form");
+      form.innerHTML = `
 
 
             <div class="edit-form">
@@ -138,6 +134,13 @@ form.innerHTML = `
                             <select id="salesPerson" name="salesPerson" class="edit-form-input"></select>
                             <input type="hidden" id="salesPersonId" name="salesPersonId">
                         </div>
+
+                        <div class="edit-form-column">
+                        <label class="edit-form-label" for="remark" class="edit-form-label">Remark:</label>
+                        <input type="text" id="remark" name="remark" value="${
+                          order.remark
+                        }" required class="edit-form-input">
+                        </div>
                         
                     </div>
 
@@ -196,177 +199,165 @@ form.innerHTML = `
     </div>
             `;
 
-            // Update content area with the form
-            const content = document.querySelector('.content');
-            content.innerHTML = '';
-            content.appendChild(form);
+      // Update content area with the form
+      const content = document.querySelector(".content");
+      content.innerHTML = "";
+      content.appendChild(form);
 
-              // Fetch sales persons from the backend API and populate the dropdown
-              fetch('/api/v1/users/salesPersons', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const salesPersonSelect = document.getElementById('salesPerson');
+      // Fetch sales persons from the backend API and populate the dropdown
+      fetch("/api/v1/users/salesPersons", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const salesPersonSelect = document.getElementById("salesPerson");
 
-                    // Populate the dropdown with sales person names
-                    data.salesPersons.forEach(salesPerson => {
-                        const option = document.createElement('option');
-                        option.value = salesPerson.id; // Set the option value to sales person's ID
-                        option.textContent = salesPerson.name;
-                        salesPersonSelect.appendChild(option);
-                    });
+          // Populate the dropdown with sales person names
+          data.salesPersons.forEach((salesPerson) => {
+            const option = document.createElement("option");
+            option.value = salesPerson.id; // Set the option value to sales person's ID
+            option.textContent = salesPerson.name;
+            salesPersonSelect.appendChild(option);
+          });
 
-                    // Select the sales person associated with the order
-                    salesPersonSelect.value = order.sales_person;
-                })
-                .catch(error => {
-                    console.error('Error fetching sales persons:', error);
-                });
+          // Select the sales person associated with the order
+          salesPersonSelect.value = order.sales_person;
         })
-        .catch(error => console.error('Error fetching order for editing:', error));
+        .catch((error) => {
+          console.error("Error fetching sales persons:", error);
+        });
+    })
+    .catch((error) =>
+      console.error("Error fetching order for editing:", error)
+    );
 }
 //         })
 //         .catch(error => console.error('Error fetching order for editing:', error));
 // }
 
-
-
 function submitUpdatedOrder(orderId) {
-    const caseNo = document.getElementById('caseNo').value;
-    const poNo = document.getElementById('poNo').value;
-    // const productName = document.getElementById('productName').value;
-    const price = document.getElementById('price').value;
-    const quantity = document.getElementById('quantity').value;
-    const date = document.getElementById('date').value;
-    const firmName = document.getElementById('firmName').value;
-    const customerName = document.getElementById('customerName').value;
-    const customerPhoneNo = document.getElementById('customerPhoneNo').value;
-    // const salesPersonId = document.getElementById('salesPerson').value;
-    // const salesPersonId = document.getElementById('salesPersonId').value;
-    const orderStatus = document.getElementById('orderStatus').value;
-    const priority = document.getElementById('priority').value;
-    const paymentStatus = document.getElementById('paymentStatus').value;
-    const newImageFile = document.getElementById('image').files[0];
-   
+  const caseNo = document.getElementById("caseNo").value;
+  const poNo = document.getElementById("poNo").value;
+  // const productName = document.getElementById('productName').value;
+  const price = document.getElementById("price").value;
+  const quantity = document.getElementById("quantity").value;
+  const date = document.getElementById("date").value;
+  const firmName = document.getElementById("firmName").value;
+  const customerName = document.getElementById("customerName").value;
+  const customerPhoneNo = document.getElementById("customerPhoneNo").value;
+  // const salesPersonId = document.getElementById('salesPerson').value;
+  // const salesPersonId = document.getElementById('salesPersonId').value;
+  const orderStatus = document.getElementById("orderStatus").value;
+  const priority = document.getElementById("priority").value;
+  const paymentStatus = document.getElementById("paymentStatus").value;
+  const remark = document.getElementById("remark").value;
+  const newImageFile = document.getElementById("image").files[0];
 
-    const salesPersonSelect = document.getElementById('salesPerson');
-    const salesPersonId = salesPersonSelect.value;
-    const salesPerson = salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
+  const salesPersonSelect = document.getElementById("salesPerson");
+  const salesPersonId = salesPersonSelect.value;
+  const salesPerson =
+    salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
 
+  const reader = new FileReader();
+  reader.onload = function (event) {
+    const newImageBase64 = event.target.result;
 
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const newImageBase64 = event.target.result;
+    console.log("Base64-encoded image:", newImageBase64);
 
-        console.log('Base64-encoded image:', newImageBase64);
+    const updatedOrder = {
+      case_no: caseNo,
+      po_no: poNo,
+      // product_name: productName,
+      price: price,
+      quantity: quantity,
+      deadline_date: date,
+      firm_name: firmName,
+      customer_name: customerName,
+      customer_phone_no: customerPhoneNo,
+      sales_person: salesPerson,
+      sales_person_id: salesPersonId,
+      order_status: orderStatus,
+      priority: priority,
+      payment_status: paymentStatus,
+      remark: remark,
+      image: newImageBase64,
+    };
 
-        const updatedOrder = {
-            case_no: caseNo,
-            po_no: poNo,
-            // product_name: productName,
-            price: price,
-            quantity: quantity,
-            deadline_date: date,
-            firm_name: firmName,
-            customer_name: customerName,
-            customer_phone_no: customerPhoneNo,
-            sales_person: salesPerson,
-            sales_person_id: salesPersonId,
-            order_status: orderStatus,
-            priority: priority,
-            payment_status: paymentStatus,
-            image: newImageBase64 
-            
-        };
-
-    
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     if (!token) {
-        console.error('JWT token not found.');
-        return;
+      console.error("JWT token not found.");
+      return;
     }
 
     fetch(`/api/v1/orders/${orderId}`, {
-        method: 'PATCH',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        },
-        // body: formData
-        body: JSON.stringify(updatedOrder)
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      // body: formData
+      body: JSON.stringify(updatedOrder),
     })
-    .then(response => {
-        console.log(response)
+      .then((response) => {
+        console.log(response);
         if (!response.ok) {
-            throw new Error('Failed to update order.');
-            
-
+          throw new Error("Failed to update order.");
         }
         return response.json();
-    })
-    .then(data => {
-        console.log('Order updated:', data.order);
-        alert('Order updated successfully.');
+      })
+      .then((data) => {
+        console.log("Order updated:", data.order);
+        alert("Order updated successfully.");
         // goToAllOrders(); // Refresh the orders table after updating
-    })
-        .catch(error => {
-            console.error('Error updating order:', error);
-            alert('Failed to update order. Please try again.' + error.message)
-        })
-    
-
+      })
+      .catch((error) => {
+        console.error("Error updating order:", error);
+        alert("Please try again." + error.message);
+      });
+  };
+  // Read the image file as a data URL (Base64-encoded)
+  reader.readAsDataURL(newImageFile);
 }
-// Read the image file as a data URL (Base64-encoded)
-reader.readAsDataURL(newImageFile);
-}
-
-
-
 
 function deleteOrder(orderId) {
-    const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
-    if (!token) {
-        console.error('JWT token not found.');
-        return;
-    }
+  if (!token) {
+    console.error("JWT token not found.");
+    return;
+  }
 
-    fetch(`/api/v1/orders/${orderId}`, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
+  fetch(`/api/v1/orders/${orderId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to delete order");
+      }
+      return response.json();
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to delete order');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Order deleted:', data.order);
-            goToAllOrders(); // Refresh the orders table after deletion
-        })
-        .catch(error => console.error('Error deleting order:', error));
+    .then((data) => {
+      console.log("Order deleted:", data.order);
+      goToAllOrders(); // Refresh the orders table after deletion
+    })
+    .catch((error) => console.error("Error deleting order:", error));
 }
 
-
 function goToHomepage() {
-    window.location.href = 'index.html';
+  window.location.href = "index.html";
 }
 
 function goToAllOrders() {
-    window.location.href = 'allOrders.html';
+  window.location.href = "allOrders.html";
 }
 
 function goToNewOrderForm() {
-    window.location.href = 'newOrderForm.html';
+  window.location.href = "newOrderForm.html";
 }
-
-
-

@@ -58,6 +58,13 @@ class User {
   static deleteUser(id) {
     return db.execute("DELETE from users where id = ?", [id]);
   }
+
+  static updateUser(id, name) {
+    return db.execute("UPDATE sales_persons SET name = ? WHERE id = ?", [
+      name,
+      id,
+    ]);
+  }
 }
 
 // Export the User class

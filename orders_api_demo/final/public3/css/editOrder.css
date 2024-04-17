@@ -1,11 +1,12 @@
 /* styles.css */
 .edit-form {
-  width: max-content; 
+  /* width: max-content;  */
   margin: auto;
   padding: 10px 10px;
-  border: 1px solid #ccc;
+  border: 2px solid #979797;
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 5vh;
 }
 
 

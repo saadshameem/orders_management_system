@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +30,7 @@
 
 
         .table {
-            width:max-content;
+            width: max-content;
             table-layout: fixed;
             border-radius: 5px;
         }
@@ -90,11 +91,10 @@
         }
 
         :not(:root):fullscreen::backdrop {
-    position: fixed;
-    inset: 0px;
-    background: rgb(255, 255, 255);
-}
-
+            position: fixed;
+            inset: 0px;
+            background: rgb(255, 255, 255);
+        }
     </style>
 </head>
 
@@ -149,26 +149,32 @@
             <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-200">
 
                 <li>
-                    <button type="button" class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                          
-                          <span class="mr-1"><i class="fas fa-layer-group"></i></span>Manage<span class="mr-1"><i class="fas fa-caret-down"></i></span>
-                          
+                    <button type="button"
+                        class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700"
+                        aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+
+                        <span class="mr-1"><i class="fas fa-layer-group"></i></span>Manage<span class="mr-1"><i
+                                class="fas fa-caret-down"></i></span>
+
                     </button>
                     <ul id="dropdown-example" class="hidden py-2 space-y-2">
-                          <li>
-                             <a href="allUsers.html" class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
+                        <li>
+                            <a href="allUsers.html"
+                                class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
                                 <span class="mr-1"><i class="fas fa-users"></i></span>Users</a>
-                          </li>
-                          <li>
-                             <a href="allProducts.html" class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
+                        </li>
+                        <li>
+                            <a href="allProducts.html"
+                                class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
                                 <span class="mr-1"><i class="fas fa-shopping-cart"></i></span>Products</a>
-                          </li>
-                          <li>
-                             <a href="allSalesPersons.html" class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
+                        </li>
+                        <li>
+                            <a href="allSalesPersons.html"
+                                class="flex items-center w-full p-2 ml-4 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 hover:text-black dark:text-white dark:hover:bg-gray-700">
                                 <span class="mr-1"><i class="fas fa-user-tie"></i></span>Sales Persons</a>
-                          </li>
+                        </li>
                     </ul>
-                 </li>
+                </li>
 
                 <li>
 
@@ -271,7 +277,7 @@
                             <input type="text" id="searchTerm" placeholder="Enter search term"
                                 class="rounded-lg p-2 mb-2 sm:mb-0 sm:mr-2 sm:w-1/3">
                             <button id="applyFilterBtn" type="submit" class="text-white p-2">Apply Filter</button>
-                            <button id="fullscreen-toggle" >Full Screen</button>
+                            <button id="fullscreen-toggle">Full Screen</button>
                         </div>
                     </div>
 
@@ -280,16 +286,144 @@
 
 
 
+                    
+                    
+                    <form id="editOrderForm" class="edit-order-form mb-10" style="display: none; " action="/upload"
+                        method="post" enctype="multipart/form-data">
+                        <div class="edit-form">
+                            <div class="edit-form-header">Edit Order</div>
+
+                        <input type="hidden" id="orderId" name="orderId">
+
+                        <div class="edit-form-row">
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="caseNo" class="edit-form-label">Case No:</label>
+                                <input type="text" id="caseNo" name="caseNo" required class="edit-form-input">
+                            </div>
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="poNo" class="edit-form-label">PO No:</label>
+                                <input type="text" id="poNo" name="poNo" required class="edit-form-input">
+                            </div>
+                        </div>
+
+
+                        <div class="edit-form-row">
+
+
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="price" class="edit-form-label">Price(Incl.
+                                    GST):</label>
+                                <input type="text" id="price" name="price" required class="edit-form-input">
+                            </div>
+
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="priority">Priority:</label>
+                                <input type="Number" id="priority" name="priority" required class="edit-form-input">
+                            </div>
+                        </div>
+
+
+                        <div class="edit-form-row">
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="quantity">Quantity:</label>
+                                <input type="text" id="quantity" name="quantity" required class="edit-form-input">
+                            </div>
+
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="date">Deadline Date:</label>
+                                <input type="date" id="date" name="date" required class="edit-form-input">
+                            </div>
+                        </div>
+
+
+                        <div class="edit-form-row">
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="firmName">Firm Name:</label>
+                                <input type="text" id="firmName" name="firmName" required class="edit-form-input">
+                            </div>
+
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="customerName">Customer Name:</label>
+                                <input type="text" id="customerName" name="customerName" required
+                                    class="edit-form-input">
+                            </div>
+                        </div>
+
+
+                        <div class="edit-form-row">
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="customerPhoneNo">Customer Ph.:</label>
+                                <input type="text" id="customerPhoneNo" name="customerPhoneNo" required
+                                    class="edit-form-input">
+                            </div>
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="paymentStatus">Payment Status:</label>
+                                <input type="text" id="paymentStatus" name="paymentStatus" required
+                                    class="edit-form-input">
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="edit-form-row">
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="salesPerson">Sales Person:</label>
+                                <select id="salesPerson" name="salesPerson" class="edit-form-input"></select>
+                                <input type="hidden" id="salesPersonId" name="salesPersonId">
+                            </div>
+
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="remark" class="edit-form-label">Remark:</label>
+                                <input type="text" id="remark" name="remark" required class="edit-form-input">
+                            </div>
+
+                        </div>
+
+
+                        <div class="edit-form-row">
+
+
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="orderStatus">Order Status:</label>
+                                <select id="orderStatus" name="orderStatus" class="edit-form-input">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Trading">Trading</option>
+                                    <option value="In Production">In Production</option>
+                                    <option value="Testing">Testing</option>
+                                    <option value="Packed">Packed</option>
+                                    <option value="Shipped">Shipped</option>
+                                </select>
+                            </div>
+
+                            <div class="edit-form-column">
+                                <label class="edit-form-label" for="image">New Image:</label>
+                                <input type="file" id="image" name="image" class="form-input" accept="image/*">
+                                <p class="text-red-600 text-xs">*Size limit: 2mb</p>
+                            </div>
+
+                        </div>
+
+
+
+
+                        <!-- Submit button -->
+                        <div class="edit-form-footer">
+                        <button type="button" class="btn btn-primary" onclick="submitEditedOrder()">Submit</button>
+                    </div>
+                    </form>
+                </div>
+
                     <div class="content">
-                        
-                        
+
+
                         <div class="table-container">
                             <table id="employeeTable" class="table table-xs">
                                 <!-- Table headers to be dynamically added  -->
                             </table>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
 
             </div>
@@ -298,106 +432,92 @@
     </div>
 
 
-    <script src="main.js"></script>
+    <script src="editOrder.js"></script>
     <script src="displayOrders.js"></script>
     <script src="newOrder.js"></script>
+
+
+
+
+
     <script>
-        function toggleFullscreen() {
-            const content = document.querySelector('.content');
-            if (!document.fullscreenElement) {
-                content.requestFullscreen();
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
+            function toggleFullscreen() {
+                const content = document.querySelector('.content');
+                if (!document.fullscreenElement) {
+                    content.requestFullscreen();
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
                 }
             }
-        }
 
-        // Add event listener to the toggle button
-        const toggleButton = document.getElementById('fullscreen-toggle');
-        toggleButton.addEventListener('change', toggleFullscreen);
+            // Add event listener to the toggle button
+            const toggleButton = document.getElementById('fullscreen-toggle');
+            toggleButton.addEventListener('change', toggleFullscreen);
 
 
-        function handleTabChange(selectElement) {
-            // Get the value of the selected option
-            const selectedOption = selectElement.value;
+            function handleTabChange(selectElement) {
+                // Get the value of the selected option
+                const selectedOption = selectElement.value;
 
-            if (selectedOption === "all") {
-                window.location.href = "allOrders.html"; 
-                return; 
+                if (selectedOption === "all") {
+                    window.location.href = "allOrders.html";
+                    return;
+                }
+
+                const tabLinks = document.querySelectorAll('.tab-link');
+
+                tabLinks.forEach(tabLink => {
+                    const tabStatus = tabLink.getAttribute('data-status');
+
+                    // Check if the data-status attribute matches the selected option value
+                    if (tabStatus === selectedOption) {
+                        // Simulate a click on the tab link
+                        tabLink.click();
+                    }
+                });
             }
 
-            const tabLinks = document.querySelectorAll('.tab-link');
+            function changeTab(tab) {
+                const tabLinks = document.querySelectorAll('.tab-link');
+                tabLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
 
-            tabLinks.forEach(tabLink => {
-                const tabStatus = tabLink.getAttribute('data-status');
+                tab.classList.add('active');
+            }
+            function changeTabAndGetData(tab) {
+                const tabLinks = document.querySelectorAll('.tab-link');
+                tabLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
 
-                // Check if the data-status attribute matches the selected option value
-                if (tabStatus === selectedOption) {
-                    // Simulate a click on the tab link
-                    tabLink.click();
+                tab.classList.add('active');
+
+                getAllOrders();
+            }
+
+
+
+
+
+            window.onload = function () {
+                getAllOrders();
+            };
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                document.getElementById('logoutBtn').addEventListener('click', function () {
+                    logout();
+                });
+
+                function logout() {
+                    localStorage.removeItem('token');
+                    window.location.href = 'index.html';
                 }
             });
-        }
 
-        function changeTab(tab) {
-            const tabLinks = document.querySelectorAll('.tab-link');
-            tabLinks.forEach(link => {
-                link.classList.remove('active');
-            });
-
-            tab.classList.add('active');
-        }
-        function changeTabAndGetData(tab) {
-            const tabLinks = document.querySelectorAll('.tab-link');
-            tabLinks.forEach(link => {
-                link.classList.remove('active');
-            });
-
-            tab.classList.add('active');
-
-            getAllOrders();
-        }
-
-
-
-
-
-        window.onload = function () {
-            getAllOrders();
-        };
-
-        document.addEventListener("DOMContentLoaded", function () {
-
-            document.getElementById('logoutBtn').addEventListener('click', function () {
-                logout();
-            });
-
-            function logout() {
-                localStorage.removeItem('token');
-                window.location.href = 'index.html'; 
-            }
-        });
-
-
-        function displayUserInfo() {
-            const name = localStorage.getItem('name');
-
-            const userInfoElement = document.getElementById('userInfo');
-            if (name) {
-                userInfoElement.innerHTML = `
-                                <i class="fas fa-user fa-lg mr-2"></i>
-                                <span class="text-lg font-semibold">${name}</span>
-                                `;
-            } else {
-                userInfoElement.innerHTML = `
-                                <i class="fas fa-user mr-2"></i>
-                                <span class="text-lg font-semibold">Welcome</span>
-                                `;
-            }
-        }
-
-        displayUserInfo();
 
     </script>
 

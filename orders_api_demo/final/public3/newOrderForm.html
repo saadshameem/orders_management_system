@@ -281,6 +281,11 @@
                                         <p class="text-red-600 text-xs">*Size limit: 2mb</p>
                                     </div>
 
+                                    <div class="">
+                                        <label for="remark" class="label-title">Remark:</label>
+                                        <input type="text" id="remark" name="remark" class="form-input"
+                                            placeholder="Enter remark " >
+                                    </div>
 
 
 
@@ -360,6 +365,7 @@
                 const selectElement = document.getElementById('salesPerson');
 
                 // Iterate over the product names and create an option element for each
+                console.log("data person===>",data.salesPersons)
                 data.salesPersons.forEach(salesPerson => {
                     const option = document.createElement('option');
                     // option.value = salesPerson;
@@ -478,7 +484,7 @@
 
 
 
-            // Send a request to the backend API to add the new product
+            // Send a request to the backend API to add the new person
             fetch('/api/v1/users/salesPersons', {
                 method: 'POST',
                 headers: {

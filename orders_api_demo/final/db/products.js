@@ -48,7 +48,7 @@ class Products {
     const result = db.execute("SELECT id FROM sales_persons WHERE name = ?", [
       name,
     ]);
-    return result[0];
+    return result;
   }
 
   // Static method to fetch the ID of a product by name

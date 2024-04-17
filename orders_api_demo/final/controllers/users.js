@@ -14,7 +14,7 @@ exports.getAllUsers = async (req, res) => {
 exports.getAllSalesPersons = async (req, res) => {
   try {
     const results = await SalesPerson.getAllSalesPersons();
-    const salesPersons = results[0].map((result) => result.name);
+    const salesPersons = results[0];
     // Send the product names in the desired format
     res.status(200).json({ salesPersons });
   } catch (error) {
@@ -89,5 +89,30 @@ exports.deleteUser = (req, res) => {
       .json({ message: `User with id: ${id} deleted successfully` });
   } catch (error) {
     res.status(500).json(error);
+  }
+};
+
+exports.updateSalesPersonName = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ error: "Name is required" });
+    }
+    const result = await User.updateUser(id, name);
+
+    if (result[0].affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ error: `Sales person with id ${id} not found` });
+    }
+
+    res.status(200).json({
+      message: `Sales person name with id ${id}  updated successfully`,
+    });
+  } catch (error) {
+    console.error("Error updating sales person name:", error);
+    res.status(500).json({ error: error.message });
   }
 };

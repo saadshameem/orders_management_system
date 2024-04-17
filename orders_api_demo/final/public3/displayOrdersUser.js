@@ -43,18 +43,17 @@ function getAllOrders() {
                 <th>PO. No</th>
                 <th>Product Name</th>
                 <th>Quantity</th>
-                    <th>Order Date</th>
+                <th>Order Date</th>
                 <th>Deadline Date</th>
                 <th>Order Status</th>
                 <th>Client's Firm Name</th>
                 <th>Client's Name</th>
                 <th>Client's Phone No.</th>
                 <th>Sales Person's Name</th>
-                <th>Sales Person's Id</th>
-                
+                <th>Sales Person's Id</th> 
                 <th >Priority</th>
-                    <th >Payment Status</th>
-                    
+                <th >Payment Status</th>
+                <th>Remark</th>
                 <th>Image</th>
                 
             </tr>
@@ -171,18 +170,18 @@ function fetchOrdersByStatus(status) {
                         <th>Case. No</th>
                         <th>PO. No</th>
                         <th>Product Name</th>
-                        
                         <th>Quantity</th>
                         <th>Order Date</th>
-                    <th>Deadline Date</th>
+                        <th>Deadline Date</th>
                         <th>Client's Firm Name</th>
-                    <th>Client's Name</th>
-                    <th>Client's Phone No.</th>
+                        <th>Client's Name</th>
+                        <th>Client's Phone No.</th>
                         <th>Sales Person's Name</th>
                         <th>Sales Person Id</th>
                         <th>Order Status</th>
                         <th>Priority</th>
                         <th>Payment Status</th>
+                        <th>Remark</th>
                         
                     </tr>
                 `;
@@ -292,6 +291,7 @@ function addTableRow(table, order, serialNumber) {
         <td class="font-semibold text-md" >${order.sales_person_id}</td>
         <td class="font-semibold text-md" >${order.priority}</td>
         <td class="font-semibold text-md" >${order.payment_status}</td>
+        <td class="font-semibold text-md" >${order.remark}</td>
         
     `;
     // Create an image element for displaying the uploaded image
@@ -390,7 +390,6 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                             <th>Case. No</th>
                             <th>PO. No</th>
                             <th>Product Name</th>
-                            
                             <th>Quantity</th>
                             <th>Order Date</th>
                             <th>Days to Deadline</th>
@@ -402,6 +401,7 @@ function fetchFilteredOrders(filterAttribute, searchTerm) {
                             <th>Order Status</th>
                             <th>Priority</th>
                             <th>Payment Status</th>
+                            <th>Remark</th>
                             <th>Image</th>
                             
                         </tr>

@@ -110,8 +110,9 @@ exports.createOrder = async (req, res, next) => {
       });
       relativeImagePath = `/uploads/${imageFileName}`;
     }
-    const sales_person_id = await Products.fetchSalesPersonId(sales_person);
-
+    let sales_person_id = await Products.fetchSalesPersonId(sales_person);
+    sales_person_id = sales_person_id[0][0].id;
+    console.log("sales_person_id", sales_person_id);
     // Save the order data to the database
     const formattedDeadlineDate = new Date(deadline_date)
       .toISOString()
@@ -135,10 +136,11 @@ exports.createOrder = async (req, res, next) => {
       relativeImagePath,
       sales_person_id
     );
+    console.log(order);
     await order.save();
     return res.status(201).json({
       message: "Order created successfully",
-      orderId: result.insertId,
+      // orderId: result.insertId,
     });
   } catch (error) {
     console.error("Error creating order:", error);
@@ -208,9 +210,10 @@ exports.editOrder = async (req, res, next) => {
       relativeImagePath = `/uploads/${imageFileName}`;
     } else {
       relativeImagePath = await Orders.getImagePath(id);
-      relativeImagePath =  path.join( __dirname,
+      relativeImagePath = path.join(
+        __dirname,
         "../public3" + relativeImagePath
-      )
+      );
     }
 
     const update = await Orders.updateOrders(
