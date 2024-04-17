@@ -182,8 +182,8 @@ class Orders {
   }
 
   // Static method to filter orders by a specified attribute and search term
-  static filterOrdersByAttribute(attribute, search) {
-    return new Promise((resolve, reject) => {
+  static async filterOrdersByAttribute(attribute, search) {
+    try {
       let query;
       switch (attribute) {
         case "case_no":
@@ -193,25 +193,21 @@ class Orders {
           query = `SELECT * FROM orders WHERE ${attribute} LIKE ?`;
           break;
         default:
-          reject(new Error("Invalid filter attribute"));
-          return;
+          throw new Error("Invalid filter attribute");
       }
 
-      db.execute(query, [`%${search}%`], (error, results) => {
-        if (error) {
-          console.error("Error filtering orders:", error);
-          reject(error);
-        } else {
-          if (results.length === 0) {
-            reject(
-              new Error("No orders found with this attribute and search term")
-            );
-          } else {
-            resolve(results);
-          }
-        }
-      });
-    });
+      const [rows] = await db.execute(query, [`%${search}%`]);
+
+      if (!rows || rows.length === 0) {
+        throw new Error("No orders found with this attribute and search term");
+      }
+
+      console.log("Filtered orders:", rows);
+      return rows;
+    } catch (error) {
+      console.error("Error filtering orders:", error);
+      throw error;
+    }
   }
 
   // Static method to get details of the newest order
@@ -223,6 +219,13 @@ class Orders {
 
   static getImagePath(id) {
     return db.execute("SELECT image FROM orders WHERE id =?", [id]);
+  }
+
+  static fetchOrderByStatus(status) {
+    return db.execute(
+      "SELECT * FROM orders WHERE orders.order_status =? ORDER BY orders.priority ASC",
+      [status]
+    );
   }
 }
 

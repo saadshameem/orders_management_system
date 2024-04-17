@@ -43,6 +43,21 @@ class User {
       userId,
     ]);
   }
+
+  static getAllUsers() {
+    return db.execute("SELECT * FROM users ORDER BY id ASC");
+  }
+
+  static getSalesPersonName() {
+    return db.execute("SELECT name FROM sales_persons ORDER BY id ASC");
+  }
+
+  static getSalesPerson(name) {
+    return db.execute("SELECT * FROM sales_persons WHERE name = ?", [name]);
+  }
+  static deleteUser(id) {
+    return db.execute("DELETE from users where id = ?", [id]);
+  }
 }
 
 // Export the User class

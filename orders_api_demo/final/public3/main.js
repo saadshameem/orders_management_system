@@ -31,16 +31,16 @@ function editOrder(orderId) {
             console.log('Received data for editing order:', data);
 
            
+console.log("1111111111111111111", data);
+const order = data.order[0];
+console.log("22222222222222222222222222222222222222222222", order);
+// Format deadline_date
+const deadlineDate = new Date(order.deadline_date);
+const formattedDeadlineDate = deadlineDate.toISOString().split("T")[0];
 
-            const order = data.order;
-
-            // Format deadline_date
-            const deadlineDate = new Date(order.deadline_date);
-            const formattedDeadlineDate = deadlineDate.toISOString().split('T')[0];
-
-            // Create a form pre-filled with existing order details
-            const form = document.createElement('form');
-            form.innerHTML = `
+// Create a form pre-filled with existing order details
+const form = document.createElement("form");
+form.innerHTML = `
 
 
             <div class="edit-form">
@@ -50,11 +50,15 @@ function editOrder(orderId) {
             <div class="edit-form-row">
             <div class="edit-form-column">
                 <label class="edit-form-label" for="caseNo" class="edit-form-label">Case No:</label>
-                <input type="text" id="caseNo" name="caseNo" value="${order.case_no}" required class="edit-form-input">
+                <input type="text" id="caseNo" name="caseNo" value="${
+                  order.case_no
+                }" required class="edit-form-input">
             </div>
             <div class="edit-form-column">
                 <label class="edit-form-label" for="poNo" class="edit-form-label">PO No:</label>
-                <input type="text" id="poNo" name="poNo" value="${order.po_no}" required class="edit-form-input">
+                <input type="text" id="poNo" name="poNo" value="${
+                  order.po_no
+                }" required class="edit-form-input">
             </div>
         </div>
                 
@@ -64,12 +68,16 @@ function editOrder(orderId) {
 
                 <div class="edit-form-column">
                 <label class="edit-form-label" for="price" class="edit-form-label">Price(Incl. GST):</label>
-                <input type="text" id="price" name="price" value="${order.price}" required class="edit-form-input">
+                <input type="text" id="price" name="price" value="${
+                  order.price
+                }" required class="edit-form-input">
                 </div>
 
                 <div class="edit-form-column">
                 <label class="edit-form-label" for="priority">Priority:</label>
-                <input type="Number" id="priority" name="priority" value="${order.priority}" required class="edit-form-input">
+                <input type="Number" id="priority" name="priority" value="${
+                  order.priority
+                }" required class="edit-form-input">
                 </div>
                 </div>
 
@@ -77,7 +85,9 @@ function editOrder(orderId) {
                 <div class="edit-form-row">
                 <div class="edit-form-column">
                 <label class="edit-form-label" for="quantity">Quantity:</label>
-                <input type="text" id="quantity" name="quantity" value="${order.quantity}" required class="edit-form-input">
+                <input type="text" id="quantity" name="quantity" value="${
+                  order.quantity
+                }" required class="edit-form-input">
                 </div>
 
                 <div class="edit-form-column">
@@ -90,12 +100,16 @@ function editOrder(orderId) {
         <div class="edit-form-row">
         <div class="edit-form-column">
                 <label class="edit-form-label" for="firmName">Firm Name:</label>
-                <input type="text" id="firmName" name="firmName" value="${order.firm_name}" required class="edit-form-input">
+                <input type="text" id="firmName" name="firmName" value="${
+                  order.firm_name
+                }" required class="edit-form-input">
                 </div>
 
                 <div class="edit-form-column">
                 <label class="edit-form-label" for="customerName">Customer Name:</label>
-                <input type="text" id="customerName" name="customerName" value="${order.customer_name}" required class="edit-form-input">
+                <input type="text" id="customerName" name="customerName" value="${
+                  order.customer_name
+                }" required class="edit-form-input">
                 </div>
                 </div>
 
@@ -103,11 +117,15 @@ function editOrder(orderId) {
                 <div class="edit-form-row">
                 <div class="edit-form-column">
                         <label class="edit-form-label" for="customerPhoneNo">Customer Ph.:</label>
-                        <input type="text" id="customerPhoneNo" name="customerPhoneNo" value="${order.customer_phone_no}" required class="edit-form-input">
+                        <input type="text" id="customerPhoneNo" name="customerPhoneNo" value="${
+                          order.customer_phone_no
+                        }" required class="edit-form-input">
                         </div>
                         <div class="edit-form-column">
                 <label class="edit-form-label" for="paymentStatus">Payment Status:</label>
-                <input type="text" id="paymentStatus" name="paymentStatus" value="${order.payment_status}" required class="edit-form-input">
+                <input type="text" id="paymentStatus" name="paymentStatus" value="${
+                  order.payment_status
+                }" required class="edit-form-input">
                 </div>
         
                         
@@ -130,18 +148,32 @@ function editOrder(orderId) {
                 <div class="edit-form-column">
                 <label class="edit-form-label" for="orderStatus">Order Status:</label>
                 <select id="orderStatus" name="orderStatus" class="edit-form-input">
-                    <option value="Pending" ${order.order_status === 'Pending' ? 'selected' : ''}>Pending</option>
-                    <option value="Trading" ${order.order_status === 'Trading' ? 'selected' : ''}>Trading</option>
-                    <option value="In Production" ${order.order_status === 'In Production' ? 'selected' : ''}>In Production</option>
-                    <option value="Testing" ${order.order_status === 'Testing' ? 'selected' : ''}>Testing</option>
-                    <option value="Packed" ${order.order_status === 'Packed' ? 'selected' : ''}>Packed</option>
-                    <option value="Shipped" ${order.order_status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                    <option value="Pending" ${
+                      order.order_status === "Pending" ? "selected" : ""
+                    }>Pending</option>
+                    <option value="Trading" ${
+                      order.order_status === "Trading" ? "selected" : ""
+                    }>Trading</option>
+                    <option value="In Production" ${
+                      order.order_status === "In Production" ? "selected" : ""
+                    }>In Production</option>
+                    <option value="Testing" ${
+                      order.order_status === "Testing" ? "selected" : ""
+                    }>Testing</option>
+                    <option value="Packed" ${
+                      order.order_status === "Packed" ? "selected" : ""
+                    }>Packed</option>
+                    <option value="Shipped" ${
+                      order.order_status === "Shipped" ? "selected" : ""
+                    }>Shipped</option>
                 </select>
                 </div>
 
                 <div class="edit-form-column">
                             <label class="edit-form-label" for="image">New Image:</label>
-                            <input type="file" id="image" name="image" class="form-input" accept="image/*">
+                            <input type="file" id="image" name="image" class="form-input" value=${
+                              order.image
+                            } accept="image/*">
                             <p class="text-red-600 text-xs">*Size limit: 2mb</p>
                         </div>
                 

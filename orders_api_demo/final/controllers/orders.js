@@ -273,7 +273,9 @@ exports.filterProductsByFirm = async (req, res) => {
 exports.fetchOrdersByStatus = async (req, res) => {
   try {
     const { status } = req.params;
+    console.log(status);
     const results = await Orders.fetchOrderByStatus(status);
+    console.log(results);
     if (results[0].length === 0) {
       return res
         .status(404)
@@ -290,6 +292,7 @@ exports.filteredOrders = async (req, res) => {
   try {
     const { attribute, search } = req.query;
     const results = await Orders.filterOrdersByAttribute(attribute, search);
+    console.log(results);
     if (results.length === 0) {
       return res.status(404).json({
         message: "No orders found with this attribute and search term",
