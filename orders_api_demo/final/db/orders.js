@@ -220,6 +220,10 @@ class Orders {
       "SELECT MAX(CAST(SUBSTRING(case_no, 5) AS UNSIGNED)) AS highest_case_number FROM orders"
     );
   }
+
+  static getImagePath(id) {
+    return db.execute("SELECT image FROM orders WHERE id =?", [id]);
+  }
 }
 
 // Export the Orders class

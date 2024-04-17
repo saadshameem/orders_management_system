@@ -206,6 +206,11 @@ exports.editOrder = async (req, res, next) => {
         console.log("Image saved successfully");
       });
       relativeImagePath = `/uploads/${imageFileName}`;
+    } else {
+      relativeImagePath = await Orders.getImagePath(id);
+      relativeImagePath =  path.join( __dirname,
+        "../public3" + relativeImagePath
+      )
     }
 
     const update = await Orders.updateOrders(
