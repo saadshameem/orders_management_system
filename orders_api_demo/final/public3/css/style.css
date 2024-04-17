@@ -9,37 +9,11 @@ body {
     padding: 0;
 }
 
-/* .dashboard {
-    display: flex;
-}
 
-.sidebar {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    min-width: 200px;
-}
-
-.sidebar h2 {
-    color: #fff;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-}
-
-.sidebar a {
-    display: block;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 0;
-    font-size: 1rem;
-}
-
-.sidebar a:hover {
-    background-color: #555;
-} */
 
 .content {
-    /* padding: 20px; */
+    padding-left: 30px;
+    padding-right: 10px;
     flex: 1;
 }
 

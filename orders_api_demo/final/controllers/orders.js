@@ -326,8 +326,8 @@ exports.getNewOrderDetails = async (req, res) => {
         const query = 'SELECT MAX(CAST(SUBSTRING(case_no, 5) AS UNSIGNED)) AS highest_case_number FROM orders';
         const [rows, fields] = await pool.query(query);
 
-        const highestCaseNumber = rows[0].highest_case_number || 0;
-        const priority = highestCaseNumber + 1;
+        const highestCaseNumber = rows[0].highest_case_number + 1 || 0;
+        const priority = highestCaseNumber ;
 
         res.status(200).json({ highestCaseNumber, priority });
     } catch (error) {

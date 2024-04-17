@@ -7,8 +7,16 @@ function showEditOrderForm(orderId) {
     populateEditOrderForm(orderId);
 
     // Show the edit order form by changing its display property
-    document.getElementById('editOrderForm').style.display = 'block';
+    // document.getElementById('editOrderForm').style.display = 'block';
+    const editOrderModal = document.getElementById('editOrderModal');
+    editOrderModal.showModal();
 }
+
+ // Function to close the edit order modal
+ function closeEditOrderModal() {
+    const editOrderModal = document.getElementById('editOrderModal');
+    editOrderModal.close();
+  }
 
 function populateEditOrderForm(orderId) {
     // Fetch order details and salespersons data

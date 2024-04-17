@@ -264,7 +264,7 @@ function submitNewOrder() {
     .then(response => response.json())
     .then(data => {
         const highestCaseNumber = data.highestCaseNumber;
-        const caseNo = generateCaseNumber(highestCaseNumber + 1);
+        const caseNo = generateCaseNumber(highestCaseNumber);
         const priority = data.priority;
 
         
