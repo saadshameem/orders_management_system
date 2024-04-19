@@ -206,8 +206,18 @@ exports.editOrder = async (req, res, next) => {
         const [salesPersonRows] = await pool.query(salesPersonIdQuery, [sales_person]);
         const sales_person_id = salesPersonRows.length ? salesPersonRows[0].id : null;
 
-        const updateOrderQuery = 'UPDATE orders SET case_no = ?, po_no = ?, price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?, order_status = ?, sales_person = ?, sales_person_id = ?, payment_status = ?, deadline_date = ?, priority = ?, remark = ?, image = ? WHERE id = ?';
-        const values = [case_no, po_no, price, quantity, firm_name, customer_name, customer_phone_no, order_status, sales_person, sales_person_id, payment_status, deadline_date, priority, remark, relativeImagePath, id];
+        // const updateOrderQuery = 'UPDATE orders SET case_no = ?, po_no = ?, price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?, order_status = ?, sales_person = ?, sales_person_id = ?, payment_status = ?, deadline_date = ?, priority = ?, remark = ?, image = ? WHERE id = ?';
+        // const values = [case_no, po_no, price, quantity, firm_name, customer_name, customer_phone_no, order_status, sales_person, sales_person_id, payment_status, deadline_date, priority, remark, relativeImagePath, id];
+
+        let updateOrderQuery, values;
+        if (image) {
+            updateOrderQuery = 'UPDATE orders SET case_no = ?, po_no = ?, price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?, order_status = ?, sales_person = ?, sales_person_id = ?, payment_status = ?, deadline_date = ?, priority = ?, remark = ?, image = ? WHERE id = ?';
+            values = [case_no, po_no, price, quantity, firm_name, customer_name, customer_phone_no, order_status, sales_person, sales_person_id, payment_status, deadline_date, priority, remark, relativeImagePath, id];
+        } else {
+            updateOrderQuery = 'UPDATE orders SET case_no = ?, po_no = ?, price = ?, quantity = ?, firm_name = ?, customer_name = ?, customer_phone_no = ?, order_status = ?, sales_person = ?, sales_person_id = ?, payment_status = ?, deadline_date = ?, priority = ?, remark = ? WHERE id = ?';
+            values = [case_no, po_no, price, quantity, firm_name, customer_name, customer_phone_no, order_status, sales_person, sales_person_id, payment_status, deadline_date, priority, remark, id];
+        }
+
 
         await pool.query(updateOrderQuery, values);
 
