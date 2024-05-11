@@ -147,11 +147,14 @@
                         const token = data.token;
                         const name = data.user.name;
                         const role = data.user.role
+                        const id = data.user.id
 
                         localStorage.setItem('token', token);
                         localStorage.setItem('name', name);
                         localStorage.setItem('role', role);
+                        localStorage.setItem('id', id)
                         console.log(data);
+                        
                         if (data.success) {
                             if (role === 'admin' || role === 'superAdmin') {
                                 window.location.href = "home.html";

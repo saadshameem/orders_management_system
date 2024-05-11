@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +12,8 @@
         crossorigin="anonymous">
     <!-- <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script> -->
-    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" /> 
+
 
     <link href="css/output3.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -24,7 +24,7 @@
             max-height: 100vh;
             overflow-y: auto;
             border-radius: 10px;
-            
+
 
         }
 
@@ -69,17 +69,17 @@
             height: 100%;
             overflow-y: auto;
             padding: 20px;
-            
+
         }
 
         #fullscreen-toggle {
             position: absolute;
             top: 13%;
-            right: 1%;
-            z-index: 10000;
-            background-color: #314155;
+            right: 0.5%;
+            z-index: -100;
+            background-color: #10B981;
             color: white;
-            padding: 10px 20px;
+            padding: 10px 2px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -88,7 +88,7 @@
         }
 
         #fullscreen-toggle:hover {
-            background-color: #556a83;
+            background-color: #27b284;
         }
 
         :not(:root):fullscreen::backdrop {
@@ -96,6 +96,7 @@
             inset: 0px;
             background: rgb(255, 255, 255);
         }
+        
     </style>
 </head>
 
@@ -139,11 +140,29 @@
                 </li>
 
                 <li>
+                   
+                        <a href="#" onclick="showNewOrders()" class=" flex items-center p-2 text-white rounded-lg dark:text-white hover:text-black  hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            
+                            <span class="mr-2"><i class="fas fa-bell"></i></span>New Orders
+                            <span id="newOrdersBadge" class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-red-600 bg-red-100 rounded-full dark:bg-blue-900 dark:text-blue-300"></span>
+                        </a>
+                    
+                    
+                    <div id="newOrdersDropdown" class="dropdown flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group" style="display: none;"></div>
+                </li>
+                <li>
 
                     <a href="newOrderForm.html"
                         class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
 
                         <span class="mr-2"><i class="fas fa-plus"></i></span>Add New Order</a>
+                </li>
+                <li class="mb-6 text-sm">
+                    <button id="exportButton"
+                    
+                    class="w-full flex items-center p-2 bg-emerald text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-black hover:text-black  group">
+
+                        <span class="mr-2"><i class="fas fa-file"></i></span>Export Logbook</button>
                 </li>
 
             </ul>
@@ -197,6 +216,9 @@
 
 
             </ul>
+
+            <!-- HTML -->
+            
         </div>
     </aside>
 
@@ -231,7 +253,17 @@
                             <li class="flex-grow flex items-center">
                                 <a href="#"
                                     class="tab-link inline-block w-full p-4 bg-white border border-gray-700 dark:border-gray-700 rounded-lg hover:text-gray-50 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
-                                    data-status="In Production" onclick="changeTab(this)">Orders In Production</a>
+                                    data-status="Production_Assembly" onclick="changeTab(this)">Production (Assembly)</a>
+                            </li>
+                            <li class="flex-grow flex items-center">
+                                <a href="#"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-700 dark:border-gray-700 rounded-lg hover:text-gray-50 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    data-status="Production_Soldering" onclick="changeTab(this)">Production (Soldering)</a>
+                            </li>
+                            <li class="flex-grow flex items-center">
+                                <a href="#"
+                                    class="tab-link inline-block w-full p-4 bg-white border border-gray-700 dark:border-gray-700 rounded-lg hover:text-gray-50 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:hover:text-white dark:bg-white dark:hover:bg-gray-700"
+                                    data-status="Production_IT" onclick="changeTab(this)">Production (IT)</a>
                             </li>
                             <li class="flex-grow flex items-center">
                                 <a href="#"
@@ -250,14 +282,15 @@
                             </li>
                         </ul>
 
-                        <div
-                            class="sm:hidden absolute inset-x-0 top-full z-10 bg-white border border-gray-700 rounded-lg  ">
+                        <div class="sm:hidden ">
                             <select onchange="handleTabChange(this)"
                                 class="block w-full h-10  text-gray-900 dark:text-gray-400 appearance-none rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 p-2">
                                 <option value="all">All Orders</option>
                                 <option value="Trading">Trading Orders</option>
                                 <option value="Pending">Orders Pending</option>
-                                <option value="In Production">Orders In Production</option>
+                                <option value="Production_Assembly">Production (Assembly)</option>
+                                <option value="Production_Soldering">Production (Soldering)</option>
+                                <option value="Production_IT">Production (IT)</option>
                                 <option value="Testing">Orders In Testing</option>
                                 <option value="Packed">Orders Packed</option>
                                 <option value="Shipped">Orders Shipped</option>
@@ -266,20 +299,20 @@
                     </div>
 
 
-                    <div class="mt-2">
+                    <div class="mt-1">
                         <label for="filterAttribute" class="block text-black ">Filter:</label>
-                        <div class=" items-center mb-4">
-                            <select id="filterAttribute" class="p-2  sm:mb-0 sm:mr-2 sm:w-1/3">
+                        <div class="mb-4 grid grid-cols-1 gap-1 grid-cols-1 gap-1 grid-cols-3 mr-1">
+                            <select id="filterAttribute" class="p-2 ">
                                 <option value="case_no">Case No</option>
                                 <option value="product_name">Product Name</option>
                                 <option value="firm_name">Firm Name</option>
                                 <option value="sales_person">Sales Person</option>
                             </select>
-                            <input type="text" id="searchTerm" placeholder="Enter search term"
-                                class="rounded-lg p-2 mb-2 sm:mb-0 sm:mr-2 sm:w-1/3">
+                            <input type="text" id="searchTerm" placeholder="Enter search term" class="rounded-lg p-2 ">
                             <button id="applyFilterBtn" type="submit" class="text-white p-2">Apply Filter</button>
-                            <button id="fullscreen-toggle">Full Screen</button>
                         </div>
+                        <button id="fullscreen-toggle">Full Screen</button>
+
                     </div>
 
 
@@ -288,138 +321,172 @@
                         <div class="modal-box">
 
 
-                    
-                    
-                    <form id="editOrderForm" class="edit-order-form mb-10" enctype="multipart/form-data">
-                        <div class="edit-form">
-                            <div class="edit-form-header">Edit Order</div>
 
-                        <input type="hidden" id="orderId" name="orderId">
 
-                        <div class="edit-form-row">
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="caseNo" class="edit-form-label">Case No:</label>
-                                <input type="text" id="caseNo" name="caseNo" required class="edit-form-input">
-                            </div>
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="poNo" class="edit-form-label">PO No:</label>
-                                <input type="text" id="poNo" name="poNo" required class="edit-form-input">
-                            </div>
+                            <form id="editOrderForm" class="edit-order-form mb-10" enctype="multipart/form-data">
+                                <div class="edit-form">
+                                    <div class="edit-form-header">Edit Order</div>
+
+                                    <input type="hidden" id="orderId" name="orderId">
+
+                                    <div class="edit-form-row">
+                                        <!-- <div class="edit-form-column">
+                                            <label class="edit-form-label" for="caseNo" class="edit-form-label">Case
+                                                No:</label>
+                                            <input type="text" id="caseNo" name="caseNo" required
+                                                class="edit-form-input">
+                                        </div> -->
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="orderStatus">Order Status:</label>
+                                            <select id="orderStatus" name="orderStatus" class="edit-form-input">
+                                                <option value="Pending">Pending</option>
+                                                <option value="Trading">Trading</option>
+                                                <option value="Production_Assembly">Production_Assembly</option>
+                                                <option value="Production_Soldering">Production_Soldering</option>
+                                                <option value="Production_IT">Production_IT</option>
+                                                <option value="Testing">Testing</option>
+                                                <option value="Packed">Packed</option>
+                                                <option value="Shipped">Shipped</option>
+                                            </select>
+                                        </div>
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="poNo" class="edit-form-label">PO
+                                                No:</label>
+                                            <input type="text" id="poNo" name="poNo" required class="edit-form-input">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="edit-form-row">
+
+
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="price"
+                                                class="edit-form-label">Price(Incl.
+                                                GST):</label>
+                                            <input type="text" id="price" name="price" required class="edit-form-input">
+                                        </div>
+
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="priority">Priority:</label>
+                                            <!-- <select id="priority" name="priority" class="edit-form-input">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                            </select> -->
+                                            <input type="Number" id="priority" name="priority" required class="edit-form-input">
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="edit-form-row">
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="quantity">Quantity:</label>
+                                            <input type="text" id="quantity" name="quantity" required
+                                                class="edit-form-input">
+                                        </div>
+
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="date">Deadline Date:</label>
+                                            <input type="date" id="date" name="date" required class="edit-form-input">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="edit-form-row">
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="firmName">Firm Name:</label>
+                                            <input type="text" id="firmName" name="firmName" required
+                                                class="edit-form-input">
+                                        </div>
+
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="customerName">Customer Name:</label>
+                                            <input type="text" id="customerName" name="customerName" required
+                                                class="edit-form-input">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="edit-form-row">
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="customerPhoneNo">Customer Ph.:</label>
+                                            <input type="text" id="customerPhoneNo" name="customerPhoneNo" required
+                                                class="edit-form-input">
+                                        </div>
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="paymentStatus">Payment Status:</label>
+                                            <input type="text" id="paymentStatus" name="paymentStatus" required
+                                                class="edit-form-input">
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="edit-form-row">
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="salesPerson">Sales Person:</label>
+                                            <select id="salesPerson" name="salesPerson"
+                                                class="edit-form-input"></select>
+                                            <input type="hidden" id="salesPersonId" name="salesPersonId">
+                                        </div>
+
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="remark"
+                                                class="edit-form-label">Remark:</label>
+                                            <input type="text" id="remark" name="remark" required
+                                                class="edit-form-input">
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="edit-form-row">
+
+
+                                        <!-- <div class="edit-form-column">
+                                            <label class="edit-form-label" for="orderStatus">Order Status:</label>
+                                            <select id="orderStatus" name="orderStatus" class="edit-form-input">
+                                                <option value="Pending">Pending</option>
+                                                <option value="Trading">Trading</option>
+                                                <option value="Production_Assembly">Production_Assembly</option>
+                                                <option value="Production_Soldering">Production_Soldering</option>
+                                                <option value="Production_IT">Production_IT</option>
+                                                <option value="Testing">Testing</option>
+                                                <option value="Packed">Packed</option>
+                                                <option value="Shipped">Shipped</option>
+                                            </select>
+                                        </div> -->
+
+                                        <div class="edit-form-column">
+                                            <label class="edit-form-label" for="image">New Image:</label>
+                                            <input type="file" id="imageNew" name="imageNew" class="form-input"
+                                                accept="image/*">
+                                            <p class="text-red-600 text-xs">*Size limit: 2mb</p>
+                                            <img id="image" class="form-input" alt="Existing Image">
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+                                    <!-- Submit button -->
+                                    <div class="edit-form-footer">
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="submitEditedOrder()">Submit</button>
+                                    </div>
+                            </form>
+                            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                onclick="closeEditOrderModal()">✕</button>
                         </div>
-
-
-                        <div class="edit-form-row">
-
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="price" class="edit-form-label">Price(Incl.
-                                    GST):</label>
-                                <input type="text" id="price" name="price" required class="edit-form-input">
-                            </div>
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="priority">Priority:</label>
-                                <input type="Number" id="priority" name="priority" required class="edit-form-input">
-                            </div>
-                        </div>
-
-
-                        <div class="edit-form-row">
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="quantity">Quantity:</label>
-                                <input type="text" id="quantity" name="quantity" required class="edit-form-input">
-                            </div>
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="date">Deadline Date:</label>
-                                <input type="date" id="date" name="date" required class="edit-form-input">
-                            </div>
-                        </div>
-
-
-                        <div class="edit-form-row">
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="firmName">Firm Name:</label>
-                                <input type="text" id="firmName" name="firmName" required class="edit-form-input">
-                            </div>
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="customerName">Customer Name:</label>
-                                <input type="text" id="customerName" name="customerName" required
-                                    class="edit-form-input">
-                            </div>
-                        </div>
-
-
-                        <div class="edit-form-row">
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="customerPhoneNo">Customer Ph.:</label>
-                                <input type="text" id="customerPhoneNo" name="customerPhoneNo" required
-                                    class="edit-form-input">
-                            </div>
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="paymentStatus">Payment Status:</label>
-                                <input type="text" id="paymentStatus" name="paymentStatus" required
-                                    class="edit-form-input">
-                            </div>
-
-
-                        </div>
-
-
-                        <div class="edit-form-row">
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="salesPerson">Sales Person:</label>
-                                <select id="salesPerson" name="salesPerson" class="edit-form-input"></select>
-                                <input type="hidden" id="salesPersonId" name="salesPersonId">
-                            </div>
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="remark" class="edit-form-label">Remark:</label>
-                                <input type="text" id="remark" name="remark" required class="edit-form-input">
-                            </div>
-
-                        </div>
-
-
-                        <div class="edit-form-row">
-
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="orderStatus">Order Status:</label>
-                                <select id="orderStatus" name="orderStatus" class="edit-form-input">
-                                    <option value="Pending">Pending</option>
-                                    <option value="Trading">Trading</option>
-                                    <option value="In Production">In Production</option>
-                                    <option value="Testing">Testing</option>
-                                    <option value="Packed">Packed</option>
-                                    <option value="Shipped">Shipped</option>
-                                </select>
-                            </div>
-
-                            <div class="edit-form-column">
-                                <label class="edit-form-label" for="image">New Image:</label>
-                                <input type="file" id="imageNew" name="imageNew" class="form-input" accept="image/*">
-                                <p class="text-red-600 text-xs">*Size limit: 2mb</p>
-                                <img id="image" class="form-input" alt="Existing Image">
-                            </div>
-
-                        </div>
+                    </dialog>
 
 
 
-
-                        <!-- Submit button -->
-                        <div class="edit-form-footer">
-                        <button type="button" class="btn btn-primary" onclick="submitEditedOrder()">Submit</button>
-                    </div>
-                    </form>
-                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onclick="closeEditOrderModal()">✕</button>
-  </div>
-</dialog>
-
-
-                </div>
 
                     <div class="content">
 
@@ -430,6 +497,9 @@
                             </table>
                         </div>
 
+
+
+
                     </div>
                 </div>
 
@@ -437,7 +507,36 @@
 
         </div>
     </div>
+                        <!-- Modal for displaying order details -->
+                        <dialog id="orderModal" class="modal">
+                            <div class="modal-box">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="margin-bottom: 10px;" id="orderModalTitle"></h5>
+                                       
+                                    </div>
+                                    <div class="modal-body" id="orderModalBody">
+                                        <!-- Order details will be displayed here -->
+                                    </div>
+                                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                onclick="closeDetailsOrderModal()">✕</button>
+                                </div>
+                            </dialog>
 
+                            <!-- Modal for displaying order details -->
+                        <dialog id="newOrderModal" class="modal">
+                            <div class="modal-box">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title " style="margin-bottom: 10px;" id="newOrderModalTitle"></h5>
+                                        
+                                    </div>
+                                    <div class="modal-body" id="newOrderModalBody">
+                                        <!-- Order details will be displayed here -->
+                                    </div>
+                                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                onclick="closeNewOrderModal()">✕</button>
+                                </div>
+                            </dialog>
+                        
 
     <script src="editOrder.js"></script>
     <script src="displayOrders.js"></script>
@@ -448,85 +547,118 @@
 
 
     <script>
-            function toggleFullscreen() {
-                const content = document.querySelector('.content');
-                if (!document.fullscreenElement) {
-                    content.requestFullscreen();
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
+        function toggleFullscreen() {
+            const content = document.querySelector('.content');
+            if (!document.fullscreenElement) {
+                content.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
                 }
             }
+        }
 
-            // Add event listener to the toggle button
-            const toggleButton = document.getElementById('fullscreen-toggle');
-            toggleButton.addEventListener('change', toggleFullscreen);
+        // Add event listener to the toggle button
+        const toggleButton = document.getElementById('fullscreen-toggle');
+        toggleButton.addEventListener('change', toggleFullscreen);
 
 
-            function handleTabChange(selectElement) {
-                // Get the value of the selected option
-                const selectedOption = selectElement.value;
+        function handleTabChange(selectElement) {
+            // Get the value of the selected option
+            const selectedOption = selectElement.value;
 
-                if (selectedOption === "all") {
-                    window.location.href = "allOrders.html";
-                    return;
-                }
-
-                const tabLinks = document.querySelectorAll('.tab-link');
-
-                tabLinks.forEach(tabLink => {
-                    const tabStatus = tabLink.getAttribute('data-status');
-
-                    // Check if the data-status attribute matches the selected option value
-                    if (tabStatus === selectedOption) {
-                        // Simulate a click on the tab link
-                        tabLink.click();
-                    }
-                });
+            if (selectedOption === "all") {
+                window.location.href = "allOrders.html";
+                return;
             }
 
-            function changeTab(tab) {
-                const tabLinks = document.querySelectorAll('.tab-link');
-                tabLinks.forEach(link => {
-                    link.classList.remove('active');
-                });
+            const tabLinks = document.querySelectorAll('.tab-link');
 
-                tab.classList.add('active');
-            }
-            function changeTabAndGetData(tab) {
-                const tabLinks = document.querySelectorAll('.tab-link');
-                tabLinks.forEach(link => {
-                    link.classList.remove('active');
-                });
+            tabLinks.forEach(tabLink => {
+                const tabStatus = tabLink.getAttribute('data-status');
 
-                tab.classList.add('active');
-
-                getAllOrders();
-            }
-
-
-
-
-
-            window.onload = function () {
-                getAllOrders();
-            };
-
-            document.addEventListener("DOMContentLoaded", function () {
-
-                document.getElementById('logoutBtn').addEventListener('click', function () {
-                    logout();
-                });
-
-                function logout() {
-                    localStorage.removeItem('token');
-                    window.location.href = 'index.html';
+                // Check if the data-status attribute matches the selected option value
+                if (tabStatus === selectedOption) {
+                    // Simulate a click on the tab link
+                    tabLink.click();
                 }
             });
+        }
+
+        function changeTab(tab) {
+            const tabLinks = document.querySelectorAll('.tab-link');
+            tabLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            tab.classList.add('active');
+        }
+        function changeTabAndGetData(tab) {
+            const tabLinks = document.querySelectorAll('.tab-link');
+            tabLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            tab.classList.add('active');
+
+            getAllOrders();
+        }
+
+
+
+
+
+        window.onload = function () {
+            getAllOrders();
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            document.getElementById('logoutBtn').addEventListener('click', function () {
+                logout();
+            });
+
+            function logout() {
+                localStorage.removeItem('token');
+                window.location.href = 'index.html';
+            }
+        });
 
 
     </script>
+    <script>
+        // JavaScript code to handle logbook export
+        document.getElementById('exportButton').addEventListener('click', async () => {
+          try {
+            const token = localStorage.getItem('token');
+      
+      if (!token) {
+          console.error('JWT token not found.');
+          return;
+      }
+            // Send a GET request to the backend route for logbook export
+            const response = await fetch('/api/v1/orders/export/logbook', {
+              headers: {
+                  'Authorization': `Bearer ${token}`
+              }
+          });;
+            const blob = await response.blob();
+      
+            // Create a download link for the exported file
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'logbook.csv';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+          } catch (error) {
+            console.error('Error exporting logbook:', error);
+            alert('Error exporting logbook. Please try again later.');
+          }
+        });
+      </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 

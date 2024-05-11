@@ -7,6 +7,7 @@ const getAllOrders = async ()=> {
         console.error('JWT token not found.');
         return;
     }
+    
     fetch('/api/v1/orders', {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -287,6 +288,7 @@ function addTableRow(table, order, serialNumber) {
         <td class="">
             <button class="btn btn-primary btn-xs btn-info " onclick="showEditOrderForm('${order.id}')">Edit</button>
             <button class="btn btn-sencondary btn-xs btn-warning" onclick="deleteOrder('${order.id}')">Delete</button>
+            <button class="btn btn-primary btn-xs" onclick="viewOrderDetails('${order.id}')">View Details</button>
 
         </td>
     `;
@@ -309,8 +311,49 @@ function addTableRow(table, order, serialNumber) {
 
 }
 
+// Function to fetch order details and display them in a modal
+function viewOrderDetails(orderId) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('JWT token not found.');
+        return;
+    }
+    fetch(`/api/v1/orders/${orderId}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display order details in a modal
+        // Update the modal content with order details
+        const modalTitle = document.getElementById('orderModalTitle');
+        const modalBody = document.getElementById('orderModalBody');
 
+        modalTitle.textContent = `Order Details - ${data.order.id}`;
+        modalTitle.className = 'font-bold'
+        modalBody.innerHTML = `
+            <p>Case No: ${data.order.case_no}</p>
+            <p>Firm Name: ${data.order.firm_name}</p>
+            <p>Product Name: ${data.order.product_name}</p>
+            <!-- Add more order details here -->
+        `;
 
+        // Show the modal
+       const orderModal= document.getElementById('orderModal');
+       orderModal.showModal();
+
+        // $('#orderModal').modal('show');
+    })
+    .catch(error => {
+        console.error('Error fetching order details:', error);
+    });
+}
+
+function closeDetailsOrderModal() {
+    const detailsOrderModal = document.getElementById('orderModal');
+    detailsOrderModal.close();
+  }
 
 
 

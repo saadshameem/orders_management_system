@@ -55,7 +55,7 @@ exports.deleteUser = async (req, res) => {
 exports.getAllSalesPersons = async (req, res) => {
 
     try {
-        const query = 'SELECT * FROM sales_persons ORDER BY id ASC';
+        const query = 'SELECT * FROM sales_persons ORDER BY name ASC';
         // Get a connection from the pool
         const connection = await pool.getConnection();
         // Execute the query

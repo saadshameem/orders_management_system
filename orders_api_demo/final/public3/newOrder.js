@@ -1,79 +1,68 @@
+// const { response } = require("express");
 
 
-// Function to open a form for creating a new order
-// function openNewOrderForm() {
-//     const form = document.createElement('form');
-//     form.innerHTML = `
+function handleFirmTypeChange() {
+    const firmType = document.getElementById('firmType').value;
+    const directFirmInput = document.getElementById('directFirmInput');
+    const resellerInput = document.getElementById('resellerInput');
 
-//         <label for="caseNo">Case No.:</label>
-//         <input type="text" id="caseNo" name="caseNo" required>
+    if (firmType === 'Direct Party') {
+        directFirmInput.style.display = 'block';
+        resellerInput.style.display = 'none';
+    } else if (firmType === 'Reseller') {
+        directFirmInput.style.display = 'none';
+        resellerInput.style.display = 'block';
+        fetchResellers(); // Fetch resellers and populate the dropdown
+    } else {
+        directFirmInput.style.display = 'none';
+        resellerInput.style.display = 'none';
+    }
+}
 
-//         <label for="poNo">PO No.:</label>
-//         <input type="text" id="poNo" name="poNo" required>
 
-        
+function fetchResellers() {
 
-//         <label for="productName">Product Name:</label>
-//         <select id="productName" name="productName">
-//         <option value="Piezometer">Piezometer</option>
-//         <option value="CEMS">CEMS</option>
-//         <option value="AQMS">AQMS</option>
-//         <option value="Flow Meter">Flow Meter</option>
-//         <option value="Water Analyzer">Water Analyzer</option>
-//         <option value="Multi Gas Analyzer">Multi Gas Analyzer</option>
-//         </select>
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('JWT token not found.');
+        alert('Please login');
+        window.location.href = "index.html";
+    }
 
-//         <label for="price">Price:</label>
-//         <input type="text" id="price" name="price" required>
 
-//         <label for="quantity">Quantity:</label>
-//         <input type="text" id="quantity" name="quantity" required>
+    fetch('/api/v1/orders/firmType/reseller', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            const resellerDropdown = document.getElementById('reseller');
+            resellerDropdown.innerHTML = '<option value="">Select Reseller</option>';
+            data.firmNames.forEach(reseller => {
+                const option = document.createElement('option');
+                option.value = reseller;
+                option.textContent = reseller;
+                resellerDropdown.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching product names:', error);
+        });
+}
 
-//         <label for="date">Days to Deadline:</label>
-//         <input type="date" id="date" name="date" required>
 
-//         <label for="firmName">Firm Name:</label>
-//         <input type="text" id="firmName" name="firmName" required>
+function fetchUserName() {
+    // Assuming the user's name is stored in localStorage after authentication
+    return localStorage.getItem('name');
+}
+function fetchUserId() {
+    // Assuming the user's name is stored in localStorage after authentication
+    return localStorage.getItem('id');
+}
 
-//         <label for="customerName">Customer Name:</label>
-//         <input type="text" id="customerName" name="customerName" required>
 
-//         <label for="customerPhoneNo">Customer Phone No:</label>
-//         <input type="text" id="customerPhoneNo" name="customerPhoneNo" required>
 
-//         <label for="salesPerson">Sales Person:</label>
-//         <input type="text" id="salesPerson" name="salesPerson" required>
-        
-//         <label for="salesPersonId">Sales Person Id:</label>
-//         <input type="text" id="salesPersonId" name="salesPersonId" required>
-
-//         <label for="orderStatus">Order Status:</label>
-//         <select id="orderStatus" name="orderStatus">
-//             <option value="Trading">Trading</option>
-//             <option value="Pending">Pending</option>
-//             <option value="In Production">In Production</option>
-//             <option value="Testing">Testing</option>
-//             <option value="Packed">Packed</option>
-//             <option value="Shipped">Shipped</option>
-//         </select>
-
-//         <label for="priority">Priority:</label>
-//         <input type="Number" id="priority" name="priority" required>
-
-//         <label for="paymentStatus">Payment Status:</label>
-//         <input type="text" id="paymentStatus" name="paymentStatus" required>
-
-        
-   
-
-//         <button class="btn btn-outline btn-success" onclick="submitNewOrder()">Submit</button>
-//     `;
-
-//     // Update content area with the form
-//     const content = document.querySelector('.content');
-//     content.innerHTML = '';
-//     content.appendChild(form);
-// }
 
 
 function generateCaseNumber(orderCount) {
@@ -148,8 +137,8 @@ function generateCaseNumber(orderCount) {
 //     });
 
 //     function uploadOrderWithImage(imageBase64, caseNo, priority) {
-        
-        
+
+
 //         const orderData = {
 //             po_no: poNo,
 //             case_no: caseNo,
@@ -210,6 +199,17 @@ function submitNewOrder() {
         return false; // Return false if field is not empty
     }
 
+    const userName = fetchUserName();
+    if (!userName) {
+        alert('User name not available');
+        return;
+    }
+
+    const userId = fetchUserId();
+    if (!userId) {
+        alert('User id not available');
+        return;
+    }
 
     // Get other form field values
     const poNo = document.getElementById('poNo').value;
@@ -217,7 +217,7 @@ function submitNewOrder() {
     const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
     const date = document.getElementById('date').value;
-    const firmName = document.getElementById('firmName').value;
+    // const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
     // const salesPerson = document.getElementById('salesPerson').value;
@@ -225,13 +225,37 @@ function submitNewOrder() {
     const orderStatus = document.getElementById('orderStatus').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
     const remark = document.getElementById('remark').value;
-     // Get selected sales person's ID
-    const salesPersonSelect = document.getElementById('salesPerson');
-    const salesPersonId = salesPersonSelect.value;
-    const salesPerson = salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
+    // const priority = document.getElementById('priority').value;
+    // Get selected sales person's ID
+    // const salesPersonSelect = document.getElementById('salesPerson');
+    // const salesPersonId = salesPersonSelect.value;
+    // const salesPerson = salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
     // Get image file
     const imageFileInput = document.getElementById('image');
     const imageFile = imageFileInput.files[0];
+
+    const firmType = document.getElementById('firmType').value;
+
+    if (firmType === 'Direct Party') {
+        const directFirmName = document.getElementById('directFirmName').value.trim();
+        if (!directFirmName) {
+            alert('Please enter direct firm name');
+            return;
+        }
+        firmInfo = directFirmName;
+    } else if (firmType === 'Reseller') {
+        const resellerId = document.getElementById('reseller').value;
+        if (!resellerId) {
+            alert('Please select a reseller');
+            return;
+        }
+        firmInfo = resellerId;
+    } else {
+        alert('Please select a firm type');
+        return;
+    }
+
+
 
     // Check if a file is selected
     if (!imageFile) {
@@ -245,10 +269,10 @@ function submitNewOrder() {
         checkEmptyField(price, 'Price') ||
         checkEmptyField(quantity, 'Quantity') ||
         checkEmptyField(date, 'Date') ||
-        checkEmptyField(firmName, 'Firm Name') ||
+        // checkEmptyField(firmName, 'Firm Name') ||
         checkEmptyField(customerName, 'Customer Name') ||
         checkEmptyField(customerPhoneNo, 'Customer Phone Number') ||
-        checkEmptyField(salesPerson, 'Sales Person') ||
+        // checkEmptyField(salesPerson, 'Sales Person') ||
         checkEmptyField(orderStatus, 'Order Status') ||
         checkEmptyField(paymentStatus, 'Payment Status')
     ) {
@@ -256,58 +280,59 @@ function submitNewOrder() {
     }
 
     // Fetch the highest case number and priority
-    fetch('/api/v1/orders/newOrderDetails', {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        const highestCaseNumber = data.highestCaseNumber;
-        const caseNo = generateCaseNumber(highestCaseNumber);
-        const priority = data.priority;
+    // fetch('/api/v1/orders/newOrderDetails', {
+    //     headers: {
+    //         'Authorization': `Bearer ${localStorage.getItem('token')}`
+    //     }
+    // })
+        // .then(response => response.json())
+        // .then(data => {
+        //     const highestCaseNumber = data.highestCaseNumber;
+        //     const caseNo = generateCaseNumber(highestCaseNumber);
+            // const priority = data.priority;
 
-        
-        const reader = new FileReader();
 
-        reader.onload = function(event) {
-            const imageBase64 = event.target.result;
+            const reader = new FileReader();
 
-            console.log('Base64-encoded image:', imageBase64);
+            reader.onload = function (event) {
+                const imageBase64 = event.target.result;
 
-            uploadOrderWithImage(imageBase64, caseNo, priority);
-        };
+                console.log('Base64-encoded image:', imageBase64);
 
-        reader.readAsDataURL(imageFile);
-    })
-    .catch(error => {
-        console.error('Error fetching highest case number:', error);
-        alert('Error fetching case number')
-    });
+                uploadOrderWithImage(imageBase64);
+            };
 
-    function uploadOrderWithImage(imageBase64, caseNo, priority) {
-        
+            reader.readAsDataURL(imageFile);
+        // })
+        // .catch(error => {
+        //     console.error('Error fetching highest case number:', error);
+        //     alert('Error fetching case number')
+        // });
+
+    function uploadOrderWithImage(imageBase64) {
+
         const orderData = {
             po_no: poNo,
-            case_no: caseNo,
+            // case_no: caseNo,
             product_name: productName,
             price: price,
             quantity: quantity,
             deadline_date: date,
-            firm_name: firmName,
+            firm_type: firmType,
+            firm_name: firmInfo,
             customer_name: customerName,
             customer_phone_no: customerPhoneNo,
-            sales_person: salesPerson,
-            sales_person_id: salesPersonId,
+            sales_person: userName,
+            sales_person_id: userId,
             order_status: orderStatus,
             payment_status: paymentStatus,
             image: imageBase64,
-            priority: priority,
+            // priority: priority,
             remark: remark
         };
 
         // Send the order data to the server
-        
+
         const url = '/api/v1/orders';
         const token = localStorage.getItem('token');
 
@@ -319,31 +344,136 @@ function submitNewOrder() {
             },
             body: JSON.stringify(orderData)
         })
-     
-        .then(response => { 
-            if (!response.ok) {
-                if (response.status === 413) { 
-                    throw new Error('Image size is too large. Size limit: 2mb');
-                } else {
-                    throw new Error('Failed to create new order.');
+
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 413) {
+                        throw new Error('Image size is too large. Size limit: 2mb');
+                    } else {
+                        throw new Error('Failed to create new order.');
+                    }
                 }
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('New order created successfully.');
-            alert("New order created successfully");
-            goToAllOrders();
-        })
-        .catch(error => {
-            console.error('Error creating new order:', error);
-            alert('Failed to create new order. ' + error.message); // Show error message in an alert box
-        });
+                return response.json();
+            })
+            .then(data => {
+                console.log('New order created successfully.');
+                alert("New order created successfully");
+                goToAllOrders();
+            })
+            .catch(error => {
+                console.error('Error creating new order:', error);
+                alert('Failed to create new order. ' + error.message); // Show error message in an alert box
+            });
     }
 }
 
 
 
+// Fetch new orders count from backend
+function fetchNewOrdersCount() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('JWT token not found.');
+        alert('Please login');
+        window.location.href = "index.html";
+    }
+    fetch('/api/v1/orders/new/count', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Update badge with new orders count
+            const newOrdersBadge = document.getElementById('newOrdersBadge');
+            newOrdersBadge.textContent = `${data.orders[0].new_orders_count}`;
+        })
+        .catch(error => console.error('Error fetching new orders count:', error));
+}
+
+fetchNewOrdersCount();
 
 
+function showNewOrders() {
+    fetch('/api/v1/orders/new/count/details', {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const orders = data.orders;
+        const modalTitle = document.getElementById('newOrderModalTitle');
+        const modalBody = document.getElementById('newOrderModalBody');
 
+        // Set modal title
+        modalTitle.textContent = `New Order Details`;
+        modalTitle.className = 'font-bold'
+
+        // Create table structure
+        const table = document.createElement('table');
+        table.classList.add('table');
+
+        // Create table header
+        const tableHeader = table.createTHead();
+        const headerRow = tableHeader.insertRow();
+        headerRow.innerHTML = `
+            <th>Case No.</th>
+            <th>Product Name</th>
+            <th>Firm Name</th>
+            <th>Sales Person's Name</th>
+            <!-- Add other table headers as needed -->
+        `;
+
+        // Create table body
+        const tableBody = table.createTBody();
+        orders.forEach(order => {
+            const row = tableBody.insertRow();
+            row.innerHTML = `
+                <td>${order.case_no}</td>
+                <td>${order.product_name}</td>
+                <td>${order.firm_name}</td>
+                <td>${order.sales_person}</td>
+                <!-- Add other table cells as needed -->
+            `;
+        });
+
+        // Clear modal body and append the table
+        modalBody.innerHTML = '';
+        modalBody.appendChild(table);
+
+        // Show the modal
+        const orderModal = document.getElementById('newOrderModal');
+        orderModal.showModal();
+
+        resetNewOrdersCount();
+    })
+    .catch(error => {
+        console.error('Error fetching order details:', error);
+    });
+}
+
+function closeNewOrderModal() {
+    const newOrderModal = document.getElementById('newOrderModal');
+    newOrderModal.close();
+  }
+
+  function resetNewOrdersCount() {
+    fetch('/api/v1/orders/new/count/reset', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Update the new orders count displayed on the badge
+            const newOrdersBadge = document.getElementById('newOrdersBadge');
+            // newOrdersBadge.textContent = 'New Orders (0)';
+            // newOrdersBadge.textContent = `${data.orders[0].newOrderCount}`;
+        } else {
+            console.error('Failed to reset new orders count');
+        }
+    })
+    .catch(error => console.error('Error resetting new orders count:', error));
+}

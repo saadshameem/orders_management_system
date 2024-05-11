@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Logs</title>
+<!-- <link rel="stylesheet" href="styles.css"> -->
+</head>
+<style>
+    #orderLogsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#orderLogsTable th, #orderLogsTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#orderLogsTable th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+</style>
+<body>
+
+<table id="orderLogsTable">
+  <thead>
+    <tr>
+      <th>Sr. No</th>
+      <th>Order ID</th>
+      <th>User ID</th>
+      <th>Action</th>
+      <!-- <th>Detail</th> -->
+      <th>Timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Table rows will be dynamically populated here -->
+  </tbody>
+</table>
+
+<!-- <button id="downloadPDFButton">Download PDF</button>
+
+<script>
+document.getElementById('downloadPDFButton').addEventListener('click', async () => {
+    try {
+        // Fetch order logs data from the backend
+        const token = localStorage.getItem('token');
+
+    if (!token) {
+        console.error('JWT token not found.');
+        return;
+    }
+        const response = await fetch('/api/v1/orders/order/Log/downloadPDF', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+        const blob = await response.blob();
+
+        // Create a temporary link to download the PDF
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'order_logs.pdf';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Error downloading PDF:', error);
+    }
+});
+</script> -->
+
+
+<button id="exportButton">Export Logbook</button>
+<script>
+  // JavaScript code to handle logbook export
+  document.getElementById('exportButton').addEventListener('click', async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+if (!token) {
+    console.error('JWT token not found.');
+    return;
+}
+      // Send a GET request to the backend route for logbook export
+      const response = await fetch('/api/v1/orders/export/logbook', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });;
+      const blob = await response.blob();
+
+      // Create a download link for the exported file
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'logbook.csv';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Error exporting logbook:', error);
+      alert('Error exporting logbook. Please try again later.');
+    }
+  });
+</script>
+<script src="log.js"></script>
+</body>
+</html>

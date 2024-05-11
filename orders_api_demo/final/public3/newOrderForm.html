@@ -8,8 +8,8 @@
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="css/newOrder.css">
@@ -181,7 +181,7 @@
 
 
                                     <div class="">
-                                        <label for="price" class="label-title">Price(incl. GST)*:</label>
+                                        <label for="price" class="label-title">Price in Rs.(incl. GST)*:</label>
                                         <input type="text" id="price" name="price" class="form-input"
                                             placeholder="Enter price" required>
                                     </div>
@@ -193,37 +193,60 @@
                                             placeholder="Enter quantity" required>
                                     </div>
 
-                                    <div class="">
-                                        <label for="firmName" class="label-title">Firm Name*:</label>
+                                    <!-- <div class="">
+                                        <label for="firmName" class="label-title">Industry Name*:</label>
                                         <input type="text" id="firmName" name="firmName" class="form-input"
                                             placeholder="Enter firm name" required>
-                                    </div>
+                                    </div> -->
 
                                     <div class="">
-                                        <label for="customerName" class="label-title">Customer Name*:</label>
+                                        <label for="firmType" class="label-title">Firm Type*:</label>
+                                        <select id="firmType" name="firmType" class="form-input" required onchange="handleFirmTypeChange()">
+                                            <option value="">Select Firm Type</option>
+                                            <option value="Direct Party">Direct</option>
+                                            <option value="Reseller">Reseller</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div id="directFirmInput" style="display: none;">
+                                        <label for="directFirmName" class="label-title">Direct Firm Name*:</label>
+                                        <input type="text" id="directFirmName" name="directFirmName" class="form-input" placeholder="Enter Direct Firm Name">
+                                    </div>
+                                    
+                                    <div id="resellerInput" style="display: none;">
+                                        <label for="reseller" class="label-title">Reseller*:</label>
+                                        <select id="reseller" name="reseller" class="form-input" required>
+                                            <!-- Reseller options will be populated dynamically -->
+                                        </select>
+                                    </div>
+
+
+
+                                    <div class="">
+                                        <label for="customerName" class="label-title">Contact Person's Name & designation*:</label>
                                         <input type="text" id="customerName" name="customerName" class="form-input"
                                             placeholder="Enter customer name" required>
                                     </div>
 
                                     <div class="">
-                                        <label for="customerPhoneNo" class="label-title">Customer Phone No.*:</label>
+                                        <label for="customerPhoneNo" class="label-title">Contact Person's Phone No.*:</label>
                                         <input type="text" id="customerPhoneNo" name="customerPhoneNo"
                                             class="form-input" placeholder="Enter customer's phone no. ">
                                     </div>
 
 
 
-                                    <div class="">
+                                    <!-- <div class=""  >
                                         <label for="salesPerson" class="label-title">Sales Person*:</label>
                                         <select id="salesPerson" name="salesPerson" class="form-input" required>
-                                            <option value="">Select sales person</option> <!-- Default empty option -->
+                                            <option value="">Select sales person</option> 
                                             <option value="Others">Others</option>
 
                                         </select>
                                         <input type="hidden" id="salesPersonId" name="salesPersonId">
-                                    </div>
+                                    </div> -->
 
-                                    <div id="newField" class="  " style="display: none;">
+                                    <!-- <div id="newField" class="  " style="display: none;">
 
 
                                         <label for="addNewSalesPersonName" class="label-title">Sales Person Name*
@@ -244,16 +267,16 @@
 
 
 
-                                    </div>
+                                    </div> -->
 
 
 
-                                    <div class="">
+                                    <div class="" style="display: none;">
                                         <label for="orderStatus" class="label-title">Order Status*:</label>
                                         <select id="orderStatus" name="orderStatus" class="form-input">
                                             <option value="Pending">Pending</option>
                                             <option value="Trading">Trading</option>
-                                            <option value="In Production">In Production</option>
+                                            <option value="Production">Production</option>
                                             <option value="Testing">Testing</option>
                                             <option value="Packed">Packed</option>
                                             <option value="Shipped">Shipped</option>
@@ -274,17 +297,25 @@
                                     </div>
 
 
-                                    <div class="">
-                                        <label for="image" class="label-title">Image*:</label>
-                                        <input type="file" id="image" name="image" class="form-input " accept="image/*"
-                                            required>
-                                        <p class="text-red-600 text-xs">*Size limit: 2mb</p>
-                                    </div>
+                                    <!-- <div class="">
+                                        <label class="label-title" for="priority">Priority:</label>
+                                        <select id="priority" name="priority" class="form-input">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                        </select>
+                                    </div> -->
 
                                     <div class="">
                                         <label for="remark" class="label-title">Remark:</label>
                                         <input type="text" id="remark" name="remark" class="form-input"
                                             placeholder="Enter remark " >
+                                    </div>
+
+                                    <div class="">
+                                        <label for="image" class="label-title">Image*:</label>
+                                        <input type="file" id="image" name="image" class="form-input " accept=".jpg, .jpeg, .png, .pdf, .doc, .docx"
+                                            required>
+                                        <p class="text-red-600 text-xs">*Size limit: 2mb</p>
                                     </div>
 
 
@@ -347,46 +378,46 @@
 
 
         // Fetch product names from the backend API with JWT token
-        const token2 = localStorage.getItem('token');
-        if (!token2) {
-            console.error('JWT token not found.');
-            alert('Please login');
-            window.location.href = "index.html";
-        }
+        // const token2 = localStorage.getItem('token');
+        // if (!token2) {
+        //     console.error('JWT token not found.');
+        //     alert('Please login');
+        //     window.location.href = "index.html";
+        // }
 
-        fetch('/api/v1/users/salesPersons', {
-            headers: {
-                'Authorization': `Bearer ${token2}`
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                // Get the select element by its ID
-                const selectElement = document.getElementById('salesPerson');
+        // fetch('/api/v1/users/salesPersons', {
+        //     headers: {
+        //         'Authorization': `Bearer ${token2}`
+        //     }
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         // Get the select element by its ID
+        //         const selectElement = document.getElementById('salesPerson');
 
-                // Iterate over the product names and create an option element for each
-                data.salesPersons.forEach(salesPerson => {
-                    const option = document.createElement('option');
-                    // option.value = salesPerson;
-                    option.value = salesPerson.id;
-                    // option.textContent = salesPerson;
-                    option.textContent = salesPerson.name;
-                    option.dataset.name = salesPerson.name;
-                    selectElement.appendChild(option);
-                });
+        //         // Iterate over the product names and create an option element for each
+        //         data.salesPersons.forEach(salesPerson => {
+        //             const option = document.createElement('option');
+        //             // option.value = salesPerson;
+        //             option.value = salesPerson.id;
+        //             // option.textContent = salesPerson;
+        //             option.textContent = salesPerson.name;
+        //             option.dataset.name = salesPerson.name;
+        //             selectElement.appendChild(option);
+        //         });
 
-                // Add event listener to the select element to capture the selected salesperson ID and name
-                selectElement.addEventListener('change', function () {
-                    const selectedOption = this.options[this.selectedIndex];
-                    const selectedSalesPersonId = selectedOption.value;
-                    const selectedSalesPersonName = selectedOption.dataset.name;
-                    console.log('Selected Sales Person ID:', selectedSalesPersonId);
-                    console.log('Selected Sales Person Name:', selectedSalesPersonName);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching product names:', error);
-            });
+        //         // Add event listener to the select element to capture the selected salesperson ID and name
+        //         selectElement.addEventListener('change', function () {
+        //             const selectedOption = this.options[this.selectedIndex];
+        //             const selectedSalesPersonId = selectedOption.value;
+        //             const selectedSalesPersonName = selectedOption.dataset.name;
+        //             console.log('Selected Sales Person ID:', selectedSalesPersonId);
+        //             console.log('Selected Sales Person Name:', selectedSalesPersonName);
+        //         });
+        //     })
+        //     .catch(error => {
+        //         console.error('Error fetching product names:', error);
+        //     });
 
         function handleProductSelectionChange() {
             const productNameSelect = document.getElementById('productName');
@@ -400,17 +431,17 @@
             }
         }
 
-        function handleSalesSelectionChange() {
-            const salesPersonSelect = document.getElementById('salesPerson');
-            const newField = document.getElementById('newField');
+        // function handleSalesSelectionChange() {
+        //     const salesPersonSelect = document.getElementById('salesPerson');
+        //     const newField = document.getElementById('newField');
 
-            // Show/hide new product field based on selected option
-            if (salesPersonSelect.value === 'Others') {
-                newField.style.display = 'block';
-            } else {
-                newField.style.display = 'none';
-            }
-        }
+        //     // Show/hide new product field based on selected option
+        //     if (salesPersonSelect.value === 'Others') {
+        //         newField.style.display = 'block';
+        //     } else {
+        //         newField.style.display = 'none';
+        //     }
+        // }
 
 
 
@@ -465,62 +496,62 @@
         document.getElementById('addNewProductBtn').addEventListener('click', addNewProduct);
 
 
-        function addNewSalesPerson() {
-            const addNewSalesPersonName = document.getElementById('addNewSalesPersonName').value.trim();
-            const addNewSalesPersonId = document.getElementById('addNewSalesPersonId').value.trim();
+        // function addNewSalesPerson() {
+        //     const addNewSalesPersonName = document.getElementById('addNewSalesPersonName').value.trim();
+        //     const addNewSalesPersonId = document.getElementById('addNewSalesPersonId').value.trim();
 
 
 
-            // Check if the new product name is empty
-            if (!addNewSalesPersonName) {
-                alert('Please enter name');
-                return;
-            }
-            if (!addNewSalesPersonId) {
-                alert('Sales person ID is required');
-                return;
-            }
+        //     // Check if the new product name is empty
+        //     if (!addNewSalesPersonName) {
+        //         alert('Please enter name');
+        //         return;
+        //     }
+        //     if (!addNewSalesPersonId) {
+        //         alert('Sales person ID is required');
+        //         return;
+        //     }
 
 
 
-            // Send a request to the backend API to add the new person
-            fetch('/api/v1/users/salesPersons', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}` // Add JWT token from localStorage
-                },
-                body: JSON.stringify({ name: addNewSalesPersonName, id: addNewSalesPersonId })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Check if the response contains a message indicating that the product already exists
-                    if (data.message === 'Person already exists') {
-                        alert('Person already exists');
-                    } else {
-                        // Update the product dropdown with the newly added product
-                        const selectElement = document.getElementById('salesPerson');
-                        const option = document.createElement('option');
-                        option.value = addNewSalesPersonName;
-                        option.textContent = addNewSalesPersonName;
-                        selectElement.appendChild(option);
+        //     // Send a request to the backend API to add the new person
+        //     fetch('/api/v1/users/salesPersons', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Bearer ${localStorage.getItem('token')}` // Add JWT token from localStorage
+        //         },
+        //         body: JSON.stringify({ name: addNewSalesPersonName, id: addNewSalesPersonId })
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             // Check if the response contains a message indicating that the product already exists
+        //             if (data.message === 'Person already exists') {
+        //                 alert('Person already exists');
+        //             } else {
+        //                 // Update the product dropdown with the newly added product
+        //                 const selectElement = document.getElementById('salesPerson');
+        //                 const option = document.createElement('option');
+        //                 option.value = addNewSalesPersonName;
+        //                 option.textContent = addNewSalesPersonName;
+        //                 selectElement.appendChild(option);
 
-                        // Reset the input field
-                        document.getElementById('addNewSalesPersonName').value = '';
+        //                 // Reset the input field
+        //                 document.getElementById('addNewSalesPersonName').value = '';
 
-                        alert('New sales person added successfully');
-                    }
-                })
-                .catch(error => {
-                    alert(error.message);
-                });
-        }
+        //                 alert('New sales person added successfully');
+        //             }
+        //         })
+        //         .catch(error => {
+        //             alert(error.message);
+        //         });
+        // }
 
-        document.getElementById('salesPerson').addEventListener('change', handleSalesSelectionChange);
+        // document.getElementById('salesPerson').addEventListener('change', handleSalesSelectionChange);
 
 
-        // Add event listener to the "Add Product" button
-        document.getElementById('addaddNewSalesPersonNameBtn').addEventListener('click', addNewSalesPerson);
+        // // Add event listener to the "Add Product" button
+        // document.getElementById('addaddNewSalesPersonNameBtn').addEventListener('click', addNewSalesPerson);
 
 
 
@@ -549,6 +580,7 @@
         function displayUserInfo() {
             // Retrieve user's name from local storage
             const name = localStorage.getItem('name');
+            const id = localStorage.getItem('id');
 
             // Display user's name in userInfo element
             const userInfoElement = document.getElementById('userInfo');

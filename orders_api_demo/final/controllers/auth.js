@@ -116,7 +116,7 @@ exports.login = async (req, res) => {
         const token = generateJWT(user.id, user.name, user.role);
 
         // Send response with token
-        res.status(200).json({ success: true, user: { name: user.name, role: user.role }, token });
+        res.status(200).json({ success: true, user: {id: user.id, name: user.name, role: user.role }, token });
     } catch (error) {
         console.error('Error logging in user:', error);
         res.status(500).json({ message: error.message });

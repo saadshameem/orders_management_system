@@ -49,7 +49,7 @@ function populateEditOrderForm(orderId) {
         const formattedDeadlineDate = deadlineDate.toISOString().split('T')[0];
         // Populate the edit order form fields with order details
         document.getElementById('orderId').value = order.id;
-        document.getElementById('caseNo').value = order.case_no;
+        // document.getElementById('caseNo').value = order.case_no;
         document.getElementById('poNo').value = order.po_no;
         document.getElementById('price').value = order.price;
         document.getElementById('quantity').value = order.quantity;
@@ -78,7 +78,7 @@ function submitEditedOrder() {
     const orderId = document.getElementById('orderId').value; // Get the order ID from a hidden input field
     // Get other form field values
     const poNo = document.getElementById('poNo').value;
-    const caseNo = document.getElementById('caseNo').value;
+    // const caseNo = document.getElementById('caseNo').value;
     const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
     const date = document.getElementById('date').value;
@@ -101,7 +101,7 @@ function submitEditedOrder() {
 // Construct the updated order data
 let updatedOrderData = {
     po_no: poNo,
-    case_no: caseNo,
+    // case_no: caseNo,
     price: price,
     quantity: quantity,
     deadline_date: date,
@@ -212,7 +212,8 @@ function goToNewOrderForm() {
 
 
 function displayUserInfo() {
-    const name = localStorage.getItem('name');
+    const name = localStorage.getItem('name')
+    // const id = localStorage.getItem('id')
 
     const userInfoElement = document.getElementById('userInfo');
     if (name) {
