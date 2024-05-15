@@ -26,7 +26,7 @@
             background-color: #10b981;
         }
 
-        
+
 
         .login-container {
             display: flex;
@@ -37,90 +37,197 @@
             width: 100vw;
         }
 
-        
 
-    
-   
 
-    /* Responsive Styles */
-    @media screen and (max-width: 600px) {
-        .login-container {
-            max-width: 100%;
-            padding: 10px;
+
+
+
+        /* Responsive Styles */
+        @media screen and (max-width: 600px) {
+            .login-container {
+                max-width: 100%;
+                padding: 10px;
+            }
+
+            .form-input {
+                width: calc(100% - 20px);
+            }
+
+
+            .button-login {
+                width: 100%;
+                padding: 10px;
+                background-color: #10b981;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .button-login:hover {
+                background-color: #000000;
+            }
         }
-
-        .form-input {
-            width: calc(100% - 20px);
-        }
-
-        
-        .button-login {
-        width: 100%;
-        padding: 10px;
-        background-color: #10b981;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .button-login:hover{
-        background-color: #000000;
-    }
-    }
     </style>
 </head>
 
 <body>
 
-    
-    
+
+
 
     <div class="">
-    <form class="login-form" id="loginForm">
-        <div class="form-header">
-            <h1 style="font-weight: bolder">Login</h1>
-        </div>
-
-        <div class="form-body">
-            <div class="form-group">
-                <label for="email" class="label-title">Email:</label><br>
-                <input type="email" id="email" class="form-input" placeholder="Enter your email" name="email"><br>
+        <form class="login-form" id="loginForm">
+            <div class="form-header">
+                <h1 style="font-weight: bolder">Login</h1>
             </div>
 
-            <!-- Password Field (Initially Shown) -->
-            <div id="passwordField" class="form-group">
-                <label for="password" class="label-title">Password:</label><br>
-                <input type="password" id="password" class="form-input" placeholder="Enter your password"
-                    name="password"><br><br>
+            <div class="form-body">
+                <div class="form-group">
+                    <label for="email" class="label-title">Email:</label><br>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email" name="email"><br>
+                </div>
+
+                <!-- Password Field (Initially Shown) -->
+                <div id="passwordField" class="form-group">
+                    <label for="password" class="label-title">Password:</label><br>
+                    <input type="password" id="password" class="form-input" placeholder="Enter your password"
+                        name="password"><br><br>
+                </div>
+
+                <!-- OTP Field (Initially Hidden) -->
+                <!-- <div id="otpField" style="display: none;" class="form-group">
+                    <label for="otp" class="label-title">OTP:</label><br>
+                    <input type="text" id="otp" class="form-input" placeholder="Enter OTP" name="otp"><br><br>
+                    <button type="button" id="sendOTPBtn">Send OTP</button>
+
+
+                    <button type="button" id="verifyOTPBtn">Verify OTP</button>
+                </div> -->
+
+                <!-- <div class="toggle-button">
+                    <label class="switch">
+                        <input type="checkbox" id="loginToggle" onclick="toggleLoginMethod()">
+                        <span class="slider round"></span>
+                    </label>
+                    <label for="loginToggle" id="loginLabel">Forgot Password</label>
+                </div> -->
+
+            </div>
+            <button  id="forgotPasswordBtn" type="submit">forgotPassword</button>
+            <div class="form-footer">
+                <button class="button-login" type="submit">Login</button>
+            </div>
+        </form>
+
+        <!-- Forgot Password Form (Initially Hidden) -->
+        <form class="forgot-password-form" id="forgotPasswordForm" style="display: none;">
+            <div class="form-header">
+                <h1 style="font-weight: bolder">Forgot Password</h1>
             </div>
 
-            <!-- OTP Field (Initially Hidden) -->
-            <div id="otpField" style="display: none;" class="form-group">
-                <label for="otp" class="label-title">OTP:</label><br>
-                <input type="text" id="otp" class="form-input" placeholder="Enter OTP" name="otp"><br><br>
-                <button type="button" onclick="sendOTP()">Send OTP</button> <!-- Add send OTP button -->
+            <div class="form-body">
+                <div class="form-group">
+                    <label for="forgotEmail" class="label-title">Email:</label><br>
+                    <input type="email" id="forgotEmail" class="form-input" placeholder="Enter your email" name="email"><br>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" id="sendOTPBtn">Send OTP</button>
+                </div>
+
+                <div class="form-group">
+                    <label for="forgotOTP" class="label-title">OTP:</label><br>
+                    <input type="text" id="forgotOTP" class="form-input" placeholder="Enter OTP" name="otp"><br><br>
+                    <button type="button" id="verifyOTPBtn">Verify OTP</button>
+                </div>
             </div>
 
-            <!-- Toggle Button -->
-            <div class="toggle-button">
-                <label class="switch">
-                    <input type="checkbox" id="loginToggle" onclick="toggleLoginMethod()">
-                    <span class="slider round"></span>
-                </label>
-                <label for="loginToggle" id="loginLabel">Login with Password</label>
+            <div class="form-footer">
+                <!-- Maybe add a back button to go back to the login form -->
+                <a href="index.html"></a>
             </div>
-        </div>
-
-        <div class="form-footer">
-            <button class="button-login" type="submit">Login</button>
-        </div>
-    </form>
-
+        </form>
     </div>
 
+    <!-- <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="button" id="sendOTPBtn">Send OTP</button>
+            <br>
+            <label for="otp">OTP:</label>
+            <input type="number" id="otp" name="otp" required>
+            <button type="button" id="verifyOTPBtn">Verify OTP</button>
+        </form>
+        <div id="responseMessage"></div>
+    </div> -->
 
 
+    <script>
+        // Function to show/hide forgot password form
+        function showForgotPasswordForm() {
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("forgotPasswordForm").style.display = "block";
+        }
 
+        // Event listener for Forgot Password button
+        document.getElementById("forgotPasswordBtn").addEventListener("click", showForgotPasswordForm);
+    </script>
+
+    <script>
+        // Function to handle OTP login
+function handleOTPLogin() {
+    const email = document.getElementById("forgotEmail").value;
+
+    fetch("/api/v1/auth/sendOTP", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to send OTP.');
+        }
+        // Handle success, maybe show a message to the user
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert('Failed to send OTP. Please try again.');
+    });
+}
+
+// Event listener for Send OTP button
+document.getElementById("sendOTPBtn").addEventListener("click", handleOTPLogin);
+
+// Event listener for Verify OTP button
+document.getElementById("verifyOTPBtn").addEventListener("click", function () {
+    const email = document.getElementById("forgotEmail").value;
+    const otp = document.getElementById("forgotOTP").value;
+
+    fetch("/api/v1/auth/verifyOTP", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, otp })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to verify OTP.');
+        }
+        // Handle success, maybe redirect the user to a new page
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert('Failed to verify OTP. Please try again.');
+    });
+});
+    </script>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("loginForm").addEventListener("submit", function (event) {
@@ -154,7 +261,7 @@
                         localStorage.setItem('role', role);
                         localStorage.setItem('id', id)
                         console.log(data);
-                        
+
                         if (data.success) {
                             if (role === 'admin' || role === 'superAdmin') {
                                 window.location.href = "home.html";
@@ -177,77 +284,201 @@
         });
 
 
-        function loginWithOTP() {
-            const email = document.getElementById('email').value;
-            const otp = document.getElementById('otp').value;
-
-            // Send request to backend for OTP login
-            fetch("/api/v1/auth/login-otp", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email, otp })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to login with OTP.');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const token = data.token;
-                    const name = data.user.name;
-                    const role = data.user.role;
-
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('name', name);
-                    localStorage.setItem('role', role);
-
-                    if (data.success) {
-                        if (role === 'admin') {
-                            window.location.href = "home.html";
-                        } else if (role === 'user') {
-                            window.location.href = "user-home.html";
-                        } else {
-                            console.error('Invalid role:', role);
-                        }
-                    } else {
-                        console.error(data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert('Failed to login with OTP. Please try again.');
-                });
-        }
-
-        window.onload = function () {
-            const passwordField = document.getElementById("passwordField");
-            passwordField.style.display = "block"; // Show the password field by default
-        };
-
-        function toggleLoginMethod() {
-            const loginToggle = document.getElementById("loginToggle");
-            const loginLabel = document.getElementById("loginLabel");
-            const passwordField = document.getElementById("passwordField");
-            const otpField = document.getElementById("otpField");
-
-            if (loginToggle.checked) {
-                loginLabel.textContent = "Login with OTP";
-                passwordField.style.display = "none";
-                otpField.style.display = "block";
-            } else {
-                loginLabel.textContent = "Login with Password";
-                passwordField.style.display = "block";
-                otpField.style.display = "none";
-            }
-        }
+        // function loginWithOTP() {
 
 
-        
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     const loginForm = document.getElementById('loginForm');
+        //     const sendOTPBtn = document.getElementById('sendOTPBtn');
+        //     const verifyOTPBtn = document.getElementById('verifyOTPBtn');
+        //     // const responseMessage = document.getElementById('responseMessage');
+
+        //     sendOTPBtn.addEventListener('click', function () {
+        //         const email = document.getElementById('email').value;
+        //         console.log('Email===============:', email); // Add this line to log the email
+
+
+
+
+
+        //         // const email = document.getElementById('email').value;
+        //         // const otp = document.getElementById('otp').value;
+
+        //         // Send request to backend for OTP login
+        //         fetch("/api/v1/auth/loginByOtp", {
+        //             method: "POST",
+        //             headers: {
+        //                 "Content-Type": "application/json"
+        //             },
+        //             body: JSON.stringify({ email })
+        //         })
+        //             .then(response => {
+        //                 if (!response.ok) {
+        //                     throw new Error('Failed to send OTP.');
+        //                 }
+        //                 return response.json();
+        //             })
+        //             // .then(data => {
+        //             //     const token = data.token;
+        //             //     const name = data.user.name;
+        //             //     const role = data.user.role;
+        //             //     const id = data.user.id
+
+        //             //     localStorage.setItem('token', token);
+        //             //     localStorage.setItem('name', name);
+        //             //     localStorage.setItem('role', role);
+        //             //     localStorage.setItem('id', id)
+
+        //             //     if (data.success) {
+        //             //         if (role === 'admin') {
+        //             //             window.location.href = "home.html";
+        //             //         } else if (role === 'user') {
+        //             //             window.location.href = "user-home.html";
+        //             //         } else {
+        //             //             console.error('Invalid role:', role);
+        //             //         }
+        //             //     } else {
+        //             //         console.error(data.message);
+        //             //     }
+        //             // })
+        //             .then(data => {
+        //                 // responseMessage.textContent = message;
+        //                 // alert(message);
+        //                 console.log(data.message);
+        //                 alert(data.message)
+        //             })
+        //             .catch(error => {
+        //                 console.error("Error:", error);
+        //                 alert('Failed to send OTP. Please try again.');
+        //             });
+        //     })
+
+        //     verifyOTPBtn.addEventListener('click', function () {
+        //         const email = document.getElementById('email').value;
+        //         const otp = document.getElementById('otp').value;
+        //         console.log('Email:', email); // Add this line to log the email
+        //         console.log('OTP:', otp); // Add this line to log the OTP
+
+        //         // Send email and OTP to server for verification
+        //         fetch('/api/v1/auth/verifyOtp', {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             },
+        //             body: JSON.stringify({ email, otp })
+        //         })
+        //             // .then(response => response.text())
+        //             .then(response => {
+        //                 if (!response.ok) {
+        //                     throw new Error('Failed to login with OTP.');
+        //                 }
+        //                 return response.json();
+        //             })
+        //             .then(data => {
+        //                 // responseMessage.textContent = message;
+        //                 // alert(data.message)
+        //                 console.log(otp);
+        //                 // console.log(message);
+        //                 // window.location.href = "home.html";
+        //                 // Redirect or perform other actions upon successful login
+        //             })
+        //             .catch(error => {
+        //                 console.error('Error:', error);
+        //                 // responseMessage.textContent = 'Failed to verify OTP';
+        //                 alert(error)
+        //             });
+        //     });
+
+
+        // })
+
+
+        // window.onload = function () {
+        //     const passwordField = document.getElementById("passwordField");
+        //     passwordField.style.display = "block"; // Show the password field by default
+        // };
+
+        // function toggleLoginMethod() {
+        //     const loginToggle = document.getElementById("loginToggle");
+        //     const loginLabel = document.getElementById("loginLabel");
+        //     const passwordField = document.getElementById("passwordField");
+        //     const otpField = document.getElementById("otpField");
+
+        //     if (loginToggle.checked) {
+        //         loginLabel.textContent = "Login with OTP";
+        //         passwordField.style.display = "none";
+        //         otpField.style.display = "block";
+        //     } else {
+        //         loginLabel.textContent = "Forgot Password";
+        //         passwordField.style.display = "block";
+        //         otpField.style.display = "none";
+        //     }
+        // }
+
+
+
 
     </script>
-</body>
 
-</html>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const loginForm = document.getElementById('loginForm');
+    const sendOTPBtn = document.getElementById('sendOTPBtn');
+    const verifyOTPBtn = document.getElementById('verifyOTPBtn');
+    const responseMessage = document.getElementById('responseMessage');
+
+    sendOTPBtn.addEventListener('click', function () {
+        const email = document.getElementById('email').value;
+        console.log('Email===============:', email); // Add this line to log the email
+
+        // Send email to server to initiate OTP generation
+        fetch('/api/v1/auth/loginByOtp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: email })
+        })
+        .then(response => response.text())
+        .then(message => {
+            // responseMessage.textContent = message;
+            alert(message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            responseMessage.textContent = 'Failed to send OTP';
+        });
+    });
+
+    verifyOTPBtn.addEventListener('click', function () {
+        const email = document.getElementById('email').value;
+        const otp = document.getElementById('otp').value;
+        console.log('Email:', email); // Add this line to log the email
+    console.log('OTP:', otp); // Add this line to log the OTP
+
+        // Send email and OTP to server for verification
+        fetch('/api/v1/auth/verifyOtp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: email, otp: otp })
+        })
+        .then(response => response.text())
+        .then(message => {
+            // responseMessage.textContent = message;
+            alert(message)
+            console.log(otp);
+            console.log(message);
+            // window.location.href = "home.html";
+            // Redirect or perform other actions upon successful login
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            responseMessage.textContent = 'Failed to verify OTP';
+        });
+    });
+});
+
+    </script> -->
+
