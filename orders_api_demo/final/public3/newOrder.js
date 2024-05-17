@@ -1,4 +1,3 @@
-// const { response } = require("express");
 
 
 function handleFirmTypeChange() {
@@ -77,126 +76,15 @@ function generateCaseNumber(orderCount) {
 }
 
 
-
-// function submitNewOrder() {
-//     // Get other form field values
-//     const poNo = document.getElementById('poNo').value;
-//     const productName = document.getElementById('productName').value;
-//     const price = document.getElementById('price').value;
-//     const quantity = document.getElementById('quantity').value;
-//     const date = document.getElementById('date').value;
-//     const firmName = document.getElementById('firmName').value;
-//     const customerName = document.getElementById('customerName').value;
-//     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
-//     const salesPerson = document.getElementById('salesPerson').value;
-//     const salesPersonId = document.getElementById('salesPersonId').value;
-//     const orderStatus = document.getElementById('orderStatus').value;
-//     const paymentStatus = document.getElementById('paymentStatus').value;
-
-//     // Get image file
-//     const imageFileInput = document.getElementById('image');
-//     const imageFile = imageFileInput.files[0];
-
-//     // Check if a file is selected
-//     if (!imageFile) {
-//         console.error('No image file selected.');
-//         return;
-//     }
-
-//      // Fetch the current orders to determine the new priority and case number
-//      fetch('/api/v1/orders', {
-//         headers: {
-//             'Authorization': `Bearer ${localStorage.getItem('token')}`
-//         }
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         const priority = data.orders.length + 1;
-//         const caseNo = generateCaseNumber(data.orders.length + 1);
-
-//         // Create a new FileReader object
-//         const reader = new FileReader();
-
-//         // Define the onload event handler
-//         reader.onload = function(event) {
-//             // Extract the Base64-encoded image data from the FileReader result
-//             const imageBase64 = event.target.result;
-
-//             // Log the Base64-encoded image data (for verification purposes)
-//             console.log('Base64-encoded image:', imageBase64);
-
-//             // Now you can proceed to send the imageBase64 and order details to the server
-//             uploadOrderWithImage(imageBase64, caseNo, priority);
-//         };
-
-//         // Read the image file as a data URL (Base64-encoded)
-//         reader.readAsDataURL(imageFile);
-//     })
-//     .catch(error => {
-//         console.error('Error fetching existing orders:', error);
-//     });
-
-//     function uploadOrderWithImage(imageBase64, caseNo, priority) {
-
-
-//         const orderData = {
-//             po_no: poNo,
-//             case_no: caseNo,
-//             product_name: productName,
-//             price: price,
-//             quantity: quantity,
-//             deadline_date: date,
-//             firm_name: firmName,
-//             customer_name: customerName,
-//             customer_phone_no: customerPhoneNo,
-//             sales_person: salesPerson,
-//             sales_person_id: salesPersonId,
-//             order_status: orderStatus,
-//             payment_status: paymentStatus,
-//             image: imageBase64,
-//             priority: priority // Set priority
-//         };
-
-//         // Send the order data to the server
-//         // You can use fetch or another method to send the data to your server
-//         // Make sure to adjust the URL and request method according to your server API
-
-//         const url = '/api/v1/orders'; // Example URL where you want to submit the order
-//         const token = localStorage.getItem('token'); // Assuming you have a token stored in localStorage
-
-//         fetch(url, {
-//             method: 'POST',
-//             headers: {
-//                 'Authorization': `Bearer ${token}`,
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(orderData) // Send the order data in the request body
-//         })
-//         .then(response => {
-//             if (response.ok) {
-//                 console.log('New order created successfully.');
-//             } else {
-//                 console.error('Failed to create new order.');
-//             }
-//         })
-//         .catch(error => {
-//             console.error('Error creating new order:', error);
-//         });
-//     }
-// }
-
-
-
-
 function submitNewOrder() {
 
     function checkEmptyField(fieldValue, fieldName) {
-        if (!fieldValue.trim()) { // Check if the field value is empty or contains only whitespace
+        if (!fieldValue.trim()) { 
             console.error(`${fieldName} field is empty.`);
-            alert(`${fieldName} field is empty.`); // Show error message in an alert box
-            return true; // Return true if field is empty
+            alert(`${fieldName} field is empty.`); 
+            return true; 
         }
-        return false; // Return false if field is not empty
+        return false; 
     }
 
     const userName = fetchUserName();
@@ -217,20 +105,13 @@ function submitNewOrder() {
     const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
     const date = document.getElementById('date').value;
-    // const firmName = document.getElementById('firmName').value;
     const customerName = document.getElementById('customerName').value;
     const customerPhoneNo = document.getElementById('customerPhoneNo').value;
-    // const salesPerson = document.getElementById('salesPerson').value;
-    // const sales_person_id = document.getElementById('sales_person_id').value;
+    
     const orderStatus = document.getElementById('orderStatus').value;
     const paymentStatus = document.getElementById('paymentStatus').value;
     const remark = document.getElementById('remark').value;
-    // const priority = document.getElementById('priority').value;
-    // Get selected sales person's ID
-    // const salesPersonSelect = document.getElementById('salesPerson');
-    // const salesPersonId = salesPersonSelect.value;
-    // const salesPerson = salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
-    // Get image file
+   
     const imageFileInput = document.getElementById('image');
     const imageFile = imageFileInput.files[0];
 
@@ -269,28 +150,13 @@ function submitNewOrder() {
         checkEmptyField(price, 'Price') ||
         checkEmptyField(quantity, 'Quantity') ||
         checkEmptyField(date, 'Date') ||
-        // checkEmptyField(firmName, 'Firm Name') ||
         checkEmptyField(customerName, 'Customer Name') ||
         checkEmptyField(customerPhoneNo, 'Customer Phone Number') ||
-        // checkEmptyField(salesPerson, 'Sales Person') ||
         checkEmptyField(orderStatus, 'Order Status') ||
         checkEmptyField(paymentStatus, 'Payment Status')
     ) {
-        return; // Exit the function if any field is empty
+        return; 
     }
-
-    // Fetch the highest case number and priority
-    // fetch('/api/v1/orders/newOrderDetails', {
-    //     headers: {
-    //         'Authorization': `Bearer ${localStorage.getItem('token')}`
-    //     }
-    // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     const highestCaseNumber = data.highestCaseNumber;
-        //     const caseNo = generateCaseNumber(highestCaseNumber);
-            // const priority = data.priority;
-
 
             const reader = new FileReader();
 
@@ -303,17 +169,11 @@ function submitNewOrder() {
             };
 
             reader.readAsDataURL(imageFile);
-        // })
-        // .catch(error => {
-        //     console.error('Error fetching highest case number:', error);
-        //     alert('Error fetching case number')
-        // });
-
+        
     function uploadOrderWithImage(imageBase64) {
 
         const orderData = {
             po_no: poNo,
-            // case_no: caseNo,
             product_name: productName,
             price: price,
             quantity: quantity,
@@ -327,11 +187,9 @@ function submitNewOrder() {
             order_status: orderStatus,
             payment_status: paymentStatus,
             image: imageBase64,
-            // priority: priority,
             remark: remark
         };
 
-        // Send the order data to the server
 
         const url = '/api/v1/orders';
         const token = localStorage.getItem('token');
@@ -384,7 +242,6 @@ function fetchNewOrdersCount() {
     })
         .then(response => response.json())
         .then(data => {
-            // Update badge with new orders count
             const newOrdersBadge = document.getElementById('newOrdersBadge');
             newOrdersBadge.textContent = `${data.orders[0].new_orders_count}`;
         })
@@ -466,12 +323,9 @@ function closeNewOrderModal() {
         }
     })
     .then(response => {
-        if (response.ok) {
-            // Update the new orders count displayed on the badge
+        if (!response.ok) {
             const newOrdersBadge = document.getElementById('newOrdersBadge');
-            // newOrdersBadge.textContent = 'New Orders (0)';
-            // newOrdersBadge.textContent = `${data.orders[0].newOrderCount}`;
-        } else {
+            
             console.error('Failed to reset new orders count');
         }
     })

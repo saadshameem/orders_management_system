@@ -4,8 +4,8 @@ const express = require('express');
 const router = express.Router();
 const orders = require('../controllers/orders');
 const charts = require('../controllers/charts')
-const pdfkit = require('pdfkit');
-const fs = require('fs');
+// const pdfkit = require('pdfkit');
+// const fs = require('fs');
 const pool = require('../db/connect');
 
 const authAdmin = require('../middleware/authAdmin')

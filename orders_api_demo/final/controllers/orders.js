@@ -6,7 +6,7 @@ const dbConfig = require('../db/connect'); // Import database connection configu
 const pool = require('../db/connect');
 const fs = require('fs')
 const path = require('path');
-const { error } = require('console');
+const { error, log } = require('console');
 
 
 
@@ -476,41 +476,91 @@ exports.highPriority = async (req, res, next) => {
 
 
 
+// exports.customPriority = async (req, res, next) => {
+//     try {
+//         const { id } = req.params;
+//         const { priority } = req.body;
+//         const userId = req.user.userId
+
+//         // Check if priority is a valid integer
+//         if (!Number.isInteger(priority)) {
+//             return res.status(400).json({ error: 'Priority must be an integer' });
+//         }
+
+//         const updateQuery = 'UPDATE orders SET priority = ? WHERE id = ?';
+//         const values = [priority, id]
+//         const connection = await pool.getConnection();
+
+//         await connection.beginTransaction();
+
+//         const [result] = await connection.query(updateQuery, values);
+//         // connection.release();
+
+//         if (result.affectedRows === 0) {
+//             return res.status(404).json({ error: 'Order not found' });
+//         }
+
+//         // Insert log entry
+//         const logQuery = 'INSERT INTO order_logs (order_id, user_id, action) VALUES (?, ?, ?)';
+//         const logValues = [id, userId, `Priority updated to ${priority}`];
+//         await connection.query(logQuery, logValues);
+
+//         await connection.commit();
+//         connection.release();
+
+//         res.status(200).json({ message: 'Priority updated successfully ' })
+//     } catch (error) {
+//         console.error('Error updating priority:', error);
+//         res.status(500).json({ error: error.message });
+//     }
+// };
+
 exports.customPriority = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { priority } = req.body;
-        const userId = req.user.userId
 
         // Check if priority is a valid integer
         if (!Number.isInteger(priority)) {
             return res.status(400).json({ error: 'Priority must be an integer' });
         }
 
-        const updateQuery = 'UPDATE orders SET priority = ? WHERE id = ?';
-        const values = [priority, id]
         const connection = await pool.getConnection();
-
         await connection.beginTransaction();
 
-        const [result] = await connection.query(updateQuery, values);
-        // connection.release();
-
-        if (result.affectedRows === 0) {
+        // Get the current priority of the specified order
+        const [orderRows] = await connection.query('SELECT priority FROM orders WHERE id = ?', [id]);
+        if (orderRows.length === 0) {
+            await connection.rollback();
+            connection.release();
             return res.status(404).json({ error: 'Order not found' });
         }
 
-        // Insert log entry
-        const logQuery = 'INSERT INTO order_logs (order_id, user_id, action) VALUES (?, ?, ?)';
-        const logValues = [id, userId, `Priority updated to ${priority}`];
-        await connection.query(logQuery, logValues);
+        const currentPriority = orderRows[0].priority;
+        console.log('###############',currentPriority);
+        const newPriority = priority;
+        console.log('===============',newPriority);
+
+        // Update the specified order's priority
+        await connection.query('UPDATE orders SET priority = ? WHERE id = ?', [newPriority, id]);
+
+        // Update the priorities of all orders that have a lower priority
+        if (newPriority > currentPriority) {
+            await connection.query('UPDATE orders SET priority = priority - 1 WHERE priority > ? AND priority <= ? and id != ?', [currentPriority, newPriority, id]);
+        } else if (newPriority < currentPriority) {
+            await connection.query('UPDATE orders SET priority = priority + 1 WHERE priority < ? AND priority >= ? and id != ?', [currentPriority, newPriority, id]);
+        }
 
         await connection.commit();
         connection.release();
 
-        res.status(200).json({ message: 'Priority updated successfully ' })
+        res.status(200).json({ message: 'Priority updated successfully' });
     } catch (error) {
         console.error('Error updating priority:', error);
+        if (connection) {
+            await connection.rollback();
+            connection.release();
+        }
         res.status(500).json({ error: error.message });
     }
 };
@@ -688,7 +738,9 @@ exports.getNewOrdersCount = async (req, res) => {
         const userId = req.user.userId;
         const query = 'SELECT new_orders_count FROM user_new_orders WHERE user_id = ?';
         const [result] = await pool.query(query, [userId]);
-        const newOrdersCount = result[0]?.new_orders_count || 0; // If no count found, default to 0
+        // const newOrdersCount = result[0]?.new_orders_count || 0; // If no count found, default to 0
+        const newOrdersCount = (result[0] && result[0].new_orders_count) || 0;
+
         res.status(200).json({ orders: result });
     } catch (error) {
         console.error('Error fetching new orders count:', error);
