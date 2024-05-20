@@ -1,9 +1,10 @@
 
 
-const mysql2 = require('mysql2/promise');
+// const mysql2 = require('mysql2/promise');
 const jwt = require('jsonwebtoken');
 const { UnauthenticatedError } = require('../errors');
-const dbConfig = require('../db/config'); // Import database connection configuration
+// const dbConfig = require('../db/config'); // Import database connection configuration
+const pool = require('../db/connect');
 
 const auth = async (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -21,7 +22,7 @@ const auth = async (req, res, next) => {
         console.log('Decoded JWT token:', decoded);
 
         // Create MySQL connection pool using database configuration
-        const pool = mysql2.createPool(dbConfig);
+        // const pool = mysql2.createPool(dbConfig);
 
         // Try to acquire a connection from the pool
         let connection;
